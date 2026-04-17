@@ -86,7 +86,7 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('fomedebola-1.png');
+      background-image: url('../fomedebola-new-1.jpg');
       background-size: cover;
       background-position: center;
       opacity: .22;
@@ -153,7 +153,8 @@
     .team-card-name { font-size: .9rem; font-weight: 600; color: var(--black); margin-top: .3rem; }
 
     /* GALLERY */
-    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2.5rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; }
+    @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
     .gallery-item { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4/3; }
     .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
     .gallery-item:hover img { transform: scale(1.04); }
@@ -303,12 +304,12 @@
       <span class="section-tag fade-in"><i class="fa-solid fa-images"></i>&nbsp; Galeria</span>
       <h2 class="section-title fade-in fade-in-delay-1" id="galeria-title">Momentos do Projeto</h2>
       <div class="gallery-grid fade-in fade-in-delay-2">
-        <div class="gallery-item">
-          <img src="../fomedebola-1.png" alt="Fome de Bola — foto 1" />
-        </div>
-        <div class="gallery-item">
-          <img src="../fomedebola-2.png" alt="Fome de Bola — foto 2" />
-        </div>
+        <div class="gallery-item"><img src="../fomedebola-new-1.jpg" alt="Fome de Bola — oração em roda" /></div>
+        <div class="gallery-item"><img src="../fomedebola-new-2.jpg" alt="Fome de Bola — bola no campo" /></div>
+        <div class="gallery-item"><img src="../fomedebola-new-3.jpg" alt="Fome de Bola — crianças sentadas" /></div>
+        <div class="gallery-item"><img src="../fomedebola-new-4.jpg" alt="Fome de Bola — treino com cones" /></div>
+        <div class="gallery-item"><img src="../fomedebola-new-5.jpg" alt="Fome de Bola — exercício no campo" /></div>
+        <div class="gallery-item"><img src="../fomedebola-new-6.jpg" alt="Fome de Bola — jogo livre" /></div>
       </div>
     </div>
   </section>
