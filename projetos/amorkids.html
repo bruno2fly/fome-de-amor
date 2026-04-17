@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmorKids — Fome de Amor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red: #C0392B; --purple: #7c3aed; --dark: #1a1a1a; --gray: #555; --white: #fff; }
+    body { font-family: 'Inter', sans-serif; color: var(--dark); background: var(--white); }
+    a { color: inherit; text-decoration: none; }
+    nav { background: var(--white); border-bottom: 1px solid #eee; padding: 0 24px; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .nav-logo { font-weight: 700; font-size: 17px; color: var(--red); }
+    .back-link { font-size: 14px; font-weight: 600; color: #555; }
+    .back-link:hover { color: var(--red); }
+    .hero { background: linear-gradient(135deg, #7c3aed, #4c1d95); color: white; padding: 80px 24px 60px; text-align: center; }
+    .hero-logo { width: 110px; height: 110px; object-fit: contain; margin: 0 auto 20px; display: block; }
+    .hero-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 12px; }
+    .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; margin-bottom: 16px; }
+    .hero p { font-size: 18px; opacity: 0.85; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+    .stats-row { background: #f5f3ff; padding: 40px 24px; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; text-align: center; }
+    .stat-num { font-size: 48px; font-weight: 800; color: #7c3aed; }
+    .stat-label { font-size: 13px; color: #555; margin-top: 4px; font-weight: 500; }
+    .content { max-width: 800px; margin: 0 auto; padding: 64px 24px; }
+    .content p { font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 20px; }
+    .schedule-box { background: #f5f3ff; border-radius: 16px; padding: 28px 32px; margin: 36px 0; }
+    .schedule-box h3 { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #7c3aed; margin-bottom: 16px; }
+    .schedule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .schedule-item { background: white; border-radius: 10px; padding: 14px 16px; border-left: 3px solid #7c3aed; }
+    .schedule-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .schedule-item p { font-size: 13px; color: #555; }
+    .cta-section { background: linear-gradient(135deg, var(--red), #8B1A11); color: white; padding: 60px 24px; text-align: center; }
+    .cta-section h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+    .cta-section p { font-size: 17px; opacity: 0.85; margin-bottom: 28px; }
+    .pix-box { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px 36px; display: inline-block; }
+    .pix-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 6px; }
+    .pix-key { font-size: 20px; font-weight: 800; }
+    footer { background: #1a1a1a; color: white; text-align: center; padding: 32px 24px; font-size: 13px; opacity: 0.5; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Fome de Amor</div>
+  <a href="../index.html" class="back-link">&larr; Todos os Projetos</a>
+</nav>
+<div class="hero">
+  <img src="https://fome-de-amor.vercel.app/logo-amorkids.png" alt="AmorKids" class="hero-logo" onerror="this.style.display='none'">
+  <div class="hero-tag">Criancas</div>
+  <h1>AmorKids</h1>
+  <p>Contraturno escolar com amor, cuidado e proposito. Investindo no futuro das criancas.</p>
+</div>
+<div class="stats-row">
+  <div><div class="stat-num">25</div><div class="stat-label">Criancas Atendidas</div></div>
+  <div><div class="stat-num">4-13</div><div class="stat-label">Anos de Idade</div></div>
+  <div><div class="stat-num">3x</div><div class="stat-label">Por Semana</div></div>
+</div>
+<div class="content">
+  <p>O AmorKids e o nosso projeto de contraturno escolar, voltado para criancas de 4 a 13 anos. Enquanto os pais trabalham, nos cuidamos do que mais importa: o desenvolvimento integral das criancas.</p>
+  <p>Com atividades educativas, recreativas e formativas, o AmorKids oferece um espaco seguro, amoroso e estimulante para que cada crianca possa crescer com saude, alegria e valores solidos.</p>
+  <p>Acreditamos que investir na infancia e investir no futuro. Por isso, cada tarde no AmorKids e uma semente plantada na vida de uma crianca.</p>
+  <div class="schedule-box">
+    <h3>Funcionamento</h3>
+    <div class="schedule-grid">
+      <div class="schedule-item"><h4>Dias</h4><p>Segundas, Tercas e Quartas</p></div>
+      <div class="schedule-item"><h4>Turno</h4><p>Tarde (contraturno escolar)</p></div>
+      <div class="schedule-item"><h4>Faixa Etaria</h4><p>4 a 13 anos</p></div>
+      <div class="schedule-item"><h4>Criancas</h4><p>25 atendidas</p></div>
+    </div>
+  </div>
+</div>
+<div class="cta-section">
+  <h2>Ajude uma crianca a crescer com amor</h2>
+  <p>Sua doacao garante mais uma tarde de cuidado e aprendizado.</p>
+  <div class="pix-box">
+    <div class="pix-label">Chave PIX</div>
+    <div class="pix-key">22.064.266/0001-30</div>
+  </div>
+</div>
+<footer>Projeto Fome de Amor — Guaramirim, SC &copy; 2026</footer>
+</body>
+</html>

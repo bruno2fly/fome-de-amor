@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Padaria Solidaria — Fome de Amor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red: #C0392B; --dark-red: #96281B; --gold: #F39C12; --cream: #FDF6EC; --dark: #1a1a1a; --gray: #555; --white: #fff; }
+    body { font-family: 'Inter', sans-serif; color: var(--dark); background: var(--white); }
+    a { color: inherit; text-decoration: none; }
+    nav { background: var(--white); border-bottom: 1px solid #eee; padding: 0 24px; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .nav-logo { font-weight: 700; font-size: 17px; color: var(--red); }
+    .back-link { font-size: 14px; font-weight: 600; color: #555; }
+    .back-link:hover { color: var(--red); }
+    .hero { background: linear-gradient(135deg, #e67e22, #d35400); color: white; padding: 80px 24px 60px; text-align: center; }
+    .hero-icon { font-size: 72px; margin-bottom: 20px; }
+    .hero-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 12px; }
+    .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; margin-bottom: 16px; }
+    .hero p { font-size: 18px; opacity: 0.85; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+    .content { max-width: 800px; margin: 0 auto; padding: 64px 24px; }
+    .content p { font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 20px; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin: 36px 0; }
+    .product-item { background: #fffbeb; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #fde68a; }
+    .product-item .icon { font-size: 36px; margin-bottom: 8px; }
+    .product-item span { font-size: 14px; font-weight: 600; }
+    .cta-section { background: linear-gradient(135deg, var(--red), #8B1A11); color: white; padding: 60px 24px; text-align: center; }
+    .cta-section h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+    .cta-section p { font-size: 17px; opacity: 0.85; margin-bottom: 28px; }
+    .pix-box { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px 36px; display: inline-block; }
+    .pix-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 6px; }
+    .pix-key { font-size: 20px; font-weight: 800; }
+    footer { background: #1a1a1a; color: white; text-align: center; padding: 32px 24px; font-size: 13px; opacity: 0.5; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Fome de Amor</div>
+  <a href="../index.html" class="back-link">&larr; Todos os Projetos</a>
+</nav>
+<div class="hero">
+  <div class="hero-icon">&#127838;</div>
+  <div class="hero-tag">Producao Solidaria</div>
+  <h1>Padaria Solidaria</h1>
+  <p>Ingredientes simples transformados em gestos de amor que alimentam toda a comunidade.</p>
+</div>
+<div class="content">
+  <p>A nossa Padaria Solidaria e mais do que um espaco de producao — e um instrumento de cuidado, provisao e transformacao social.</p>
+  <p>E aqui que preparamos, com dedicacao e carinho, paes, cucas, bolachas e outros alimentos que sustentam diariamente nossos projetos sociais. Toda a producao e destinada a apoiar o nosso Restaurante Comunitario, os trabalhos com criancas e o atendimento a familias em situacao de vulnerabilidade.</p>
+  <p>Cada receita carrega um proposito maior: alimentar vidas, fortalecer lacos e levar dignidade a quem mais precisa. Mais do que produzir alimentos, semeamos esperanca e demonstramos, na pratica, o valor da solidariedade.</p>
+  <p>A Padaria Solidaria e fruto de maos que servem e coracoes dispostos a fazer a diferenca — transformando ingredientes simples em gestos de amor que alcancam toda a comunidade.</p>
+  <div class="products-grid">
+    <div class="product-item"><div class="icon">&#127838;</div><span>Paes</span></div>
+    <div class="product-item"><div class="icon">&#127852;</div><span>Cucas</span></div>
+    <div class="product-item"><div class="icon">&#127850;</div><span>Bolachas</span></div>
+    <div class="product-item"><div class="icon">&#10084;</div><span>E mais...</span></div>
+  </div>
+</div>
+<div class="cta-section">
+  <h2>Ajude a manter o forno aceso</h2>
+  <p>Cada contribuicao alimenta mais vidas atraves da nossa padaria.</p>
+  <div class="pix-box">
+    <div class="pix-label">Chave PIX</div>
+    <div class="pix-key">22.064.266/0001-30</div>
+  </div>
+</div>
+<footer>Projeto Fome de Amor — Guaramirim, SC &copy; 2026</footer>
+</body>
+</html>
