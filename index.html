@@ -1616,12 +1616,12 @@
     resizeCanvas();
 
     const LINES = 3;   // number of staggered ECG lines
-    const SPEED = 0.0018; // fraction of width per frame
+    const SPEED = 0.0007; // slower speed
 
     // Each line: position offset and vertical center
     const lines = Array.from({length: LINES}, (_, i) => ({
       offset: -i * (1 / LINES),   // stagger start
-      alpha:  0.12 - i * 0.03,    // fading lines
+      alpha:  0.32 - i * 0.08,    // stronger opacity
       yFrac:  0.35 + i * 0.15,    // vertical spread
     }));
 
@@ -1672,9 +1672,9 @@
 
         ctx.beginPath();
         ctx.strokeStyle = `rgba(204,0,0,${line.alpha})`;
-        ctx.lineWidth   = line.alpha > 0.09 ? 1.5 : 1;
-        ctx.shadowColor = 'rgba(204,0,0,0.6)';
-        ctx.shadowBlur  = line.alpha > 0.09 ? 8 : 4;
+        ctx.lineWidth   = line.alpha > 0.2 ? 2 : 1.2;
+        ctx.shadowColor = 'rgba(204,0,0,0.8)';
+        ctx.shadowBlur  = line.alpha > 0.2 ? 14 : 6;
 
         for (let px = 0; px <= W; px += 2) {
           const xFrac = (px / W) * CYCLES - phase * CYCLES;
