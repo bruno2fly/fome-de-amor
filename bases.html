@@ -70,7 +70,7 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background-image: url('cotijuba-barco.jpg');
+      background-image: url('cotijuba-base-1.jpg');
       background-size: cover; background-position: center; opacity: .30;
     }
     .hero-overlay {
@@ -257,7 +257,9 @@
 
         <!-- Cotijuba PA -->
         <div class="base-card fade-in">
-          <div class="base-card-photo-placeholder">🌴</div>
+          <div style="position:relative;overflow:hidden;height:180px;">
+            <img src="cotijuba-base-2.jpg" alt="Base Cotijuba" style="width:100%;height:100%;object-fit:cover;transition:transform .4s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'" />
+          </div>
           <div class="base-card-header">
             <div class="base-state-badge pa">Pará — PA</div>
             <div class="base-card-city">Ilha de Cotijuba</div>
