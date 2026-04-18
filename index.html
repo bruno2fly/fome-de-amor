@@ -172,11 +172,12 @@
       left: 0;
       right: 0;
       z-index: 1000;
-      background: rgba(26,26,26,.95);
+      background: rgba(18,18,18,.97);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,.06);
       transition: var(--transition);
+      padding-top: env(safe-area-inset-top, 0px);
     }
 
     #navbar.scrolled {
@@ -263,7 +264,12 @@
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
-      padding: .25rem;
+      padding: .5rem;
+      background: transparent;
+      border: none;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .nav-toggle span {
