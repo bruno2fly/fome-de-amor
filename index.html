@@ -284,29 +284,51 @@
         top: 68px;
         left: 0;
         right: 0;
-        background: rgba(20,20,20,.98);
-        backdrop-filter: blur(10px);
+        z-index: 999;
+        background: rgba(15,15,15,.98);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        padding: 1rem 1.25rem 1.5rem;
+        padding: .5rem 1.25rem 1.5rem;
         border-bottom: 1px solid rgba(255,255,255,.08);
+        box-shadow: 0 8px 32px rgba(0,0,0,.5);
         transform: translateY(-110%);
-        transition: transform .3s ease;
+        transition: transform .35s cubic-bezier(.4,0,.2,1);
         pointer-events: none;
+        list-style: none;
       }
       .nav-links.open {
         transform: translateY(0);
         pointer-events: all;
       }
+      .nav-links li { display: block; }
       .nav-links a {
-        padding: .85rem 0;
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
         border-bottom: 1px solid rgba(255,255,255,.06);
-        font-size: 1rem;
+        font-size: .95rem;
+        font-weight: 500;
+        color: rgba(255,255,255,.85);
       }
+      .nav-links li:last-child a { border-bottom: none; }
       .nav-links a::after { display: none; }
       .nav-cta { display: none; }
       .nav-toggle { display: flex; }
+      /* Doe Agora button inside mobile menu */
+      .nav-mobile-cta {
+        display: block;
+        margin-top: 1rem;
+        background: var(--red);
+        color: white;
+        text-align: center;
+        padding: .85rem 1rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: .95rem;
+      }
     }
 
     /* ============================================================
@@ -399,10 +421,19 @@
     }
 
     .hero-btns {
-      display: flex;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: .85rem;
       justify-content: center;
-      flex-wrap: wrap;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .hero-btns .btn-primary {
+      grid-column: 1 / -1; /* full width on first row */
+    }
+    @media (max-width: 480px) {
+      .hero-btns { grid-template-columns: 1fr; max-width: 300px; }
+      .hero-btns .btn-primary { grid-column: auto; }
     }
 
     .hero-scroll {
@@ -1004,10 +1035,11 @@
       <ul class="nav-links" id="navLinks" role="list">
         <li><a href="#quem-somos">Quem Somos</a></li>
         <li><a href="#projetos">Projetos</a></li>
-        <li><a href="bases.html">Bases</a></li>
+        <li><a href="bases.html"><i class="fa-solid fa-location-dot" style="margin-right:.5rem;color:var(--red);"></i>Bases</a></li>
         <li><a href="#agenda">Agenda</a></li>
         <li><a href="#doacao">Doação</a></li>
         <li><a href="#contato">Contato</a></li>
+        <li><a href="#doacao" class="nav-mobile-cta"><i class="fa-solid fa-heart"></i> Doe Agora</a></li>
       </ul>
 
       <a href="#doacao" class="btn btn-primary nav-cta" style="padding:.6rem 1.3rem;font-size:.85rem;">
@@ -1033,6 +1065,10 @@
         <a href="#projetos" class="btn btn-primary">
           <i class="fa-solid fa-hands-holding-child"></i>
           Conheça Nossos Projetos
+        </a>
+        <a href="#agenda" class="btn btn-outline-white">
+          <i class="fa-solid fa-calendar-days"></i>
+          Agenda
         </a>
         <a href="#doacao" class="btn btn-outline-white">
           <i class="fa-solid fa-heart"></i>
