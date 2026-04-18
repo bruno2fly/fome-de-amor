@@ -1021,6 +1021,8 @@
        HERO
   ============================================================ -->
   <section id="hero" aria-label="Início">
+    <!-- ECG heartbeat animation -->
+    <canvas id="ecgCanvas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
     <div class="hero-content">
       <img src="logo.png" alt="Projeto Fome de Amor" class="hero-logo fade-in" />
       <span class="hero-eyebrow fade-in fade-in-delay-1">
@@ -1568,6 +1570,140 @@
           }, 2500);
         });
     }
+  </script>
+
+  <!-- ECG Heartbeat Animation -->
+  <script>
+  (function() {
+    const canvas = document.getElementById('ecgCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // ECG waveform shape: flat, P, flat, QRS spike, flat, T, flat
+    function buildEcgSegment() {
+      return [
+        // baseline
+        {dx:0.04, dy:0},
+        // P wave
+        {dx:0.02, dy:-0.18},
+        {dx:0.02, dy:0.18},
+        // PR segment
+        {dx:0.04, dy:0},
+        // Q dip
+        {dx:0.01, dy:0.25},
+        // R spike up
+        {dx:0.02, dy:-1},
+        // S dip
+        {dx:0.02, dy:0.55},
+        // back to baseline
+        {dx:0.01, dy:0.20},
+        // ST segment
+        {dx:0.04, dy:0},
+        // T wave
+        {dx:0.02, dy:-0.30},
+        {dx:0.03, dy:0.30},
+        // TP segment (long flat)
+        {dx:0.13, dy:0},
+      ];
+    }
+
+    function resizeCanvas() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const LINES = 3;   // number of staggered ECG lines
+    const SPEED = 0.0018; // fraction of width per frame
+
+    // Each line: position offset and vertical center
+    const lines = Array.from({length: LINES}, (_, i) => ({
+      offset: -i * (1 / LINES),   // stagger start
+      alpha:  0.12 - i * 0.03,    // fading lines
+      yFrac:  0.35 + i * 0.15,    // vertical spread
+    }));
+
+    let frame = 0;
+
+    // Pre-build one full cycle of ECG points as x/y offsets (normalised 0-1 scale)
+    function buildCycle() {
+      const segs = buildEcgSegment();
+      let pts = [{x:0, y:0}];
+      let cx = 0, cy = 0;
+      for (const s of segs) {
+        cx += s.dx;
+        cy += s.dy;
+        pts.push({x: cx, y: cy});
+      }
+      // normalise total width to exactly 1
+      const totalX = pts[pts.length-1].x;
+      pts = pts.map(p => ({x: p.x / totalX, y: p.y}));
+      return pts;
+    }
+
+    const cycle = buildCycle();
+
+    function getEcgY(xFrac) {
+      // xFrac 0-1 within one cycle
+      const f = ((xFrac % 1) + 1) % 1;
+      // find segment
+      for (let i = 1; i < cycle.length; i++) {
+        if (f <= cycle[i].x) {
+          const t = (f - cycle[i-1].x) / (cycle[i].x - cycle[i-1].x);
+          return cycle[i-1].y + t * (cycle[i].y - cycle[i-1].y);
+        }
+      }
+      return 0;
+    }
+
+    function draw() {
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const AMPLITUDE = H * 0.055; // spike height
+      const CYCLES = 3;            // how many full cycles across screen
+
+      for (const line of lines) {
+        const centerY = H * line.yFrac;
+        const phase   = (frame * SPEED + line.offset);
+
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(204,0,0,${line.alpha})`;
+        ctx.lineWidth   = line.alpha > 0.09 ? 1.5 : 1;
+        ctx.shadowColor = 'rgba(204,0,0,0.6)';
+        ctx.shadowBlur  = line.alpha > 0.09 ? 8 : 4;
+
+        for (let px = 0; px <= W; px += 2) {
+          const xFrac = (px / W) * CYCLES - phase * CYCLES;
+          const y = centerY - getEcgY(xFrac) * AMPLITUDE;
+          if (px === 0) ctx.moveTo(px, y);
+          else          ctx.lineTo(px, y);
+        }
+        ctx.stroke();
+      }
+
+      // Glowing moving dot on the front line
+      const frontLine = lines[0];
+      const dotX = (frame * SPEED * CYCLES % 1) * W;
+      const dotXFrac = (dotX / W) * CYCLES - frontLine.offset * CYCLES;
+      const dotY = H * frontLine.yFrac - getEcgY(dotXFrac) * AMPLITUDE;
+
+      ctx.beginPath();
+      ctx.arc(dotX % W, dotY, 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,80,80,0.9)';
+      ctx.shadowColor = 'rgba(255,80,80,1)';
+      ctx.shadowBlur = 12;
+      ctx.fill();
+
+      frame++;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  })();
   </script>
 
 </body>
