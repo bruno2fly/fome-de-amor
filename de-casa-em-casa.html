@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="De Casa em Casa — Pequenos grupos nos lares. Toda terça às 19h30. Projeto Fome de Amor." />
+  <title>De Casa em Casa — Fome de Amor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #1a1a1a; --red: #cc0000; --red-dark: #a80000;
+      --white: #ffffff; --gray-50: #f9f9f9; --gray-200: #e0e0e0;
+      --gray-500: #6b6b6b; --radius: 12px; --radius-sm: 8px;
+      --transition: all .3s ease;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 20px rgba(0,0,0,.12);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; color: var(--black); background: var(--gray-50); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* NAVBAR */
+    nav {
+      background: rgba(18,18,18,.97); backdrop-filter: blur(10px);
+      padding: 0 1.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; }
+    .nav-logo img { width: 36px; height: auto; }
+    .nav-logo span { color: white; font-weight: 700; font-size: .88rem; line-height: 1.2; }
+    .nav-logo span small { display: block; font-weight: 400; font-size: .68rem; color: rgba(255,255,255,.45); }
+    .nav-back { display: inline-flex; align-items: center; gap: .5rem; color: rgba(255,255,255,.7); font-size: .85rem; font-weight: 500; }
+    .nav-back:hover { color: white; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #3d0000 60%, #1a1a1a 100%);
+      padding: 4rem 1.25rem 3.5rem; text-align: center; color: white;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(204,0,0,.2) 0%, transparent 70%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 580px; margin: 0 auto; }
+    .hero-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero-badge {
+      display: inline-block; background: rgba(204,0,0,.2); border: 1px solid rgba(204,0,0,.4);
+      color: #ff6666; font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: .35rem .9rem; border-radius: 50px; margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 900; line-height: 1.1; margin-bottom: .75rem; }
+    .hero p { font-size: 1.05rem; color: rgba(255,255,255,.75); max-width: 460px; margin: 0 auto 1.5rem; }
+    .hero-info { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
+    .hero-chip {
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      border-radius: 50px; padding: .45rem 1.1rem;
+      font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.85);
+      display: flex; align-items: center; gap: .4rem;
+    }
+
+    /* SEARCH */
+    .search-section { max-width: 720px; margin: -1.5rem auto 0; padding: 0 1.25rem 3rem; }
+    .search-box {
+      background: white; border-radius: var(--radius);
+      box-shadow: 0 8px 40px rgba(0,0,0,.12); padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .search-label { font-size: .8rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; display: block; }
+    .search-input-row { display: flex; gap: .75rem; }
+    .search-input-row input {
+      flex: 1; border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: .75rem 1rem; font-family: inherit; font-size: .95rem;
+      color: var(--black); outline: none; transition: border-color .2s;
+    }
+    .search-input-row input:focus { border-color: var(--red); }
+    .search-input-row input::placeholder { color: #bbb; }
+    .search-btn {
+      background: var(--red); color: white; border: none;
+      padding: .75rem 1.25rem; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: .9rem; font-weight: 700;
+      cursor: pointer; transition: var(--transition); white-space: nowrap;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .search-btn:hover { background: var(--red-dark); }
+
+    /* GROUPS GRID */
+    .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+    .group-card {
+      background: white; border-radius: var(--radius);
+      border: 1px solid var(--gray-200); border-top: 4px solid var(--red);
+      box-shadow: var(--shadow-sm); overflow: hidden;
+      transition: var(--transition);
+    }
+    .group-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .group-card.hidden { display: none; }
+    .group-card-header { padding: 1.25rem 1.25rem .75rem; }
+    .group-location {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: #fef2f2; color: var(--red); font-size: .72rem;
+      font-weight: 700; padding: .3rem .75rem; border-radius: 50px;
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: .85rem;
+    }
+    .group-leaders { font-size: 1.05rem; font-weight: 800; color: var(--black); margin-bottom: .2rem; }
+    .group-neighborhood { font-size: .88rem; color: var(--gray-500); display: flex; align-items: center; gap: .4rem; }
+    .group-card-footer {
+      padding: .85rem 1.25rem 1.25rem;
+      border-top: 1px solid #f0f0f0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .group-schedule { font-size: .8rem; color: var(--gray-500); display: flex; align-items: center; gap: .4rem; }
+    .group-schedule strong { color: var(--black); }
+    .whatsapp-btn {
+      background: #25D366; color: white; border: none;
+      padding: .55rem 1.1rem; border-radius: 50px;
+      font-family: inherit; font-size: .8rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: .4rem;
+      transition: var(--transition); text-decoration: none;
+    }
+    .whatsapp-btn:hover { background: #1ebe57; transform: scale(1.03); }
+
+    /* NO RESULTS */
+    .no-results {
+      display: none; text-align: center; padding: 3rem 1rem;
+      background: white; border-radius: var(--radius); border: 1px solid var(--gray-200);
+    }
+    .no-results .icon { font-size: 2.5rem; margin-bottom: .75rem; }
+    .no-results h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+    .no-results p { font-size: .9rem; color: var(--gray-500); margin-bottom: 1.25rem; }
+    .contact-btn {
+      background: var(--red); color: white; border: none;
+      padding: .7rem 1.5rem; border-radius: 50px;
+      font-family: inherit; font-size: .88rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: .5rem;
+      text-decoration: none; transition: var(--transition);
+    }
+    .contact-btn:hover { background: var(--red-dark); }
+
+    /* HOW */
+    .how-section { background: var(--black); padding: 4rem 1.25rem; text-align: center; color: white; }
+    .how-inner { max-width: 720px; margin: 0 auto; }
+    .section-tag { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: .75rem; }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 2.5rem; color: white; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
+    .step { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-top: 3px solid var(--red); border-radius: var(--radius-sm); padding: 1.5rem 1rem; }
+    .step-num { font-size: 2rem; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: .5rem; }
+    .step-title { font-size: .88rem; font-weight: 700; color: white; margin-bottom: .35rem; }
+    .step-desc { font-size: .78rem; color: rgba(255,255,255,.55); }
+
+    footer { background: #0d0d0d; color: white; text-align: center; padding: 2rem 1.25rem; font-size: .78rem; opacity: .5; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="Fome de Amor" />
+      <span>Fome de Amor<small>Servindo em Amor</small></span>
+    </a>
+    <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🏠</div>
+      <div class="hero-badge"><i class="fa-solid fa-fire"></i>&nbsp; Pequenos Grupos</div>
+      <h1>De Casa em Casa</h1>
+      <p>Toda terça-feira nos reunimos em pequenos grupos nos lares para orar, ler a Bíblia e viver a fé em comunidade.</p>
+      <div class="hero-info">
+        <div class="hero-chip"><i class="fa-solid fa-calendar-day"></i> Toda Terça-Feira</div>
+        <div class="hero-chip"><i class="fa-solid fa-clock"></i> 19h30</div>
+        <div class="hero-chip"><i class="fa-solid fa-users"></i> 6 Grupos Ativos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH + GROUPS -->
+  <div class="search-section">
+
+    <div class="search-box">
+      <label class="search-label"><i class="fa-solid fa-magnifying-glass"></i> Encontre o grupo mais próximo de você</label>
+      <div class="search-input-row">
+        <input type="text" id="searchInput" placeholder="Digite seu bairro ou cidade..." oninput="filterGroups()" />
+        <button class="search-btn" onclick="filterGroups()">
+          <i class="fa-solid fa-search"></i> Buscar
+        </button>
+      </div>
+    </div>
+
+    <div class="groups-grid" id="groupsGrid">
+
+      <!-- Grupo 1: Patrick e Andreia -->
+      <div class="group-card" data-search="bananal do sul guaramirim patrick andreia">
+        <div class="group-card-header">
+          <div class="group-location"><i class="fa-solid fa-location-dot"></i> Guaramirim / SC</div>
+          <div class="group-leaders">Patrick e Andreia</div>
+          <div class="group-neighborhood"><i class="fa-solid fa-map-pin"></i> Bananal do Sul — Guaramirim</div>
+        </div>
+        <div class="group-card-footer">
+          <div class="group-schedule"><i class="fa-solid fa-clock"></i> <span>Terças &nbsp;<strong>19h30</strong></span></div>
+          <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20participar%20do%20grupo%20De%20Casa%20em%20Casa%20do%20Bananal%20do%20Sul." target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Entrar em Contato
+          </a>
+        </div>
+      </div>
+
+      <!-- Grupo 2: Lucas e Emily -->
+      <div class="group-card" data-search="escolinha guaramirim lucas emily">
+        <div class="group-card-header">
+          <div class="group-location"><i class="fa-solid fa-location-dot"></i> Guaramirim / SC</div>
+          <div class="group-leaders">Lucas e Emily</div>
+          <div class="group-neighborhood"><i class="fa-solid fa-map-pin"></i> Escolinha — Guaramirim</div>
+        </div>
+        <div class="group-card-footer">
+          <div class="group-schedule"><i class="fa-solid fa-clock"></i> <span>Terças &nbsp;<strong>19h30</strong></span></div>
+          <a href="https://wa.me/5547996834158?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20participar%20do%20grupo%20De%20Casa%20em%20Casa%20da%20Escolinha." target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Entrar em Contato
+          </a>
+        </div>
+      </div>
+
+      <!-- Grupo 3: Marcelo e Josy -->
+      <div class="group-card" data-search="centro guaramirim marcelo josy">
+        <div class="group-card-header">
+          <div class="group-location"><i class="fa-solid fa-location-dot"></i> Guaramirim / SC</div>
+          <div class="group-leaders">Marcelo e Josy</div>
+          <div class="group-neighborhood"><i class="fa-solid fa-map-pin"></i> Centro — Guaramirim</div>
+        </div>
+        <div class="group-card-footer">
+          <div class="group-schedule"><i class="fa-solid fa-clock"></i> <span>Terças &nbsp;<strong>19h30</strong></span></div>
+          <a href="https://wa.me/5547984736979?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20participar%20do%20grupo%20De%20Casa%20em%20Casa%20do%20Centro%20de%20Guaramirim." target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Entrar em Contato
+          </a>
+        </div>
+      </div>
+
+      <!-- Grupo 4: Gustavo e Edinara -->
+      <div class="group-card" data-search="ilha da figueira jaragua do sul gustavo edinara jaragua">
+        <div class="group-card-header">
+          <div class="group-location"><i class="fa-solid fa-location-dot"></i> Jaraguá do Sul / SC</div>
+          <div class="group-leaders">Gustavo e Edinara</div>
+          <div class="group-neighborhood"><i class="fa-solid fa-map-pin"></i> Ilha da Figueira — Jaraguá do Sul</div>
+        </div>
+        <div class="group-card-footer">
+          <div class="group-schedule"><i class="fa-solid fa-clock"></i> <span>Terças &nbsp;<strong>19h30</strong></span></div>
+          <a href="https://wa.me/5547999985062?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20participar%20do%20grupo%20De%20Casa%20em%20Casa%20da%20Ilha%20da%20Figueira%20em%20Jaragu%C3%A1%20do%20Sul." target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Entrar em Contato
+          </a>
+        </div>
+      </div>
+
+      <!-- Grupo 5: Sheldon e Natasha -->
+      <div class="group-card" data-search="ilha da figueira guaramirim sheldon natasha">
+        <div class="group-card-header">
+          <div class="group-location"><i class="fa-solid fa-location-dot"></i> Guaramirim / SC</div>
+          <div class="group-leaders">Sheldon e Natasha</div>
+          <div class="group-neighborhood"><i class="fa-solid fa-map-pin"></i> Ilha da Figueira — Guaramirim</div>
+        </div>
+        <div class="group-card-footer">
+          <div class="group-schedule"><i class="fa-solid fa-clock"></i> <span>Terças &nbsp;<strong>19h30</strong></span></div>
+          <a href="https://wa.me/5547988814087?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20participar%20do%20grupo%20De%20Casa%20em%20Casa%20da%20Ilha%20da%20Figueira%20em%20Guaramirim." target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Entrar em Contato
+          </a>
+        </div>
+      </div>
+
+      <!-- Grupo 6: Julio e Laira -->
+      <div class="group-card" data-search="centro schroeder julio laira">
+        <div class="group-card-header">
+          <div class="group-location"><i class="fa-solid fa-location-dot"></i> Schroeder / SC</div>
+          <div class="group-leaders">Julio e Laira</div>
+          <div class="group-neighborhood"><i class="fa-solid fa-map-pin"></i> Centro — Schroeder</div>
+        </div>
+        <div class="group-card-footer">
+          <div class="group-schedule"><i class="fa-solid fa-clock"></i> <span>Terças &nbsp;<strong>19h30</strong></span></div>
+          <a href="https://wa.me/5547992808112?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20participar%20do%20grupo%20De%20Casa%20em%20Casa%20do%20Centro%20de%20Schroeder." target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Entrar em Contato
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- NO RESULTS -->
+    <div class="no-results" id="noResults">
+      <div class="icon">🔍</div>
+      <h3>Nenhum grupo encontrado</h3>
+      <p>Ainda não temos um grupo na sua região, mas você pode entrar em contato para saber mais!</p>
+      <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Vi%20o%20site%20do%20Fome%20de%20Amor%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20De%20Casa%20em%20Casa%20na%20minha%20regi%C3%A3o." target="_blank" class="contact-btn">
+        <i class="fa-brands fa-whatsapp"></i> Falar com a equipe
+      </a>
+    </div>
+
+  </div>
+
+  <!-- COMO FUNCIONA -->
+  <div class="how-section">
+    <div class="how-inner">
+      <div class="section-tag"><i class="fa-solid fa-circle-dot"></i>&nbsp; Como funciona</div>
+      <h2 class="section-title">Simples, íntimo e transformador</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-title">Encontre um grupo</div>
+          <div class="step-desc">Busque pelo seu bairro ou cidade e veja qual grupo está mais perto de você</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-title">Entre em contato</div>
+          <div class="step-desc">Mande uma mensagem pelo WhatsApp para o líder do grupo e confirme presença</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-title">Apareça na terça</div>
+          <div class="step-desc">Toda terça às 19h30 — oração, leitura da Bíblia e comunidade num lar acolhedor</div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-title">Faça parte</div>
+          <div class="step-desc">Construa amizades reais e cresça na fé junto com uma comunidade que se importa</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Projeto Fome de Amor &copy; 2026 — Guaramirim, SC — CNPJ 22.064.266/0001-30</footer>
+
+  <script>
+    function filterGroups() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.group-card');
+      const noResults = document.getElementById('noResults');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const data = card.getAttribute('data-search') || '';
+        if (!q || data.includes(q)) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    // Allow Enter key to search
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') filterGroups();
+    });
+  </script>
+
+</body>
+</html>
