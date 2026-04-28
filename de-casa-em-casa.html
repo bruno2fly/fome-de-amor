@@ -43,14 +43,19 @@
 
     /* HERO */
     .hero {
-      background: linear-gradient(135deg, #1a1a1a 0%, #3d0000 60%, #1a1a1a 100%);
-      padding: 4rem 1.25rem 3.5rem; text-align: center; color: white;
-      position: relative; overflow: hidden;
+      position: relative; min-height: 65vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; color: white; overflow: hidden;
+      padding: 64px 1.25rem 3.5rem;
     }
-    .hero::before {
-      content: '';
+    .hero-bg {
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(204,0,0,.2) 0%, transparent 70%);
+      background: url('de-casa-em-casa-hero.jpg') center/cover no-repeat;
+      opacity: .35;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(10,0,0,.6) 0%, rgba(10,0,0,.92) 100%);
     }
     .hero-content { position: relative; z-index: 1; max-width: 580px; margin: 0 auto; }
     .hero-icon { font-size: 3.5rem; margin-bottom: 1rem; }
@@ -172,6 +177,8 @@
 
   <!-- HERO -->
   <div class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content">
       <div class="hero-icon">🏠</div>
       <div class="hero-badge"><i class="fa-solid fa-fire"></i>&nbsp; Pequenos Grupos</div>
