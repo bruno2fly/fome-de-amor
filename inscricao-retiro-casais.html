@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Inscrição — Retiro de Casais Desfrute 2026 — Projeto Fome de Amor" />
+  <title>Retiro de Casais — Desfrute 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9973a; --gold-dark: #a07828; --black: #1a1a1a;
+      --white: #ffffff; --cream: #fdf8f0; --gray-200: #e0e0e0;
+      --gray-500: #6b6b6b; --shadow-md: 0 4px 20px rgba(0,0,0,.12);
+      --radius: 12px; --radius-sm: 8px; --transition: all .3s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; color: var(--black); background: var(--cream); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* NAVBAR */
+    nav {
+      background: rgba(18,18,18,.97); backdrop-filter: blur(10px);
+      padding: 0 1.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; }
+    .nav-logo img { width: 36px; height: auto; }
+    .nav-logo span { color: white; font-weight: 700; font-size: .88rem; line-height: 1.2; }
+    .nav-logo span small { display: block; font-weight: 400; font-size: .68rem; color: rgba(255,255,255,.45); }
+    .nav-back { display: inline-flex; align-items: center; gap: .5rem; color: rgba(255,255,255,.7); font-size: .85rem; font-weight: 500; transition: color .2s; }
+    .nav-back:hover { color: white; }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 85vh;
+      display: flex; align-items: flex-end; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-img {
+      position: absolute; inset: 0;
+      background: url('retiro-casais-2026.jpg') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,8,5,.95) 0%, rgba(10,8,5,.5) 50%, rgba(10,8,5,.2) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 3rem 1.25rem 4rem;
+      max-width: 640px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-block; color: var(--gold);
+      font-size: .75rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(3.5rem, 12vw, 6rem); font-weight: 700;
+      color: white; line-height: 1; margin-bottom: .75rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,.5);
+    }
+    .hero-verse {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.25rem; font-style: italic;
+      color: rgba(255,255,255,.85); margin-bottom: .5rem;
+    }
+    .hero-verse-ref { font-size: .8rem; color: var(--gold); letter-spacing: .1em; }
+    .hero-chips { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+    .hero-chip {
+      background: rgba(201,151,58,.15); border: 1px solid rgba(201,151,58,.4);
+      color: var(--gold); border-radius: 50px; padding: .45rem 1.1rem;
+      font-size: .82rem; font-weight: 600;
+      display: flex; align-items: center; gap: .4rem;
+    }
+
+    /* FORM SECTION */
+    .form-section { padding: 0 1.25rem 4rem; }
+    .form-wrap { max-width: 560px; margin: -2.5rem auto 0; }
+    .form-card {
+      background: white; border-radius: var(--radius);
+      box-shadow: 0 12px 50px rgba(0,0,0,.15); overflow: hidden;
+    }
+    .form-card-header {
+      background: linear-gradient(135deg, #8B6914, #c9973a);
+      padding: 1.5rem 1.75rem;
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .form-card-header i { color: white; font-size: 1.3rem; }
+    .form-card-header h2 { font-size: 1.05rem; font-weight: 700; color: white; }
+    .form-card-header p { font-size: .78rem; color: rgba(255,255,255,.85); margin-top: .15rem; }
+
+    form { padding: 1.75rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .field { display: flex; flex-direction: column; gap: .4rem; }
+    label { font-size: .78rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: .06em; }
+    input, select, textarea {
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: .75rem 1rem; font-family: inherit; font-size: .95rem;
+      color: var(--black); background: white; transition: border-color .2s;
+      outline: none; width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+    input::placeholder, textarea::placeholder { color: #bbb; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+    .price-box {
+      background: linear-gradient(135deg, #fdf3e0, #fef9f0);
+      border: 2px solid rgba(201,151,58,.3); border-radius: var(--radius-sm);
+      padding: 1.25rem; text-align: center;
+    }
+    .price-main { font-size: 2rem; font-weight: 800; color: var(--gold-dark); line-height: 1; }
+    .price-sub { font-size: .82rem; color: var(--gray-500); margin-top: .3rem; }
+    .price-includes { font-size: .78rem; color: #888; margin-top: .5rem; display: flex; align-items: center; justify-content: center; gap: .3rem; }
+    .price-includes i { color: var(--gold); }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #8B6914, #c9973a);
+      color: white; border: none; padding: 1rem;
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: .6rem;
+      transition: var(--transition); margin-top: .25rem;
+    }
+    .submit-btn:hover { opacity: .92; transform: translateY(-2px); }
+
+    .form-note {
+      font-size: .78rem; color: var(--gray-500);
+      display: flex; align-items: flex-start; gap: .4rem;
+      background: #fafafa; border-radius: var(--radius-sm);
+      padding: .85rem 1rem; border-left: 3px solid var(--gold);
+    }
+    .form-note i { color: var(--gold); flex-shrink: 0; margin-top: .15rem; }
+
+    /* SUCCESS */
+    .success-card { display: none; text-align: center; padding: 2.5rem 1.75rem; }
+    .success-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .success-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: .5rem; }
+    .success-card p { color: var(--gray-500); font-size: .95rem; margin-bottom: 1.5rem; }
+    .success-btn {
+      background: #25D366; color: white; border: none;
+      padding: .85rem 1.75rem; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: .95rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: .5rem;
+    }
+
+    /* INFO */
+    .info-section { max-width: 560px; margin: 2rem auto 4rem; padding: 0 1.25rem; }
+    .info-card {
+      background: white; border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 1rem;
+    }
+    .info-card h3 { font-size: .95rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+    .info-card h3 i { color: var(--gold); }
+    .include-list { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+    .include-list li { display: flex; align-items: center; gap: .65rem; font-size: .9rem; }
+    .include-list li i { color: var(--gold); font-size: .85rem; width: 16px; }
+
+    footer { background: #0d0d0d; color: white; text-align: center; padding: 2rem 1.25rem; font-size: .78rem; opacity: .5; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="Fome de Amor" />
+      <span>Fome de Amor<small>Servindo em Amor</small></span>
+    </a>
+    <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Retiro de Casais 2026</div>
+      <h1 class="hero-title">Desfrute</h1>
+      <p class="hero-verse">Desfrute a vida com a mulher a quem você ama.</p>
+      <p class="hero-verse-ref">Eclesiastes 9:9</p>
+      <div class="hero-chips">
+        <div class="hero-chip"><i class="fa-solid fa-calendar-days"></i> 15 e 16 de Agosto</div>
+        <div class="hero-chip"><i class="fa-solid fa-location-dot"></i> Barra do Sul / SC</div>
+        <div class="hero-chip"><i class="fa-solid fa-users"></i> Vagas Limitadas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-section">
+    <div class="form-wrap">
+      <div class="form-card">
+        <div class="form-card-header">
+          <i class="fa-solid fa-heart"></i>
+          <div>
+            <h2>Inscrição do Casal</h2>
+            <p>Vagas limitadas — garanta a sua agora</p>
+          </div>
+        </div>
+
+        <form id="inscricaoForm">
+
+          <div class="price-box">
+            <div class="price-main">R$ 650,00</div>
+            <div class="price-sub">por casal · parcelamos no cartão</div>
+            <div class="price-includes"><i class="fa-solid fa-circle-check"></i> Inclui hospedagem + alimentação completa</div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="nome-ele"><i class="fa-solid fa-user"></i> Nome dele</label>
+              <input type="text" id="nome-ele" name="nome-ele" placeholder="Nome completo" required />
+            </div>
+            <div class="field">
+              <label for="nome-ela"><i class="fa-solid fa-user"></i> Nome dela</label>
+              <input type="text" id="nome-ela" name="nome-ela" placeholder="Nome completo" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="cidade"><i class="fa-solid fa-location-dot"></i> Cidade / Estado</label>
+            <input type="text" id="cidade" name="cidade" placeholder="Ex: Joinville / SC" required />
+          </div>
+
+          <div class="field">
+            <label for="telefone"><i class="fa-solid fa-phone"></i> WhatsApp</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required />
+          </div>
+
+          <div class="field">
+            <label for="pagamento"><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</label>
+            <select id="pagamento" name="pagamento">
+              <option value="PIX">PIX (à vista)</option>
+              <option value="Cartão de Crédito">Cartão de Crédito (parcelado)</option>
+              <option value="A definir">A definir</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="obs"><i class="fa-solid fa-comment"></i> Observações (opcional)</label>
+            <textarea id="obs" name="obs" rows="2" placeholder="Restrição alimentar, necessidades especiais, dúvidas..."></textarea>
+          </div>
+
+          <div class="form-note">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Ao confirmar, você será redirecionado ao WhatsApp com sua inscrição. A equipe entrará em contato para confirmar a reserva e orientar sobre o pagamento.</span>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fa-brands fa-whatsapp"></i>
+            Garantir Minha Vaga via WhatsApp
+          </button>
+
+        </form>
+
+        <!-- SUCCESS -->
+        <div class="success-card" id="successCard">
+          <div class="success-icon">💑</div>
+          <h3>Inscrição Enviada!</h3>
+          <p>Sua inscrição foi enviada pelo WhatsApp. Aguarde o contato da equipe do Fome de Amor para confirmar sua reserva.</p>
+          <button class="success-btn" onclick="window.location.href='index.html'">
+            <i class="fa-solid fa-house"></i> Voltar ao Site
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-section">
+    <div class="info-card">
+      <h3><i class="fa-solid fa-circle-check"></i> O que está incluído</h3>
+      <ul class="include-list">
+        <li><i class="fa-solid fa-bed"></i> Hospedagem — Hotel Bandeirantes, Barra do Sul/SC</li>
+        <li><i class="fa-solid fa-utensils"></i> Alimentação completa durante o retiro</li>
+        <li><i class="fa-solid fa-heart"></i> Programação especial para casais</li>
+        <li><i class="fa-solid fa-bible"></i> Momentos de palavra, oração e comunhão</li>
+        <li><i class="fa-solid fa-umbrella-beach"></i> Ambiente à beira-mar em Barra do Sul</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3><i class="fa-solid fa-location-dot"></i> Local</h3>
+      <p style="font-size:.92rem;color:var(--gray-500);line-height:1.7;">
+        <strong style="color:var(--black);">Hotel Bandeirantes</strong><br>
+        Barra do Sul, Santa Catarina<br><br>
+        <strong style="color:var(--black);">15 e 16 de Agosto de 2026</strong>
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3><i class="fa-solid fa-phone"></i> Contato</h3>
+      <p style="font-size:.92rem;color:var(--gray-500);line-height:1.7;">
+        Dúvidas? Entre em contato diretamente:<br><br>
+        <a href="tel:+5547996531451" style="color:var(--gold);font-weight:600;font-size:1rem;">
+          <i class="fa-brands fa-whatsapp"></i> (47) 99653-1451
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <footer>Projeto Fome de Amor &copy; 2026 — Guaramirim, SC — CNPJ 22.064.266/0001-30</footer>
+
+  <script>
+    document.getElementById('inscricaoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nomeEle   = document.getElementById('nome-ele').value.trim();
+      const nomeEla   = document.getElementById('nome-ela').value.trim();
+      const cidade    = document.getElementById('cidade').value.trim();
+      const telefone  = document.getElementById('telefone').value.trim();
+      const pagamento = document.getElementById('pagamento').value;
+      const obs       = document.getElementById('obs').value.trim();
+
+      let msg = `💑 *Inscrição — Retiro de Casais Desfrute 2026*\n\n`;
+      msg += `👨 *Ele:* ${nomeEle}\n`;
+      msg += `👩 *Ela:* ${nomeEla}\n`;
+      msg += `📍 *Cidade:* ${cidade}\n`;
+      msg += `📱 *WhatsApp:* ${telefone}\n`;
+      msg += `💳 *Pagamento:* ${pagamento}\n`;
+      if (obs) msg += `💬 *Obs:* ${obs}\n`;
+      msg += `\n📅 15 e 16 de Agosto — Hotel Bandeirantes, Barra do Sul/SC\n`;
+      msg += `💰 Valor: R$ 650,00 por casal\n\n`;
+      msg += `✅ Confirmo minha inscrição no Retiro de Casais Desfrute 2026!`;
+
+      const whatsapp = '5547996531451';
+      const url = `https://wa.me/${whatsapp}?text=${encodeURIComponent(msg)}`;
+
+      window.open(url, '_blank');
+
+      document.querySelector('form').style.display = 'none';
+      document.getElementById('successCard').style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
