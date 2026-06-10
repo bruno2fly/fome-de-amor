@@ -1311,26 +1311,36 @@
       </div>
 
       <!-- FEIJOADA SOLIDÁRIA - AGOSTO -->
-      <div style="border-radius:16px;background:linear-gradient(135deg,#c47a00,#8b5a00);padding:2rem;margin-bottom:2.5rem;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(196,122,0,0.3);">
-        <div style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:50px;padding:.5rem 1rem;font-size:.75rem;font-weight:700;border:1px solid rgba(255,255,255,.2);">
+      <div style="border-radius:16px;margin-bottom:2.5rem;color:#fff;position:relative;overflow:hidden;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 12px 35px rgba(0,0,0,0.25);">
+        <!-- Imagem da feijoada como fundo -->
+        <img src="feijoada-solidaria-2026.jpg" alt="Feijoada Solidária 08 de Agosto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" />
+        <!-- Overlay escuro para legibilidade -->
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.88) 60%, rgba(0,0,0,.3) 100%);z-index:1;"></div>
+        
+        <!-- Badge "PRÓXIMO EVENTO" -->
+        <div style="position:absolute;top:1.2rem;right:1.2rem;background:rgba(204,0,0,.95);backdrop-filter:blur(4px);border-radius:50px;padding:.5rem 1rem;font-size:.75rem;font-weight:700;z-index:2;box-shadow:0 4px 12px rgba(204,0,0,0.4);">
           📅 PRÓXIMO EVENTO
         </div>
-        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:center;">
-          <div style="font-size:3.5rem;opacity:.8;">🍽️</div>
-          <div>
-            <h3 style="font-size:1.8rem;font-weight:800;margin-bottom:.3rem;color:#fff;">Feijoada Solidária</h3>
-            <div style="font-size:.95rem;margin-bottom:.4rem;opacity:.85;">
-              <strong>08 de Agosto (Sábado) • 11:30h</strong>
+        
+        <!-- Conteúdo principal -->
+        <div style="position:relative;z-index:2;padding:2rem;">
+          <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:center;">
+            <div style="font-size:3.5rem;text-shadow:0 2px 8px rgba(0,0,0,.5);">🍽️</div>
+            <div>
+              <h3 style="font-size:2rem;font-weight:800;margin-bottom:.4rem;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.7);">Feijoada Solidária</h3>
+              <div style="font-size:1rem;margin-bottom:.5rem;color:rgba(255,255,255,.95);text-shadow:0 1px 4px rgba(0,0,0,.7);">
+                <strong>08 de Agosto (Sábado) • 11:30h</strong>
+              </div>
+              <div style="font-size:.88rem;color:rgba(255,255,255,.8);text-shadow:0 1px 4px rgba(0,0,0,.5);">Sede — Rua Natal Deretti, Nova Esperança, Guaramirim/SC</div>
+              <div style="margin-top:.75rem;">
+                <span style="background:rgba(255,255,255,.25);backdrop-filter:blur(4px);padding:.4rem .9rem;border-radius:25px;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,.3);">R$ 40,00 • Retirada ou consumo no local</span>
+              </div>
             </div>
-            <div style="font-size:.85rem;opacity:.75;">Sede — Rua Natal Deretti, Nova Esperança, Guaramirim/SC</div>
-            <div style="margin-top:.75rem;">
-              <span style="background:rgba(255,255,255,.2);padding:.3rem .8rem;border-radius:20px;font-size:.8rem;font-weight:600;">R$ 40,00 • Retirada ou consumo no local</span>
+            <div style="text-align:center;">
+              <a href="tel:4799995258" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.95);color:#8b5a00;padding:.85rem 1.4rem;border-radius:50px;font-weight:700;font-size:.92rem;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fa-solid fa-phone"></i> (47) 99995-5258
+              </a>
             </div>
-          </div>
-          <div style="text-align:center;">
-            <a href="tel:4799995258" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.9);color:#8b5a00;padding:.8rem 1.3rem;border-radius:50px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.2);">
-              <i class="fa-solid fa-phone"></i> (47) 99995-5258
-            </a>
           </div>
         </div>
       </div>
