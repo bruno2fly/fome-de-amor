@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/admin", "destination": "https://fome-de-amor-admin.vercel.app" },
-    { "source": "/admin/:path*", "destination": "https://fome-de-amor-admin.vercel.app/:path*" }
+    { "source": "/admin/:path*", "destination": "https://fome-de-amor-admin.vercel.app/:path*" },
+    { "source": "/runday", "destination": "/runday.html" }
   ]
 }

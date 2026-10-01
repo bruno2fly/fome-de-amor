@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="2ª Corrida Fome de Amor RUN DAY — Um dia de solidariedade. Percurso 4K, 8K e Kids. 28/02/27, largada às 06:30h, no Projeto Fome de Amor." />
+  <title>Fome de Amor RUN DAY — 2ª Corrida</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0f0a; --green: #39d98a; --green-dark: #1aa864;
+      --white: #ffffff; --gray-200: rgba(255,255,255,.15);
+      --gray-500: rgba(255,255,255,.65);
+      --radius: 14px; --radius-sm: 10px;
+      --transition: all .3s ease;
+      --shadow-md: 0 10px 40px rgba(0,0,0,.35);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif; color: var(--white);
+      background: radial-gradient(ellipse at top, #0e2318 0%, #050a06 60%);
+      line-height: 1.6; overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* NAVBAR */
+    nav {
+      background: rgba(8,15,10,.9); backdrop-filter: blur(10px);
+      padding: 0 1.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; }
+    .nav-logo img { width: 34px; height: auto; }
+    .nav-logo span { color: white; font-weight: 700; font-size: .88rem; line-height: 1.2; }
+    .nav-logo span small { display: block; font-weight: 400; font-size: .68rem; color: rgba(255,255,255,.45); }
+    .nav-back { display: inline-flex; align-items: center; gap: .5rem; color: rgba(255,255,255,.7); font-size: .85rem; font-weight: 500; transition: color .2s; }
+    .nav-back:hover { color: var(--green); }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 92vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+      padding: 4rem 1.25rem 3rem;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: -20%;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(57,217,138,.18) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(57,217,138,.14) 0%, transparent 45%);
+      z-index: 0;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block; background: rgba(57,217,138,.12); border: 1px solid rgba(57,217,138,.4);
+      color: var(--green); font-size: .78rem; font-weight: 700; letter-spacing: .25em;
+      text-transform: uppercase; padding: .5rem 1.4rem; border-radius: 50px; margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 9vw, 5rem); font-weight: 900; line-height: 1;
+      margin-bottom: .3rem; letter-spacing: -.01em;
+    }
+    .hero h1 .run { color: var(--green); }
+    .hero-sub {
+      font-size: clamp(.85rem, 2.4vw, 1.1rem); font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 2.5rem;
+    }
+    .hero-percurso-label {
+      font-size: .78rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
+      color: rgba(255,255,255,.5); margin-bottom: .75rem;
+    }
+    .hero-percurso {
+      font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900;
+      display: flex; gap: .9rem; justify-content: center; align-items: center; flex-wrap: wrap;
+      margin-bottom: 2.75rem;
+    }
+    .hero-percurso span.sep { color: rgba(255,255,255,.25); font-weight: 400; }
+
+    .info-chips {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .info-chip {
+      background: rgba(255,255,255,.05); border: 1px solid var(--gray-200);
+      border-radius: var(--radius); padding: 1rem 1.5rem; min-width: 160px;
+      text-align: left; backdrop-filter: blur(4px);
+    }
+    .info-chip i { color: var(--green); font-size: 1.1rem; margin-bottom: .5rem; display: block; }
+    .info-chip .label { font-size: .68rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: .2rem; }
+    .info-chip .value { font-size: 1.15rem; font-weight: 800; color: white; }
+
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--green); color: #06200f; font-weight: 800;
+      padding: 1rem 2.2rem; border-radius: 50px; font-size: 1rem;
+      transition: var(--transition); box-shadow: 0 8px 30px rgba(57,217,138,.3);
+    }
+    .btn-primary:hover { background: var(--green-dark); color: white; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: transparent; color: white; font-weight: 700;
+      padding: 1rem 2.2rem; border-radius: 50px; font-size: 1rem;
+      border: 1px solid rgba(255,255,255,.3); transition: var(--transition);
+    }
+    .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+
+    /* SECTIONS */
+    section.block { max-width: 920px; margin: 0 auto; padding: 4rem 1.25rem; position: relative; z-index: 1; }
+    .section-label {
+      font-size: .78rem; font-weight: 800; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--green); margin-bottom: .75rem; text-align: center;
+    }
+    .section-title { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 900; text-align: center; margin-bottom: 2.5rem; }
+
+    .percurso-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+    .percurso-card {
+      background: rgba(255,255,255,.04); border: 1px solid var(--gray-200);
+      border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center;
+      transition: var(--transition);
+    }
+    .percurso-card:hover { border-color: var(--green); transform: translateY(-4px); }
+    .percurso-card .km { font-size: 2.6rem; font-weight: 900; color: var(--green); margin-bottom: .4rem; }
+    .percurso-card .desc { font-size: .95rem; color: rgba(255,255,255,.7); }
+
+    .details-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;
+    }
+    .detail-card {
+      background: rgba(255,255,255,.04); border: 1px solid var(--gray-200);
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+    .detail-card i { color: var(--green); font-size: 1.5rem; margin-bottom: .9rem; display: block; }
+    .detail-card h3 { font-size: .78rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: .5rem; }
+    .detail-card p { font-size: 1.1rem; font-weight: 700; color: white; }
+    .detail-card p small { display: block; font-size: .85rem; font-weight: 400; color: rgba(255,255,255,.6); margin-top: .3rem; }
+
+    .about-text { text-align: center; max-width: 680px; margin: 0 auto; color: rgba(255,255,255,.75); font-size: 1.05rem; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 3.5rem 1.25rem 3rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .realizacao-label { font-size: .75rem; font-weight: 800; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 1.25rem; }
+    .realizacao-brand { display: inline-flex; align-items: center; gap: .6rem; }
+    .realizacao-brand i { color: #e63229; font-size: 1.6rem; }
+    .realizacao-brand span { text-align: left; font-weight: 800; font-size: 1.05rem; line-height: 1.1; }
+    .realizacao-brand span small { display: block; font-weight: 400; font-size: .75rem; color: rgba(255,255,255,.5); }
+    footer .back-home { display: block; margin-top: 2rem; color: rgba(255,255,255,.5); font-size: .85rem; }
+    footer .back-home:hover { color: var(--green); }
+
+    @media (max-width: 640px) {
+      .hero-percurso { flex-direction: column; gap: .3rem; }
+      .hero-percurso span.sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="logo.png" alt="Fome de Amor" />
+      <span>Fome de Amor<small>Projeto Social</small></span>
+    </a>
+    <a href="/" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Voltar ao site</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">2ª Corrida</div>
+      <h1>Fome de Amor<br><span class="run">RUN</span>DAY</h1>
+      <p class="hero-sub">Um dia de solidariedade</p>
+
+      <p class="hero-percurso-label">Percurso</p>
+      <div class="hero-percurso">
+        <span>4K</span><span class="sep">|</span><span>8K</span><span class="sep">|</span><span>KIDS</span>
+      </div>
+
+      <div class="info-chips">
+        <div class="info-chip">
+          <i class="fa-solid fa-calendar-days"></i>
+          <div class="label">Data</div>
+          <div class="value">28/02/2027</div>
+        </div>
+        <div class="info-chip">
+          <i class="fa-solid fa-clock"></i>
+          <div class="label">Largada</div>
+          <div class="value">06:30h</div>
+        </div>
+        <div class="info-chip">
+          <i class="fa-solid fa-location-dot"></i>
+          <div class="label">Local</div>
+          <div class="value">Projeto Fome de Amor</div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Quero%20me%20inscrever%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank" class="btn-primary">
+          <i class="fa-brands fa-whatsapp"></i> Quero me inscrever
+        </a>
+        <a href="#detalhes" class="btn-secondary">
+          Ver detalhes
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="percurso">
+    <p class="section-label">Percurso</p>
+    <h2 class="section-title">Escolha a sua distância</h2>
+    <div class="percurso-cards">
+      <div class="percurso-card">
+        <div class="km">4K</div>
+        <div class="desc">Para quem quer participar, se desafiar e fazer parte da solidariedade de um jeito leve.</div>
+      </div>
+      <div class="percurso-card">
+        <div class="km">8K</div>
+        <div class="desc">Para os corredores que buscam um percurso mais longo e desafiador.</div>
+      </div>
+      <div class="percurso-card">
+        <div class="km">KIDS</div>
+        <div class="desc">Percurso especial para a criançada correr, brincar e participar também.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="detalhes">
+    <p class="section-label">Informações</p>
+    <h2 class="section-title">Tudo que você precisa saber</h2>
+    <div class="details-grid">
+      <div class="detail-card">
+        <i class="fa-solid fa-calendar-days"></i>
+        <h3>Data</h3>
+        <p>28 de fevereiro de 2027<small>Domingo</small></p>
+      </div>
+      <div class="detail-card">
+        <i class="fa-solid fa-flag-checkered"></i>
+        <h3>Largada</h3>
+        <p>06:30h<small>Chegue com antecedência para retirada do kit</small></p>
+      </div>
+      <div class="detail-card">
+        <i class="fa-solid fa-location-dot"></i>
+        <h3>Local</h3>
+        <p>Projeto Fome de Amor<small>Jaraguá do Sul / SC</small></p>
+      </div>
+      <div class="detail-card">
+        <i class="fa-solid fa-person-running"></i>
+        <h3>Percursos</h3>
+        <p>4K, 8K e Kids<small>Para todas as idades e níveis</small></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="sobre">
+    <p class="section-label">Sobre o evento</p>
+    <h2 class="section-title">Correr por uma causa</h2>
+    <p class="about-text">
+      O Fome de Amor RUN DAY é mais do que uma corrida — é um dia de solidariedade. Toda a mobilização
+      em torno do evento ajuda a sustentar os projetos sociais do Fome de Amor, levando alimento,
+      cuidado e esperança para quem mais precisa. Participe correndo, levando a família, ou apoiando
+      como voluntário.
+    </p>
+    <div class="cta-row" style="margin-top:2.5rem;">
+      <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Quero%20me%20inscrever%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank" class="btn-primary">
+        <i class="fa-brands fa-whatsapp"></i> Fazer minha inscrição
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="realizacao-label">Realização</div>
+    <div class="realizacao-brand">
+      <i class="fa-solid fa-heart"></i>
+      <span>Projeto<br>Fome de Amor</span>
+    </div>
+    <a href="/" class="back-home">← Voltar para fomedeamor.com</a>
+  </footer>
+
+</body>
+</html>
