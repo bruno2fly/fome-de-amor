@@ -4,15 +4,7 @@
 
 const auth = require('../_lib/admin-auth');
 const store = require('../_lib/store');
-
-function countBy(items, key, order) {
-  const counts = Object.fromEntries(order.map((k) => [k, 0]));
-  for (const item of items) {
-    const k = key(item);
-    if (k) counts[k] = (counts[k] || 0) + 1;
-  }
-  return counts;
-}
+const { summarize } = require('../_lib/summary');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -30,17 +22,6 @@ module.exports = async (req, res) => {
     return res.status(502).json({ error: 'storage_unavailable' });
   }
 
-  const paid = registrations.filter((r) => r.status === 'approved');
-  const total = paid.reduce((sum, r) => sum + Number(r.amount_paid != null ? r.amount_paid : r.amount || 0), 0);
-
-  const summary = {
-    paidCount: paid.length,
-    pendingCount: registrations.filter((r) => r.status === 'pending').length,
-    totalCollected: Math.round(total * 100) / 100,
-    byPercurso: countBy(paid, (r) => r.percurso, ['4K', '8K', 'KIDS']),
-    byPlano: countBy(paid, (r) => r.plano, ['sem-camiseta', 'com-camiseta']),
-    byTamanho: countBy(paid.filter((r) => r.plano === 'com-camiseta'), (r) => r.tamanho, ['P', 'M', 'G', 'GG', 'XG'])
-  };
-
+  const summary = summarize(registrations);
   return res.status(200).json({ summary, registrations });
 };

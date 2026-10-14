@@ -3,6 +3,7 @@
   "private": true,
   "description": "Static site + Vercel serverless functions (/api) for Projeto Fome de Amor",
   "dependencies": {
+    "exceljs": "^4.4.0",
     "mercadopago": "^3.6.1"
   }
 }
