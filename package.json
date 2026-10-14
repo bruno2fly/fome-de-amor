@@ -1,0 +1,8 @@
+{
+  "name": "fome-de-amor",
+  "private": true,
+  "description": "Static site + Vercel serverless functions (/api) for Projeto Fome de Amor",
+  "dependencies": {
+    "mercadopago": "^3.6.1"
+  }
+}

@@ -256,6 +256,7 @@
       transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: .6rem;
     }
     .reg-submit:hover { background: var(--green-dark); color: white; }
+    .reg-submit:disabled { opacity: .7; cursor: wait; }
     .reg-support {
       text-align: center; margin-top: 1.4rem; font-size: .85rem; color: rgba(255,255,255,.5);
     }
@@ -459,6 +460,7 @@
       <button type="submit" class="reg-submit">
         <i class="fa-solid fa-lock"></i> Continuar para pagamento
       </button>
+      <span class="field-error" id="submit-error" role="alert" style="display:none; margin-top:.9rem; text-align:center; color:#ff8080; font-size:.85rem;"></span>
 
       <p class="reg-support">
         Dúvidas sobre a inscrição? <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20inscri%C3%A7%C3%A3o%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank">Fale conosco no WhatsApp</a>
@@ -483,10 +485,10 @@
       var planoError = document.getElementById('plano-error');
       var tamanhoError = document.getElementById('tamanho-error');
 
-      var PAYMENT_LINKS = {
-        'sem-camiseta': 'https://mpago.la/1ELGgML',
-        'com-camiseta': 'https://mpago.la/2eWVe8P'
-      };
+      var submitBtn = form.querySelector('.reg-submit');
+      var submitBtnHtml = submitBtn.innerHTML;
+      var submitError = document.getElementById('submit-error');
+      var submitting = false;
 
       // CPF input mask: 000.000.000-00
       cpfInput.addEventListener('input', function () {
@@ -559,6 +561,7 @@
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
+        if (submitting) return;
         var valid = true;
 
         var nome = document.getElementById('f-nome').value.trim();
@@ -611,9 +614,57 @@
           return;
         }
 
-        var url = PAYMENT_LINKS[planoInput.value];
-        window.location.href = url;
+        var tamanhoChecked = form.querySelector('input[name="tamanho"]:checked');
+        var formData = {
+          nome: nome,
+          nascimento: nascimento,
+          email: email,
+          cpf: cpfInput.value,
+          cidade: cidade,
+          grupo: document.getElementById('f-grupo').value.trim(),
+          percurso: percursoInput.value,
+          plano: planoInput.value,
+          tamanho: planoInput.value === 'com-camiseta' && tamanhoChecked ? tamanhoChecked.value : ''
+        };
+
+        setSubmitting(true);
+        submitError.style.display = 'none';
+
+        fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        })
+          .then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (result) {
+              if (!r.ok || !result.init_point) throw result;
+              return result;
+            });
+          })
+          .then(function (result) {
+            window.location.href = result.init_point;
+          })
+          .catch(function (err) {
+            setSubmitting(false);
+            if (err && err.fields && err.fields.length) {
+              err.fields.forEach(function (f) {
+                setFieldError(document.querySelector('[data-field="' + f + '"]'), true);
+              });
+              submitError.textContent = 'Confira os campos destacados e tente novamente.';
+            } else {
+              submitError.textContent = 'Não foi possível iniciar o pagamento agora. Tente novamente em instantes ou fale conosco no WhatsApp.';
+            }
+            submitError.style.display = 'block';
+          });
       });
+
+      function setSubmitting(on) {
+        submitting = on;
+        submitBtn.disabled = on;
+        submitBtn.innerHTML = on
+          ? '<i class="fa-solid fa-spinner fa-spin"></i> Redirecionando para o pagamento…'
+          : submitBtnHtml;
+      }
     })();
   </script>
 

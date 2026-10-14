@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Pagamento — Fome de Amor RUN DAY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #39d98a; --green-dark: #1aa864; --amber: #f5b942; --red: #ff6b6b;
+      --gray-200: rgba(255,255,255,.15); --radius: 14px;
+    }
+    body {
+      font-family: 'Poppins', sans-serif; color: #fff; min-height: 100vh;
+      background: radial-gradient(ellipse at top, #0e2318 0%, #050a06 60%);
+      display: flex; flex-direction: column; line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    nav {
+      background: rgba(8,15,10,.9); padding: 0 1.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; }
+    .nav-logo img { width: 34px; height: auto; }
+    .nav-logo span { font-weight: 700; font-size: .88rem; line-height: 1.2; }
+    .nav-logo span small { display: block; font-weight: 400; font-size: .68rem; color: rgba(255,255,255,.45); }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1.25rem; }
+    .card {
+      width: 100%; max-width: 520px; text-align: center;
+      background: rgba(255,255,255,.04); border: 1px solid var(--gray-200);
+      border-radius: var(--radius); padding: 2.5rem 1.75rem;
+    }
+    .icon {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1.25rem;
+      display: flex; align-items: center; justify-content: center; font-size: 2rem;
+    }
+    .sucesso .icon { background: rgba(57,217,138,.15); color: var(--green); }
+    .pendente .icon { background: rgba(245,185,66,.15); color: var(--amber); }
+    .falha .icon { background: rgba(255,107,107,.15); color: var(--red); }
+    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: .6rem; }
+    p { color: rgba(255,255,255,.7); font-size: .95rem; }
+    .ref { margin-top: 1.25rem; font-size: .8rem; color: rgba(255,255,255,.45); }
+    .ref strong { color: rgba(255,255,255,.8); letter-spacing: .05em; }
+    .actions { margin-top: 1.75rem; display: flex; flex-direction: column; gap: .75rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .9rem 1.5rem; border-radius: 50px; font-weight: 700; font-size: .95rem;
+      transition: all .3s ease;
+    }
+    .btn-primary { background: var(--green); color: #06200f; }
+    .btn-primary:hover { background: var(--green-dark); color: #fff; }
+    .btn-secondary { border: 1px solid rgba(255,255,255,.3); }
+    .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+    .state { display: none; }
+    .sucesso .state-sucesso, .pendente .state-pendente, .falha .state-falha { display: block; }
+    .falha .btn.state-falha { display: inline-flex; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/logo.png" alt="Fome de Amor" />
+      <span>Fome de Amor<small>Projeto Social</small></span>
+    </a>
+  </nav>
+
+  <main>
+    <div class="card pendente" id="card">
+      <div class="state state-sucesso">
+        <div class="icon"><i class="fa-solid fa-check"></i></div>
+        <h1>Inscrição confirmada!</h1>
+        <p>Recebemos seu pagamento. Nos vemos no dia 28/02/2027, largada às 06:30h. Obrigado por correr com o Fome de Amor!</p>
+      </div>
+      <div class="state state-pendente">
+        <div class="icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        <h1>Pagamento em análise</h1>
+        <p>Seu pagamento ainda está sendo processado (por exemplo, boleto ou Pix aguardando compensação). Sua inscrição será confirmada assim que o Mercado Pago aprovar.</p>
+      </div>
+      <div class="state state-falha">
+        <div class="icon"><i class="fa-solid fa-xmark"></i></div>
+        <h1>Pagamento não concluído</h1>
+        <p>O pagamento não foi aprovado e nenhuma cobrança foi feita. Você pode tentar novamente com outro meio de pagamento.</p>
+      </div>
+
+      <p class="ref" id="ref" hidden>Código da inscrição: <strong id="refCode"></strong></p>
+
+      <div class="actions">
+        <a href="/runday#inscricao" class="btn btn-primary state state-falha"><i class="fa-solid fa-rotate-right"></i> Tentar novamente</a>
+        <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20minha%20inscri%C3%A7%C3%A3o%20na%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank" rel="noopener" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp</a>
+        <a href="/runday" class="btn btn-secondary">Voltar para o RUN DAY</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var resultado = params.get('resultado');
+      // MP also appends its own status; prefer it when present.
+      var mpStatus = params.get('collection_status') || params.get('status');
+      if (mpStatus === 'approved') resultado = 'sucesso';
+      else if (mpStatus === 'rejected' || mpStatus === 'null') resultado = 'falha';
+      else if (mpStatus === 'pending' || mpStatus === 'in_process') resultado = 'pendente';
+      if (['sucesso', 'pendente', 'falha'].indexOf(resultado) === -1) resultado = 'pendente';
+
+      document.getElementById('card').className = 'card ' + resultado;
+
+      var ref = params.get('external_reference');
+      if (ref && /^RD27-[A-Z0-9]{10}$/.test(ref)) {
+        document.getElementById('refCode').textContent = ref;
+        document.getElementById('ref').hidden = false;
+      }
+    })();
+  </script>
+</body>
+</html>
