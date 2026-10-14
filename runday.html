@@ -191,6 +191,75 @@
       .hero-percurso { flex-direction: column; gap: .3rem; }
       .hero-percurso span.sep { display: none; }
     }
+
+    /* REGISTRATION FORM */
+    .reg-card {
+      background: rgba(255,255,255,.04); border: 1px solid var(--gray-200);
+      border-radius: var(--radius); padding: 2rem;
+      max-width: 640px; margin: 0 auto;
+    }
+    .reg-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem;
+      margin-bottom: 1.1rem;
+    }
+    .reg-field { display: grid; gap: .45rem; }
+    .reg-field.full { grid-column: 1 / -1; }
+    .reg-field label {
+      font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: rgba(255,255,255,.75);
+    }
+    .reg-field label .opt { font-weight: 400; color: rgba(255,255,255,.4); text-transform: none; letter-spacing: 0; }
+    .reg-field input, .reg-field select {
+      background: rgba(255,255,255,.06); border: 1px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: .8rem .9rem; color: white; font-family: inherit; font-size: .95rem; outline: none;
+      transition: border-color .2s; width: 100%; color-scheme: dark;
+    }
+    .reg-field input:focus, .reg-field select:focus { border-color: var(--green); }
+    .reg-field input::placeholder { color: rgba(255,255,255,.35); }
+    .reg-field .field-error {
+      font-size: .78rem; color: #ff8080; display: none;
+    }
+    .reg-field.has-error input, .reg-field.has-error select { border-color: #ff5555; }
+    .reg-field.has-error .field-error { display: block; }
+
+    .plan-label {
+      font-size: .78rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.5); margin-bottom: .9rem;
+    }
+    .plan-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.1rem; }
+    .plan-card {
+      position: relative; display: block; cursor: pointer;
+      background: rgba(255,255,255,.04); border: 2px solid var(--gray-200); border-radius: var(--radius);
+      padding: 1.1rem 1.25rem; transition: var(--transition);
+    }
+    .plan-card input { position: absolute; opacity: 0; }
+    .plan-card:hover { border-color: rgba(57,217,138,.5); }
+    .plan-card.selected { border-color: var(--green); background: rgba(57,217,138,.1); }
+    .plan-card .plan-price { font-size: 1.4rem; font-weight: 900; color: var(--green); }
+    .plan-card .plan-name { font-size: .88rem; color: rgba(255,255,255,.75); font-weight: 600; margin-top: .2rem; }
+
+    .shirt-size-row { display: none; margin-bottom: 1.1rem; }
+    .shirt-size-row.visible { display: grid; }
+    .size-options { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .5rem; }
+    .size-chip {
+      position: relative; cursor: pointer;
+      background: rgba(255,255,255,.06); border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      width: 54px; height: 44px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .9rem; transition: var(--transition);
+    }
+    .size-chip input { position: absolute; opacity: 0; }
+    .size-chip:hover { border-color: rgba(57,217,138,.5); }
+    .size-chip.selected { border-color: var(--green); background: rgba(57,217,138,.15); color: var(--green); }
+
+    .reg-submit {
+      width: 100%; border: 0; background: var(--green); color: #06200f; font-weight: 800;
+      padding: 1rem 1.5rem; border-radius: 50px; font-size: 1.02rem; cursor: pointer;
+      transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: .6rem;
+    }
+    .reg-submit:hover { background: var(--green-dark); color: white; }
+    .reg-support {
+      text-align: center; margin-top: 1.4rem; font-size: .85rem; color: rgba(255,255,255,.5);
+    }
+    .reg-support a { color: var(--green); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -234,8 +303,8 @@
       </div>
 
       <div class="cta-row">
-        <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Quero%20me%20inscrever%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank" class="btn-primary">
-          <i class="fa-brands fa-whatsapp"></i> Quero me inscrever
+        <a href="#inscricao" class="btn-primary">
+          <i class="fa-solid fa-user-plus"></i> Quero me inscrever
         </a>
         <a href="#detalhes" class="btn-secondary">
           Ver detalhes
@@ -300,10 +369,84 @@
       como voluntário.
     </p>
     <div class="cta-row" style="margin-top:2.5rem;">
-      <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Quero%20me%20inscrever%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank" class="btn-primary">
-        <i class="fa-brands fa-whatsapp"></i> Fazer minha inscrição
+      <a href="#inscricao" class="btn-primary">
+        <i class="fa-solid fa-user-plus"></i> Fazer minha inscrição
       </a>
     </div>
+  </section>
+
+  <section class="block" id="inscricao">
+    <p class="section-label">Inscrição</p>
+    <h2 class="section-title">Garanta sua vaga</h2>
+
+    <form class="reg-card" id="regForm" novalidate>
+      <div class="reg-grid">
+        <div class="reg-field full" data-field="nome">
+          <label for="f-nome">Nome completo</label>
+          <input type="text" id="f-nome" name="nome" placeholder="Seu nome completo" required />
+          <span class="field-error">Informe seu nome completo.</span>
+        </div>
+        <div class="reg-field" data-field="nascimento">
+          <label for="f-nascimento">Data de nascimento</label>
+          <input type="date" id="f-nascimento" name="nascimento" required />
+          <span class="field-error">Informe sua data de nascimento.</span>
+        </div>
+        <div class="reg-field" data-field="email">
+          <label for="f-email">E-mail</label>
+          <input type="email" id="f-email" name="email" placeholder="seu@email.com" required />
+          <span class="field-error">Informe um e-mail válido.</span>
+        </div>
+        <div class="reg-field" data-field="cpf">
+          <label for="f-cpf">CPF</label>
+          <input type="text" id="f-cpf" name="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14" required />
+          <span class="field-error">Informe um CPF válido.</span>
+        </div>
+        <div class="reg-field" data-field="cidade">
+          <label for="f-cidade">Cidade</label>
+          <input type="text" id="f-cidade" name="cidade" placeholder="Sua cidade" required />
+          <span class="field-error">Informe sua cidade.</span>
+        </div>
+        <div class="reg-field" data-field="grupo">
+          <label for="f-grupo">Grupo de corrida <span class="opt">(opcional)</span></label>
+          <input type="text" id="f-grupo" name="grupo" placeholder="Ex: Assessoria XYZ" />
+        </div>
+      </div>
+
+      <p class="plan-label">Escolha seu kit</p>
+      <div class="plan-options" data-field="plano">
+        <label class="plan-card" id="plan-sem">
+          <input type="radio" name="plano" value="sem-camiseta" />
+          <div class="plan-price">R$ 69,90</div>
+          <div class="plan-name">Sem camiseta</div>
+        </label>
+        <label class="plan-card" id="plan-com">
+          <input type="radio" name="plano" value="com-camiseta" />
+          <div class="plan-price">R$ 89,90</div>
+          <div class="plan-name">Com camiseta</div>
+        </label>
+      </div>
+      <span class="field-error" id="plano-error" style="display:none; margin:-.5rem 0 1rem;">Selecione uma opção de inscrição.</span>
+
+      <div class="reg-field full shirt-size-row" id="shirtSizeRow" data-field="tamanho">
+        <label>Tamanho da camiseta</label>
+        <div class="size-options">
+          <label class="size-chip"><input type="radio" name="tamanho" value="P" />P</label>
+          <label class="size-chip"><input type="radio" name="tamanho" value="M" />M</label>
+          <label class="size-chip"><input type="radio" name="tamanho" value="G" />G</label>
+          <label class="size-chip"><input type="radio" name="tamanho" value="GG" />GG</label>
+          <label class="size-chip"><input type="radio" name="tamanho" value="XG" />XG</label>
+        </div>
+        <span class="field-error" id="tamanho-error">Selecione o tamanho da camiseta.</span>
+      </div>
+
+      <button type="submit" class="reg-submit">
+        <i class="fa-solid fa-lock"></i> Continuar para pagamento
+      </button>
+
+      <p class="reg-support">
+        Dúvidas sobre a inscrição? <a href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20inscri%C3%A7%C3%A3o%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY." target="_blank">Fale conosco no WhatsApp</a>
+      </p>
+    </form>
   </section>
 
   <footer>
@@ -314,6 +457,127 @@
     </div>
     <a href="/" class="back-home">← Voltar para fomedeamor.com</a>
   </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('regForm');
+      var cpfInput = document.getElementById('f-cpf');
+      var shirtRow = document.getElementById('shirtSizeRow');
+      var planoError = document.getElementById('plano-error');
+      var tamanhoError = document.getElementById('tamanho-error');
+
+      var PAYMENT_LINKS = {
+        'sem-camiseta': 'https://mpago.la/1ELGgML',
+        'com-camiseta': 'https://mpago.la/2eWVe8P'
+      };
+
+      // CPF input mask: 000.000.000-00
+      cpfInput.addEventListener('input', function () {
+        var v = cpfInput.value.replace(/\D/g, '').slice(0, 11);
+        if (v.length > 9) v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{1,2})$/, '$1.$2.$3-$4');
+        else if (v.length > 6) v = v.replace(/^(\d{3})(\d{3})(\d{1,3})$/, '$1.$2.$3');
+        else if (v.length > 3) v = v.replace(/^(\d{3})(\d{1,3})$/, '$1.$2');
+        cpfInput.value = v;
+      });
+
+      function isValidCPF(raw) {
+        var cpf = raw.replace(/\D/g, '');
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+        var sum = 0, rest;
+        for (var i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
+        rest = (sum * 10) % 11;
+        if (rest === 10 || rest === 11) rest = 0;
+        if (rest !== parseInt(cpf.substring(9, 10), 10)) return false;
+        sum = 0;
+        for (i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
+        rest = (sum * 10) % 11;
+        if (rest === 10 || rest === 11) rest = 0;
+        return rest === parseInt(cpf.substring(10, 11), 10);
+      }
+
+      // Plan selection toggle
+      var planCards = document.querySelectorAll('.plan-card');
+      planCards.forEach(function (card) {
+        var input = card.querySelector('input');
+        input.addEventListener('change', function () {
+          planCards.forEach(function (c) { c.classList.remove('selected'); });
+          card.classList.add('selected');
+          planoError.style.display = 'none';
+          if (input.value === 'com-camiseta') {
+            shirtRow.classList.add('visible');
+          } else {
+            shirtRow.classList.remove('visible');
+            tamanhoError.parentElement.classList.remove('has-error');
+          }
+        });
+      });
+
+      // Shirt size selection toggle
+      var sizeChips = document.querySelectorAll('.size-chip');
+      sizeChips.forEach(function (chip) {
+        var input = chip.querySelector('input');
+        input.addEventListener('change', function () {
+          sizeChips.forEach(function (c) { c.classList.remove('selected'); });
+          chip.classList.add('selected');
+          shirtRow.classList.remove('has-error');
+        });
+      });
+
+      function setFieldError(fieldEl, hasError) {
+        if (!fieldEl) return;
+        fieldEl.classList.toggle('has-error', hasError);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var valid = true;
+
+        var nome = document.getElementById('f-nome').value.trim();
+        setFieldError(document.querySelector('[data-field="nome"]'), nome.length < 3);
+        if (nome.length < 3) valid = false;
+
+        var nascimento = document.getElementById('f-nascimento').value;
+        setFieldError(document.querySelector('[data-field="nascimento"]'), !nascimento);
+        if (!nascimento) valid = false;
+
+        var email = document.getElementById('f-email').value.trim();
+        var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        setFieldError(document.querySelector('[data-field="email"]'), !emailOk);
+        if (!emailOk) valid = false;
+
+        var cpfOk = isValidCPF(cpfInput.value);
+        setFieldError(document.querySelector('[data-field="cpf"]'), !cpfOk);
+        if (!cpfOk) valid = false;
+
+        var cidade = document.getElementById('f-cidade').value.trim();
+        setFieldError(document.querySelector('[data-field="cidade"]'), cidade.length < 2);
+        if (cidade.length < 2) valid = false;
+
+        var planoInput = form.querySelector('input[name="plano"]:checked');
+        if (!planoInput) {
+          planoError.style.display = 'block';
+          valid = false;
+        }
+
+        if (planoInput && planoInput.value === 'com-camiseta') {
+          var tamanhoInput = form.querySelector('input[name="tamanho"]:checked');
+          if (!tamanhoInput) {
+            shirtRow.classList.add('has-error');
+            valid = false;
+          }
+        }
+
+        if (!valid) {
+          var firstError = form.querySelector('.has-error, #plano-error[style*="block"]');
+          if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        var url = PAYMENT_LINKS[planoInput.value];
+        window.location.href = url;
+      });
+    })();
+  </script>
 
 </body>
 </html>
