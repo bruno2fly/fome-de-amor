@@ -30,9 +30,15 @@ module.exports = async (req, res) => {
     return res.status(405).end();
   }
 
-  const secret = process.env.MP_WEBHOOK_SECRET;
+  // MP_WEBHOOK_SECRET may hold several comma-separated secrets. Test-account
+  // payments are signed with the test seller app's secret, while live payments
+  // use the main app's secret, so we accept any configured one.
+  const secrets = (process.env.MP_WEBHOOK_SECRET || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
   const accessToken = process.env.MP_ACCESS_TOKEN;
-  if (!secret || !accessToken) {
+  if (!secrets.length || !accessToken) {
     console.error('webhook: MP_WEBHOOK_SECRET or MP_ACCESS_TOKEN is not set');
     return res.status(500).end(); // MP retries later
   }
@@ -44,20 +50,28 @@ module.exports = async (req, res) => {
   // Per MP docs, alphanumeric IDs must be lowercased before signing checks.
   const dataId = queryDataId ? queryDataId.toLowerCase() : null;
 
-  try {
-    WebhookSignatureValidator.validate({
-      xSignature: req.headers['x-signature'],
-      xRequestId: req.headers['x-request-id'],
-      dataId,
-      secret
-    });
-  } catch (err) {
-    if (err instanceof InvalidWebhookSignatureError) {
-      console.warn('webhook: rejected signature', err.reason, 'request', err.requestId || '-');
-      return res.status(401).end();
+  let matchedIndex = -1;
+  let lastErr = null;
+  for (let i = 0; i < secrets.length; i++) {
+    try {
+      WebhookSignatureValidator.validate({
+        xSignature: req.headers['x-signature'],
+        xRequestId: req.headers['x-request-id'],
+        dataId,
+        secret: secrets[i]
+      });
+      matchedIndex = i;
+      break;
+    } catch (err) {
+      if (!(err instanceof InvalidWebhookSignatureError)) throw err;
+      lastErr = err;
     }
-    throw err;
   }
+  if (matchedIndex < 0) {
+    console.warn('webhook: rejected signature', lastErr && lastErr.reason, 'request', (lastErr && lastErr.requestId) || '-');
+    return res.status(401).end();
+  }
+  console.log('webhook: signature ok (secret #' + matchedIndex + ')');
 
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   const type = body.type || params.get('type') || params.get('topic');
