@@ -412,6 +412,23 @@
         </div>
       </div>
 
+      <p class="plan-label">Escolha seu percurso</p>
+      <div class="plan-options" data-field="percurso">
+        <label class="plan-card" id="percurso-4k">
+          <input type="radio" name="percurso" value="4K" />
+          <div class="plan-price">4K</div>
+        </label>
+        <label class="plan-card" id="percurso-8k">
+          <input type="radio" name="percurso" value="8K" />
+          <div class="plan-price">8K</div>
+        </label>
+        <label class="plan-card" id="percurso-kids">
+          <input type="radio" name="percurso" value="KIDS" />
+          <div class="plan-price">KIDS</div>
+        </label>
+      </div>
+      <span class="field-error" id="percurso-error" style="display:none; margin:-.5rem 0 1rem;">Selecione o percurso que você vai correr.</span>
+
       <p class="plan-label">Escolha seu kit</p>
       <div class="plan-options" data-field="plano">
         <label class="plan-card" id="plan-sem">
@@ -495,21 +512,33 @@
         return rest === parseInt(cpf.substring(10, 11), 10);
       }
 
-      // Plan selection toggle
-      var planCards = document.querySelectorAll('.plan-card');
-      planCards.forEach(function (card) {
-        var input = card.querySelector('input');
-        input.addEventListener('change', function () {
-          planCards.forEach(function (c) { c.classList.remove('selected'); });
-          card.classList.add('selected');
-          planoError.style.display = 'none';
-          if (input.value === 'com-camiseta') {
-            shirtRow.classList.add('visible');
-          } else {
-            shirtRow.classList.remove('visible');
-            tamanhoError.parentElement.classList.remove('has-error');
-          }
+      // Card-group selection toggle (percurso, plano) — scoped per container so groups don't clear each other
+      function wireCardGroup(containerSelector, onChange) {
+        var container = document.querySelector(containerSelector);
+        if (!container) return;
+        var cards = container.querySelectorAll('.plan-card');
+        cards.forEach(function (card) {
+          var input = card.querySelector('input');
+          input.addEventListener('change', function () {
+            cards.forEach(function (c) { c.classList.remove('selected'); });
+            card.classList.add('selected');
+            if (onChange) onChange(input);
+          });
         });
+      }
+
+      wireCardGroup('[data-field="percurso"]', function () {
+        document.getElementById('percurso-error').style.display = 'none';
+      });
+
+      wireCardGroup('[data-field="plano"]', function (input) {
+        planoError.style.display = 'none';
+        if (input.value === 'com-camiseta') {
+          shirtRow.classList.add('visible');
+        } else {
+          shirtRow.classList.remove('visible');
+          tamanhoError.parentElement.classList.remove('has-error');
+        }
       });
 
       // Shirt size selection toggle
@@ -553,6 +582,15 @@
         setFieldError(document.querySelector('[data-field="cidade"]'), cidade.length < 2);
         if (cidade.length < 2) valid = false;
 
+        var percursoInput = form.querySelector('input[name="percurso"]:checked');
+        var percursoErrorEl = document.getElementById('percurso-error');
+        if (!percursoInput) {
+          percursoErrorEl.style.display = 'block';
+          valid = false;
+        } else {
+          percursoErrorEl.style.display = 'none';
+        }
+
         var planoInput = form.querySelector('input[name="plano"]:checked');
         if (!planoInput) {
           planoError.style.display = 'block';
@@ -568,7 +606,7 @@
         }
 
         if (!valid) {
-          var firstError = form.querySelector('.has-error, #plano-error[style*="block"]');
+          var firstError = form.querySelector('.has-error, #plano-error[style*="block"], #percurso-error[style*="block"]');
           if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
