@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Inscritos — RUN DAY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #39d98a; --green-dark: #1aa864; --amber: #f5b942; --red: #ff7a7a;
+      --line: rgba(255,255,255,.12); --muted: rgba(255,255,255,.6); --card: rgba(255,255,255,.04);
+      --radius: 14px;
+    }
+    html { background: #050a06; }
+    body {
+      font-family: 'Poppins', sans-serif; color: #fff; min-height: 100vh; line-height: 1.5;
+      background: radial-gradient(ellipse at top, #0e2318 0%, #050a06 60%) no-repeat #050a06;
+    }
+    nav {
+      background: rgba(8,15,10,.9); padding: 0 1.25rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.08); position: sticky; top: 0; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: .9rem; }
+    .brand img { width: 30px; }
+    .brand small { display: block; font-weight: 400; font-size: .7rem; color: var(--muted); }
+    button { font: inherit; cursor: pointer; }
+    .ghost {
+      background: transparent; border: 1px solid rgba(255,255,255,.25); color: #fff;
+      border-radius: 50px; padding: .45rem 1rem; font-size: .82rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: .45rem;
+    }
+    .ghost:hover { border-color: var(--green); color: var(--green); }
+    .ghost:disabled { opacity: .6; cursor: wait; }
+    main { max-width: 1280px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    [hidden] { display: none !important; }
+
+    /* Login */
+    .login {
+      max-width: 400px; margin: 10vh auto 0; background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center;
+    }
+    .login h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: .3rem; }
+    .login p { color: var(--muted); font-size: .9rem; margin-bottom: 1.4rem; }
+    .login input {
+      width: 100%; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 10px;
+      color: #fff; padding: .85rem 1rem; font: inherit; margin-bottom: .9rem; outline: none;
+    }
+    .login input:focus { border-color: var(--green); }
+    .primary {
+      width: 100%; border: 0; background: var(--green); color: #06200f; font-weight: 800;
+      padding: .85rem 1rem; border-radius: 50px;
+    }
+    .primary:hover { background: var(--green-dark); color: #fff; }
+    .primary:disabled { opacity: .7; cursor: wait; }
+    .msg { margin-top: .9rem; font-size: .85rem; color: var(--red); min-height: 1.2em; }
+
+    /* Dashboard */
+    .head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+    .head h1 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; line-height: 1.15; }
+    .head p { color: var(--muted); font-size: .88rem; }
+    .stats { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-bottom: 2rem; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; }
+    .stat .label { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .stat .value { font-size: 1.9rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--green); line-height: 1.2; margin-top: .2rem; }
+    .stat .sub { font-size: .8rem; color: var(--muted); }
+    .stat ul { list-style: none; margin-top: .45rem; display: grid; gap: .15rem; }
+    .stat li { display: flex; justify-content: space-between; font-size: .9rem; }
+    .stat li b { font-variant-numeric: tabular-nums; }
+
+    .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; margin-bottom: .8rem; }
+    .bar h2 { font-size: 1.1rem; font-weight: 700; }
+    .toggle { display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; color: var(--muted); cursor: pointer; }
+    .toggle input { accent-color: var(--green); width: 16px; height: 16px; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+    table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+    th, td { padding: .7rem .85rem; text-align: left; white-space: nowrap; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; }
+    th { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; background: rgba(255,255,255,.03); }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: rgba(57,217,138,.05); }
+    td.name { font-weight: 600; }
+    td.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; }
+    td small { color: var(--muted); }
+    td a { color: inherit; }
+    .badge { display: inline-block; border-radius: 50px; padding: .15rem .65rem; font-size: .72rem; font-weight: 700; }
+    .badge.approved { background: rgba(57,217,138,.15); color: var(--green); }
+    .badge.pending { background: rgba(245,185,66,.15); color: var(--amber); }
+    .badge.rejected, .badge.refunded { background: rgba(255,122,122,.15); color: var(--red); }
+    .empty { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; text-align: center; color: var(--muted); }
+    .error-box { background: rgba(255,122,122,.1); border: 1px solid rgba(255,122,122,.35); color: var(--red); border-radius: 10px; padding: .8rem 1rem; margin-bottom: 1rem; font-size: .88rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand">
+      <img src="/logo.png" alt="" />
+      <span>RUN DAY<small>Inscritos — uso interno</small></span>
+    </div>
+    <button class="ghost" id="logoutBtn" hidden><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+  </nav>
+
+  <main>
+    <form class="login" id="loginForm" hidden>
+      <h1>Inscritos RUN DAY</h1>
+      <p>Área restrita aos organizadores.</p>
+      <input type="password" id="password" placeholder="Senha" autocomplete="current-password" required />
+      <button class="primary" id="loginBtn" type="submit">Entrar</button>
+      <div class="msg" id="loginMsg" role="alert"></div>
+    </form>
+
+    <section id="dash" hidden>
+      <div class="head">
+        <div>
+          <h1>2ª Corrida Fome de Amor — Inscritos</h1>
+          <p id="updated">Carregando…</p>
+        </div>
+        <button class="ghost" id="refreshBtn"><i class="fa-solid fa-rotate"></i> Atualizar</button>
+      </div>
+
+      <div class="error-box" id="dashError" hidden></div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="bar">
+        <h2 id="listTitle">Inscritos</h2>
+        <label class="toggle" id="unpaidToggle" hidden>
+          <input type="checkbox" id="showUnpaid" /> <span id="unpaidLabel">Mostrar não pagas</span>
+        </label>
+      </div>
+      <div id="list"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var TOKEN_KEY = 'runday-inscritos-token';
+      var RACE_DAY = new Date(2027, 1, 28); // 28/02/2027, for age on race day
+      var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+      var STATUS = { approved: 'Pago', pending: 'Aguardando pagamento', rejected: 'Recusado', refunded: 'Reembolsado' };
+      var PLANO = { 'sem-camiseta': 'Sem camiseta', 'com-camiseta': 'Com camiseta' };
+
+      var $ = function (id) { return document.getElementById(id); };
+      var data = null;
+
+      // sessionStorage can throw (private mode, blocked storage): fall back to memory.
+      var memToken = null;
+      function getToken() { try { return sessionStorage.getItem(TOKEN_KEY) || memToken; } catch (e) { return memToken; } }
+      function setToken(t) { memToken = t; try { t ? sessionStorage.setItem(TOKEN_KEY, t) : sessionStorage.removeItem(TOKEN_KEY); } catch (e) {} }
+
+      // Build DOM with textContent only: registrant data comes from a public form.
+      function el(tag, attrs, children) {
+        var node = document.createElement(tag);
+        if (attrs) Object.keys(attrs).forEach(function (k) {
+          if (k === 'text') node.textContent = attrs[k];
+          else if (k === 'className') node.className = attrs[k];
+          else node.setAttribute(k, attrs[k]);
+        });
+        (children || []).forEach(function (c) { if (c) node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+        return node;
+      }
+
+      function formatCpf(cpf) {
+        var d = String(cpf || '').replace(/\D/g, '');
+        return d.length === 11 ? d.slice(0, 3) + '.' + d.slice(3, 6) + '.' + d.slice(6, 9) + '-' + d.slice(9) : cpf;
+      }
+      function formatBirth(iso) {
+        var p = String(iso || '').split('-');
+        return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : iso;
+      }
+      function ageOnRaceDay(iso) {
+        var p = String(iso || '').split('-').map(Number);
+        if (p.length !== 3) return '';
+        var age = RACE_DAY.getFullYear() - p[0];
+        if (RACE_DAY.getMonth() + 1 < p[1] || (RACE_DAY.getMonth() + 1 === p[1] && RACE_DAY.getDate() < p[2])) age--;
+        return age;
+      }
+      function formatDateTime(iso) {
+        return iso ? new Date(iso).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '—';
+      }
+
+      function showLogin(message) {
+        setToken(null);
+        $('dash').hidden = true;
+        $('logoutBtn').hidden = true;
+        $('loginForm').hidden = false;
+        $('loginMsg').textContent = message || '';
+        $('password').value = '';
+        $('password').focus();
+      }
+
+      function showDash() {
+        $('loginForm').hidden = true;
+        $('dash').hidden = false;
+        $('logoutBtn').hidden = false;
+      }
+
+      $('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = $('loginBtn');
+        btn.disabled = true; btn.textContent = 'Entrando…';
+        $('loginMsg').textContent = '';
+        fetch('/api/runday/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: $('password').value })
+        })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+          .then(function (res) {
+            if (res.ok && res.body.token) {
+              setToken(res.body.token);
+              showDash();
+              load();
+            } else {
+              $('loginMsg').textContent = res.status === 401 ? 'Senha incorreta.'
+                : res.status === 503 ? 'Senha ainda não configurada no servidor.'
+                : 'Não foi possível entrar. Tente novamente.';
+            }
+          })
+          .catch(function () { $('loginMsg').textContent = 'Sem conexão. Tente novamente.'; })
+          .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
+      });
+
+      $('logoutBtn').addEventListener('click', function () { showLogin(''); });
+      $('refreshBtn').addEventListener('click', function () { load(); });
+      $('showUnpaid').addEventListener('change', render);
+
+      function load() {
+        var btn = $('refreshBtn');
+        btn.disabled = true;
+        $('dashError').hidden = true;
+        fetch('/api/runday/inscritos', { headers: { Authorization: 'Bearer ' + getToken() }, cache: 'no-store' })
+          .then(function (r) {
+            if (r.status === 401) { showLogin('Sua sessão expirou. Entre novamente.'); return null; }
+            if (!r.ok) throw new Error('http ' + r.status);
+            return r.json();
+          })
+          .then(function (body) {
+            if (!body) return;
+            data = body;
+            $('updated').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            render();
+          })
+          .catch(function () {
+            $('dashError').textContent = 'Não foi possível carregar as inscrições. Tente atualizar em instantes.';
+            $('dashError').hidden = false;
+          })
+          .then(function () { btn.disabled = false; });
+      }
+
+      function statCard(label, value, sub) {
+        return el('div', { className: 'stat' }, [
+          el('div', { className: 'label', text: label }),
+          el('div', { className: 'value', text: value }),
+          sub ? el('div', { className: 'sub', text: sub }) : null
+        ]);
+      }
+      function breakdownCard(label, counts, labels) {
+        return el('div', { className: 'stat' }, [
+          el('div', { className: 'label', text: label }),
+          el('ul', null, Object.keys(counts).map(function (k) {
+            return el('li', null, [el('span', { text: (labels && labels[k]) || k }), el('b', { text: String(counts[k]) })]);
+          }))
+        ]);
+      }
+
+      function render() {
+        if (!data) return;
+        var s = data.summary;
+        var stats = $('stats');
+        stats.replaceChildren(
+          statCard('Inscrições pagas', String(s.paidCount), s.pendingCount + ' aguardando pagamento'),
+          statCard('Total arrecadado', brl.format(s.totalCollected)),
+          breakdownCard('Por percurso', s.byPercurso),
+          breakdownCard('Por kit', s.byPlano, PLANO),
+          breakdownCard('Camisetas por tamanho', s.byTamanho)
+        );
+
+        var all = data.registrations;
+        var unpaid = all.filter(function (r) { return r.status !== 'approved'; }).length;
+        $('unpaidToggle').hidden = unpaid === 0;
+        $('unpaidLabel').textContent = 'Mostrar não pagas (' + unpaid + ')';
+        var showUnpaid = $('showUnpaid').checked;
+        var rows = showUnpaid ? all : all.filter(function (r) { return r.status === 'approved'; });
+        $('listTitle').textContent = (showUnpaid ? 'Todas as inscrições' : 'Inscritos pagos') + ' (' + rows.length + ')';
+
+        var list = $('list');
+        if (!rows.length) {
+          list.replaceChildren(el('div', { className: 'empty', text: 'Nenhuma inscrição paga ainda.' }));
+          return;
+        }
+
+        var head = ['Nome', 'CPF', 'Nascimento', 'E-mail', 'Cidade', 'Grupo', 'Percurso', 'Kit', 'Tam.', 'Status', 'Valor', 'Pago em', 'Código'];
+        var tbody = el('tbody', null, rows.map(function (r) {
+          return el('tr', null, [
+            el('td', { className: 'name', text: r.nome }),
+            el('td', { className: 'mono', text: formatCpf(r.cpf) }),
+            el('td', null, [formatBirth(r.nascimento) + ' ', el('small', { text: '(' + ageOnRaceDay(r.nascimento) + ' anos)' })]),
+            el('td', null, [el('a', { href: 'mailto:' + encodeURIComponent(r.email).replace(/%40/g, '@'), text: r.email })]),
+            el('td', { text: r.cidade }),
+            el('td', { text: r.grupo || '—' }),
+            el('td', { text: r.percurso }),
+            el('td', { text: PLANO[r.plano] || r.plano }),
+            el('td', { text: r.tamanho || '—' }),
+            el('td', null, [el('span', { className: 'badge ' + (STATUS[r.status] ? r.status : ''), text: STATUS[r.status] || r.status })]),
+            el('td', { text: brl.format(Number(r.amount_paid != null ? r.amount_paid : r.amount)) }),
+            el('td', { text: formatDateTime(r.paid_at) }),
+            el('td', { className: 'mono', text: r.order_id })
+          ]);
+        }));
+        var table = el('table', null, [
+          el('thead', null, [el('tr', null, head.map(function (h) { return el('th', { text: h }); }))]),
+          tbody
+        ]);
+        list.replaceChildren(el('div', { className: 'table-wrap' }, [table]));
+      }
+
+      if (getToken()) { showDash(); load(); } else { showLogin(''); }
+    })();
+  </script>
+</body>
+</html>
