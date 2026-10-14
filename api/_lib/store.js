@@ -60,4 +60,13 @@ async function applyPaymentUpdate(orderId, paymentId, patch) {
   return rows[0] || null;
 }
 
-module.exports = { insertOrder, getOrder, applyPaymentUpdate };
+// All registrations, newest first (for the organizers' dashboard).
+async function listOrders() {
+  const columns = [
+    'order_id', 'status', 'nome', 'nascimento', 'email', 'cpf', 'cidade', 'grupo',
+    'percurso', 'plano', 'tamanho', 'amount', 'amount_paid', 'payment_id', 'paid_at', 'created_at'
+  ].join(',');
+  return request('GET', 'select=' + columns + '&order=created_at.desc');
+}
+
+module.exports = { insertOrder, getOrder, applyPaymentUpdate, listOrders };

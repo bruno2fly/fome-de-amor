@@ -15,6 +15,25 @@
     {
       "source": "/runday/pagamento",
       "destination": "/runday-pagamento.html"
+    },
+    {
+      "source": "/runday/inscritos",
+      "destination": "/runday-inscritos.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/runday/inscritos",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ]
 }
