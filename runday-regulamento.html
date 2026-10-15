@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Regulamento oficial da 2ª Corrida Fome de Amor RUN DAY — 28/02/2027. Percursos 4km, 8km e Kids. Inscrições, taxas, kits, categorias, premiação e disposições gerais." />
+  <title>Regulamento — Fome de Amor RUN DAY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #39d98a; --green-dark: #1aa864;
+      --line: rgba(255,255,255,.12); --muted: rgba(255,255,255,.65); --card: rgba(255,255,255,.04);
+      --radius: 14px;
+    }
+    html { background: #050a06; scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'Poppins', sans-serif; color: rgba(255,255,255,.88); line-height: 1.7;
+      background: radial-gradient(ellipse at top, #0e2318 0%, #050a06 60%) no-repeat #050a06;
+      min-height: 100vh;
+    }
+    a { color: var(--green); }
+    a:hover { color: #fff; }
+
+    nav {
+      background: rgba(8,15,10,.92); backdrop-filter: blur(10px); padding: 0 1.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      position: sticky; top: 0; z-index: 10; border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: #fff; }
+    .nav-logo img { width: 34px; height: auto; }
+    .nav-logo span { font-weight: 700; font-size: .88rem; line-height: 1.2; }
+    .nav-logo small { display: block; font-weight: 400; font-size: .68rem; color: rgba(255,255,255,.45); }
+    .nav-back { display: inline-flex; align-items: center; gap: .5rem; color: rgba(255,255,255,.75); font-size: .85rem; font-weight: 500; text-decoration: none; white-space: nowrap; }
+    .nav-back:hover { color: var(--green); }
+
+    main { max-width: 820px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+
+    .doc-head { text-align: center; margin-bottom: 2.5rem; }
+    .badge {
+      display: inline-block; background: rgba(57,217,138,.12); border: 1px solid rgba(57,217,138,.4);
+      color: var(--green); font-size: .75rem; font-weight: 700; letter-spacing: .25em;
+      text-transform: uppercase; padding: .45rem 1.2rem; border-radius: 50px; margin-bottom: 1.2rem;
+    }
+    .doc-head .overline { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,.75); }
+    .doc-head h1 { font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 900; line-height: 1.05; color: #fff; letter-spacing: -.02em; margin: .2rem 0 .8rem; }
+    .doc-head h1 .run { color: var(--green); }
+    .doc-head .meta { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.25rem; font-weight: 600; color: #fff; }
+    .doc-head .meta i { color: var(--green); margin-right: .35rem; }
+    .doc-head .org { margin-top: 1rem; font-size: .9rem; color: var(--muted); }
+    .doc-head .org strong { color: #fff; font-weight: 600; }
+
+    .toc {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 0 auto 2.5rem;
+    }
+    .toc a {
+      text-decoration: none; color: rgba(255,255,255,.8); font-size: .8rem; font-weight: 600;
+      border: 1px solid var(--line); border-radius: 50px; padding: .4rem .9rem; transition: all .2s;
+    }
+    .toc a:hover { border-color: var(--green); color: var(--green); }
+
+    section.part {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.75rem 1.5rem; margin-bottom: 1.25rem;
+    }
+    section.part h2 {
+      font-size: 1.05rem; font-weight: 800; color: #fff; letter-spacing: .02em; text-transform: uppercase;
+      margin-bottom: 1rem; display: flex; align-items: baseline; gap: .6rem;
+    }
+    section.part h2 .num { color: var(--green); font-weight: 900; }
+    section.part h3 { font-size: .95rem; font-weight: 700; color: #fff; margin: 1.4rem 0 .5rem; }
+    section.part h2 + h3 { margin-top: 0; }
+    section.part p + p { margin-top: .7rem; }
+    strong { color: #fff; font-weight: 700; }
+
+    .schedule { list-style: none; display: grid; gap: .5rem; margin-bottom: 1.25rem; }
+    .schedule li { display: flex; gap: 1rem; align-items: baseline; }
+    .schedule .time { font-weight: 800; color: var(--green); min-width: 3.5rem; font-variant-numeric: tabular-nums; }
+
+    .kits { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 1.5rem; }
+    .kit { border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; }
+    .kit strong { display: block; color: var(--green); margin-bottom: .2rem; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+    table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+    th, td { padding: .7rem .9rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,.08); white-space: nowrap; }
+    th { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: rgba(255,255,255,.03); font-weight: 700; }
+    tbody tr:last-child td { border-bottom: 0; }
+    td.price { font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+
+    .note {
+      border-left: 3px solid var(--green); background: rgba(57,217,138,.06);
+      padding: .75rem 1rem; border-radius: 0 8px 8px 0; margin-top: 1rem; font-size: .92rem;
+    }
+    ul.dash { list-style: none; display: grid; gap: .35rem; }
+    ul.dash li::before { content: "– "; color: var(--green); font-weight: 700; }
+
+    .ages { display: flex; flex-wrap: wrap; gap: .35rem; margin: .4rem 0 1rem; }
+    .ages span {
+      font-size: .8rem; font-weight: 600; font-variant-numeric: tabular-nums; color: #fff;
+      border: 1px solid var(--line); border-radius: 6px; padding: .15rem .55rem;
+    }
+
+    ol.articles { list-style: none; display: grid; gap: .9rem; }
+    ol.articles li { padding-left: 0; }
+    ol.articles .art { font-weight: 800; color: var(--green); white-space: nowrap; }
+    ol.articles li.highlight { background: rgba(57,217,138,.07); border: 1px solid rgba(57,217,138,.25); border-radius: 10px; padding: .75rem 1rem; }
+    ol.articles li.highlight, ol.articles li.highlight strong { color: #fff; }
+    ol.articles .sizes { list-style: none; margin-top: .4rem; display: grid; gap: .2rem; }
+
+    .contact { display: grid; gap: .4rem; }
+    .contact i { color: var(--green); width: 1.2rem; }
+
+    .cta { text-align: center; margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+    .btn-primary, .btn-secondary {
+      display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; cursor: pointer;
+      padding: .95rem 2rem; border-radius: 50px; font-size: 1rem; font-weight: 800; font-family: inherit;
+      transition: all .3s ease;
+    }
+    .btn-primary { background: var(--green); color: #06200f; border: 0; box-shadow: 0 8px 30px rgba(57,217,138,.3); }
+    .btn-primary:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.3); font-weight: 700; }
+    .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+
+    footer { text-align: center; padding: 2.5rem 1.25rem 3rem; border-top: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.5); font-size: .85rem; }
+
+    @media (max-width: 560px) {
+      section.part { padding: 1.4rem 1.1rem; }
+      /* Fit all three price columns on a phone instead of scrolling sideways. */
+      table { font-size: .85rem; }
+      th, td { padding: .6rem .5rem; }
+      th, td:first-child { white-space: normal; }
+      th { letter-spacing: .04em; }
+      .nav-back .long { display: none; }
+    }
+
+    /* Printing / "Salvar como PDF": plain black on white, no chrome. */
+    @media print {
+      html, body { background: #fff !important; color: #000; }
+      nav, .toc, .cta, footer { display: none !important; }
+      main { padding: 0; max-width: none; }
+      section.part { background: none; border: 0; border-bottom: 1px solid #ccc; border-radius: 0; padding: 1rem 0; break-inside: auto; }
+      section.part h2, section.part h3, strong, .doc-head h1, .doc-head .meta, .doc-head .org strong, ol.articles li.highlight, ol.articles li.highlight strong, td.price, .ages span { color: #000 !important; }
+      .doc-head h1 .run, section.part h2 .num, ol.articles .art, .schedule .time, .kit strong, a, .doc-head .meta i, .contact i { color: #000 !important; }
+      .badge, .note, ol.articles li.highlight { background: none !important; border-color: #999 !important; color: #000 !important; }
+      .doc-head .overline, .doc-head .org, th { color: #333 !important; }
+      .table-wrap, .kit, .ages span { border-color: #999; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/logo.png" alt="Fome de Amor" />
+      <span>Fome de Amor<small>Projeto Social</small></span>
+    </a>
+    <a href="/runday" class="nav-back"><i class="fa-solid fa-arrow-left"></i> <span class="long">Voltar ao&nbsp;</span>RUN DAY</a>
+  </nav>
+
+  <main>
+    <header class="doc-head">
+      <div class="badge">Regulamento</div>
+      <p class="overline">2ª Corrida</p>
+      <h1>FOME DE AMOR <span class="run">RUN</span> DAY</h1>
+      <div class="meta">
+        <span><i class="fa-solid fa-calendar-days"></i>28/02/2027</span>
+        <span><i class="fa-solid fa-person-running"></i>4km - 8km - Kids</span>
+      </div>
+      <p class="org"><strong>Realização:</strong> Instituto Fome de Amor &nbsp;·&nbsp; <strong>Organização:</strong> Number Esportes</p>
+    </header>
+
+    <div class="toc" aria-label="Seções do regulamento">
+      <a href="#local">Local e programação</a>
+      <a href="#inscricoes">Inscrições</a>
+      <a href="#taxa">Taxa de inscrição</a>
+      <a href="#kit">Retirada do kit</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#premiacoes">Premiações</a>
+      <a href="#disposicoes">Disposições gerais</a>
+      <a href="#contato">Contato</a>
+    </div>
+
+    <section class="part" id="local">
+      <h2><span class="num">I)</span> Local da largada e chegada</h2>
+      <p>Endereço: Rua Natal Deretti, s/n, Bairro Nova Esperança, Guaramirim - SC (CEP: 89270-736)</p>
+
+      <h3>Programação do evento</h3>
+      <ul class="schedule">
+        <li><span class="time">7h00</span> Largada Corrida</li>
+        <li><span class="time">8h20</span> Largada Corrida Kids</li>
+        <li><span class="time">9h00</span> Premiação</li>
+      </ul>
+
+      <p><strong>Cronometragem:</strong> o sistema de cronometragem será encerrado com 2h30 de prova. Os atletas que terminarem a corrida depois do tempo mencionado não terão seu tempo computado e divulgado.</p>
+      <p>O atleta que, em qualquer dos trechos, não estiver dentro do tempo projetado, será convidado a se retirar da corrida.</p>
+    </section>
+
+    <section class="part" id="inscricoes">
+      <h2><span class="num">II)</span> Inscrições</h2>
+      <p><strong>Art. 1º</strong> – As inscrições deverão ser feitas até as 23h59 (vinte e três horas e cinquenta e nove minutos) do dia 10 de Fevereiro de 2027 ou atingir o limite técnico da prova.</p>
+      <p class="note">Obsservação: só serão aceitas inscrições via site.</p>
+    </section>
+
+    <section class="part" id="taxa">
+      <h2><span class="num">III)</span> Taxa de Inscrição</h2>
+      <div class="kits">
+        <div class="kit"><strong>Kit Gold</strong>camiseta, número do peito, sacola, chip, medalha e brindes dos patrocinadores(se houver).</div>
+        <div class="kit"><strong>Kit Econômico</strong>número do peito, medalha e brinde dos patrocinadores (se houver)</div>
+      </div>
+
+      <h3>Publico Geral</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Lote</th><th>Kit Econômico</th><th>Kit Gold</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ate 9 Nov</td><td class="price">R$ 69,90</td><td class="price">R$ 89,90</td></tr>
+            <tr><td>10 Nov à 12 Jan</td><td class="price">R$ 79,90</td><td class="price">R$ 99,90</td></tr>
+            <tr><td>13 Jan à 16 Fev</td><td class="price">R$ 89,90</td><td class="price">R$ 109,90</td></tr>
+            <tr><td>Kids (lote único)</td><td class="price">R$ 49,90</td><td class="price">R$ 69,90</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Inscrição para idoso</h3>
+      <p>O idoso terá desconto de 50% sobre o valor do lote de inscrição vigente.</p>
+
+      <h3>Inscrições grupos</h3>
+      <ul class="dash">
+        <li>Grupos acima de 15 pessoas terão 10% de desconto no preço do lote vigente.</li>
+        <li>A cada 15 inscritos pagos, 1 cortesia</li>
+        <li>O Acesso grupos é via plataforma: <a href="https://gruposnumber.ultranocode.com.br/" target="_blank" rel="noopener">https://gruposnumber.ultranocode.com.br/</a></li>
+      </ul>
+      <p class="note">* Encerraremos as inscrições caso a prova atinja o limite técnico.</p>
+    </section>
+
+    <section class="part" id="kit">
+      <h2><span class="num">IV)</span> Retirada do kit</h2>
+      <ul class="dash">
+        <li>Local: a definir</li>
+        <li>Dia: a definir</li>
+        <li>Hora: a definir</li>
+      </ul>
+      <p style="margin-top:.9rem;">a) No dia da prova, atletas de outras cidades podem retirar o kit das 6h às 6h30 no local da prova, mediante a solicitação para o email <a href="mailto:numberesportes@gmail.com">numberesportes@gmail.com</a>, anexado o comprovante de endereço.</p>
+    </section>
+
+    <section class="part" id="categorias">
+      <h2><span class="num">V –</span> Categorias</h2>
+      <h3>Provas de 4 e 8 km (masc e fem)</h3>
+      <p><strong>4 km - Feminino e Masculino:</strong></p>
+      <div class="ages"><span>14/24</span><span>25/29</span><span>30/34</span><span>35/39</span><span>40/44</span><span>45/49</span><span>50/54</span><span>55/59</span><span>60/64</span><span>65/69</span><span>70 +</span></div>
+      <p><strong>8 km - Feminino e Masculino:</strong></p>
+      <div class="ages"><span>16/24</span><span>25/29</span><span>30/34</span><span>35/39</span><span>40/44</span><span>45/49</span><span>50/54</span><span>55/59</span><span>60/64</span><span>65/69</span><span>70 +</span></div>
+    </section>
+
+    <section class="part" id="premiacoes">
+      <h2><span class="num">VI –</span> Premiações</h2>
+      <h3>Provas de 4 e 8 km (masc e fem)</h3>
+      <p><strong>Geral:</strong> 1º ao 5º lugar</p>
+      <p><strong>Categoria 4 e 8 km (faixas etárias):</strong> 1º ao 3º lugar</p>
+      <p style="margin-top:.9rem;"><strong>4 km - Feminino e Masculino:</strong></p>
+      <div class="ages"><span>14/24</span><span>25/29</span><span>30/34</span><span>35/39</span><span>40/44</span><span>45/49</span><span>50/54</span><span>55/59</span><span>60/64</span><span>65/69</span><span>70 +</span></div>
+      <p><strong>8 km - Feminino e Masculino:</strong></p>
+      <div class="ages"><span>16/24</span><span>25/29</span><span>30/34</span><span>35/39</span><span>40/44</span><span>45/49</span><span>50/54</span><span>55/59</span><span>60/64</span><span>65/69</span><span>70 +</span></div>
+
+      <h3>Premiação para os 5 maiores grupos inscritos na prova</h3>
+      <p>Obs.: Serão computados somente os atletas inscritos pelo representante do grupo, atletas que realizarem inscrições individuais não serão computados.</p>
+      <p class="note"><strong>Obs: Não serão entregues troféus após o término da premiação</strong></p>
+    </section>
+
+    <section class="part" id="disposicoes">
+      <h2><span class="num">VII –</span> Disposições gerais</h2>
+      <ol class="articles">
+        <li><span class="art">Art. 1º</span> – Estará disponível um guarda-volumes para os participantes deixarem e retirarem seus pertences, portanto, somente serão recebidas bagagens acondicionadas em sacolas, bolsas ou mochilas. O guarda-volumes será desativado às 8h30;</li>
+        <li><span class="art">Art. 2º</span> – Não será permitido a atleta correr sem camiseta;</li>
+        <li><span class="art">Art. 3º</span> – O número recebido deverá ser afixado na parte frontal da camiseta e não poderá ser removido até que seja ultrapassado o funil de chegada. Toda irregularidade ou atitude anti desportiva cometida pelo atleta será passível de desclassificação;</li>
+        <li><span class="art">Art. 4º</span> – Para receber a premiação no pódio o atleta deverá estar adequadamente trajado com calçado, bermuda/calça e camiseta;</li>
+        <li><span class="art">Art. 5º</span> – As punições aplicadas serão irreversíveis, não sendo aceitos recursos para a direção da prova;</li>
+        <li class="highlight"><span class="art">Art. 6º</span> – <strong>As premiações serão entregues somente no dia do evento e horário programado ao atleta ou representante. Caso não seja retirado, não nos responsabilizamos pelo envio;</strong></li>
+        <li><span class="art">Art. 7º</span> – A corrida acontecerá com qualquer condição climática, podendo ser cancelada caso alguma condição venha a pôr em risco a integridade física dos participantes;</li>
+        <li><span class="art">Art. 8º</span> – Ao proceder a inscrição, o participante declara ser conhecedor do Regulamento, como também declara estar em perfeitas condições de saúde, isentando a Organização de qualquer responsabilidade;</li>
+        <li><span class="art">Art. 9º</span> – Cada atleta é responsável pelo seu próprio CHIP. Assim, deixa a ORGANIZAÇÃO totalmente isenta de qualquer problema que venha a ocorrer (caso de perda ou danos que venham a interferir na não leitura pelo sistema de chip e no seu resultado de prova);</li>
+        <li><span class="art">Art. 10º</span> – O acompanhamento dos (as) atletas por treinadores/assessoria, amigos, etc., com bicicleta e outros meios (pacing), resultarão na desclassificação do participante. O “pacing” somente será permitido se o acompanhante estiver devidamente inscrito;</li>
+        <li><span class="art">Art. 11º</span> – As colocações serão definidas pela apuração do tempo bruto para os cinco primeiros colocados geral nas distâncias. As demais classificações (categorias) serão definidas pelo tempo líquido gasto por cada competidor para completar o percurso, definido e delimitado pelos tapetes de cronometragem;</li>
+        <li class="highlight"><span class="art">Art. 12º</span> – <strong>Ao se inscrever no evento, a atleta o faz de forma pessoal e intransferível, não havendo possibilidade de transferência dessa inscrição para outro atleta, reembolso ou crédito para corridas futuras;</strong></li>
+        <li><span class="art">Art. 13º</span> – De acordo com o Código de Defesa do Consumidor, o atleta tem prazo de sete dias corridos após a data da inscrição para solicitar o cancelamento e o estorno do valor. O valor da inscrição não será devolvido depois desse prazo;</li>
+        <li><span class="art">Art. 14º</span> – A Organização poderá a qualquer momento suspender ou prorrogar prazos, elevar os valores ou limitar o número de inscrições em função de necessidades, disponibilidade técnica e/ou questões estruturais, sem aviso prévio;</li>
+        <li><span class="art">Art. 15º</span> – Na inscrição o atleta poderá escolher o tamanho da camiseta entre:
+          <ul class="sizes">
+            <li><strong>Infantil:</strong> 8 - 14 anos</li>
+            <li><strong>Feminino:</strong> Baby Look M</li>
+            <li><strong>Unisex:</strong> P - M - G - GG - XGG</li>
+          </ul>
+        </li>
+        <li><span class="art">Art. 16º</span> – A organização poderá a qualquer momento modificar cores, especificações técnicas, logotipo, acabamento e itens do kit de corrida, em função de necessidades, disponibilidade técnica, adequação ao visual e a novos patrocinadores, e/ou questões estruturais, sem aviso prévio;</li>
+        <li><span class="art">Art. 23º</span> – Não é permitida a alteração do tamanho da camiseta na retirada do kit. Será entregue o tamanho solicitado na inscrição;</li>
+        <li><span class="art">Art. 17º</span> – Não serão entregues kits após o período de entrega determinado pela organização. Os kits não retirados não serão enviados aos corredores sob nenhum motivo ou circunstância;</li>
+        <li><span class="art">Art. 18º</span> – Os participantes são integralmente responsáveis por toda e qualquer despesa que venham a ter para participar da <strong>2ª CORRIDA FOME DE AMOR</strong> tais como: transporte, hospedagem, alimentação, antes, durante e depois do evento;</li>
+        <li><span class="art">Art. 19º</span> – Todos os participantes do evento (atletas, staffs, apoio, organizadores e público em geral), cedem todos os direitos de utilização de sua imagem para a <strong>2ª CORRIDA FOME DE AMOR</strong> patrocinadores, apoiadores e a organização da corrida;</li>
+        <li><span class="art">Art. 20º</span> – Atletas suspensos pela CBAt – Confederação Brasileira de Atletismo não poderão participar;</li>
+        <li><span class="art">Art. 21º</span> – Alterações poderão serem realizadas sob consulta prévia, enviando-nos justificativa com o motivo da alteração, sem custo até dia <strong>10/02/2027</strong>, para o e-mail <a href="mailto:numberesportes@gmail.com">numberesportes@gmail.com</a>, trocas na retirada do kit serão aceitas(mediante disponibilidade) mediante ao pagamento de taxa de R$ 40,00 (quarenta reais)</li>
+        <li><span class="art">Art. 22º</span> – Os resultados da corrida estarão disponíveis no site: <a href="https://www.km.esp.br" target="_blank" rel="noopener">www.km.esp.br</a>;</li>
+        <li><span class="art">Art. 23º</span> – Os casos omissos serão resolvidos unicamente pela comissão organizadora;</li>
+        <li><span class="art">Art. 24º</span> – O atleta inscrito permite a utilização de sua imagem para uso da organização, realizadores e dos patrocinadores captadas durante todo a programação do evento, retirada do kit, prova e premiação.</li>
+        <li><span class="art">Art. 25º</span> – A participação na <strong>2ª CORRIDA FOME DE AMOR</strong> implica a aceitação total e irrestrita de todos os itens constante deste regulamento.</li>
+      </ol>
+    </section>
+
+    <section class="part" id="contato">
+      <h2>Contato e informações sobre o evento</h2>
+      <div class="contact">
+        <p><i class="fa-solid fa-envelope"></i><strong>E-mail:</strong> <a href="mailto:numberesportes@gmail.com">numberesportes@gmail.com</a></p>
+        <p><i class="fa-solid fa-globe"></i><strong>Site:</strong> <a href="https://www.number.esp.br" target="_blank" rel="noopener">www.number.esp.br</a></p>
+      </div>
+    </section>
+
+    <div class="cta">
+      <a href="/runday#inscricao" class="btn-primary"><i class="fa-solid fa-user-plus"></i> Fazer minha inscrição</a>
+      <button type="button" class="btn-secondary" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimir / salvar PDF</button>
+    </div>
+  </main>
+
+  <footer>
+    Realização: Instituto Fome de Amor · Organização: Number Esportes
+  </footer>
+
+</body>
+</html>

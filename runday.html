@@ -257,6 +257,17 @@
     }
     .reg-submit:hover { background: var(--green-dark); color: white; }
     .reg-submit:disabled { opacity: .7; cursor: wait; }
+    .reg-terms {
+      text-align: center; font-size: .85rem; color: rgba(255,255,255,.65); margin: .25rem 0 1rem;
+    }
+    .reg-terms i { color: var(--green); margin-right: .3rem; }
+    .reg-terms a { color: var(--green); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .reg-terms a:hover { color: white; }
+    footer .footer-reg {
+      display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.8rem;
+      color: var(--green); font-weight: 600; font-size: .9rem;
+    }
+    footer .footer-reg:hover { color: white; }
     .reg-support {
       text-align: center; margin-top: 1.4rem; font-size: .85rem; color: rgba(255,255,255,.5);
     }
@@ -306,6 +317,9 @@
         </a>
         <a href="#detalhes" class="btn-secondary">
           Ver detalhes
+        </a>
+        <a href="/runday/regulamento" class="btn-secondary" target="_blank" rel="noopener">
+          <i class="fa-solid fa-file-lines"></i> Regulamento
         </a>
       </div>
     </div>
@@ -454,6 +468,12 @@
         <span class="field-error" id="tamanho-error">Selecione o tamanho da camiseta.</span>
       </div>
 
+      <p class="reg-terms">
+        <i class="fa-solid fa-file-lines"></i>
+        Ao continuar, você declara que leu e concorda com o
+        <a href="/runday/regulamento" target="_blank" rel="noopener">Regulamento da prova</a>.
+      </p>
+
       <button type="submit" class="reg-submit">
         <i class="fa-solid fa-lock"></i> Continuar para pagamento
       </button>
@@ -471,6 +491,7 @@
       <i class="fa-solid fa-heart"></i>
       <span>Projeto<br>Fome de Amor</span>
     </div>
+    <a href="/runday/regulamento" class="footer-reg" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i> Regulamento da prova</a>
     <a href="/" class="back-home">← Voltar para fomedeamor.com</a>
   </footer>
 

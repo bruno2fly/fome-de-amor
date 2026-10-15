@@ -19,6 +19,10 @@
     {
       "source": "/runday/inscritos",
       "destination": "/runday-inscritos.html"
+    },
+    {
+      "source": "/runday/regulamento",
+      "destination": "/runday-regulamento.html"
     }
   ],
   "headers": [
