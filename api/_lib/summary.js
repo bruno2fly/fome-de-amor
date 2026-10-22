@@ -15,6 +15,8 @@ function summarize(registrations) {
   return {
     paidCount: paid.length,
     pendingCount: registrations.filter((r) => r.status === 'pending').length,
+    cortesiaCount: paid.filter((r) => r.cortesia_code).length,
+    assessoriaCount: paid.filter((r) => r.assessoria_code && !r.cortesia_code).length,
     totalCollected: Math.round(total * 100) / 100,
     byPercurso: countBy(paid, (r) => r.percurso, ['4K', '8K', 'KIDS']),
     byPlano: countBy(paid, (r) => r.plano, ['sem-camiseta', 'com-camiseta']),

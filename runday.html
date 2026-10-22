@@ -177,6 +177,39 @@
 
     .about-text { text-align: center; max-width: 680px; margin: 0 auto; color: rgba(255,255,255,.75); font-size: 1.05rem; }
 
+    /* ASSESSORIAS */
+    .ass-benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+    .ass-benefit {
+      background: rgba(255,255,255,.04); border: 1px solid var(--gray-200); border-radius: var(--radius);
+      padding: 1.6rem 1.4rem; text-align: center;
+    }
+    .ass-benefit i { color: var(--green); font-size: 1.6rem; margin-bottom: .8rem; display: block; }
+    .ass-benefit strong { display: block; font-size: 1.25rem; font-weight: 900; color: white; margin-bottom: .3rem; }
+    .ass-benefit span { font-size: .92rem; color: rgba(255,255,255,.7); }
+    .ass-steps { max-width: 620px; margin: 0 auto 2rem; display: grid; gap: .7rem; counter-reset: step; list-style: none; }
+    .ass-steps li { display: flex; gap: .8rem; align-items: baseline; color: rgba(255,255,255,.8); font-size: .95rem; }
+    .ass-steps li::before {
+      counter-increment: step; content: counter(step); flex: 0 0 1.7rem; height: 1.7rem; border-radius: 50%;
+      background: rgba(57,217,138,.15); color: var(--green); font-weight: 800; font-size: .85rem;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .ass-cta { text-align: center; }
+    .ass-cta small { display: block; margin-top: 1rem; color: rgba(255,255,255,.5); font-size: .85rem; }
+    .ass-cta small a { color: var(--green); font-weight: 600; }
+
+    /* DISCOUNT CODE */
+    .code-row { display: flex; gap: .5rem; }
+    .code-row input { text-transform: uppercase; letter-spacing: .04em; }
+    .code-apply {
+      flex: 0 0 auto; background: transparent; color: white; border: 1px solid rgba(255,255,255,.3);
+      border-radius: var(--radius-sm); padding: 0 1rem; font-family: inherit; font-weight: 700; font-size: .85rem; cursor: pointer;
+    }
+    .code-apply:hover { border-color: var(--green); color: var(--green); }
+    .code-status { font-size: .82rem; display: none; }
+    .code-status.ok { display: block; color: var(--green); }
+    .reg-field.has-error .code-status { display: none; }
+    .plan-price s { font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.45); margin-right: .35rem; }
+
     /* FOOTER */
     footer { text-align: center; padding: 3.5rem 1.25rem 3rem; border-top: 1px solid rgba(255,255,255,.08); }
     .realizacao-label { font-size: .75rem; font-weight: 800; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 1.25rem; }
@@ -387,6 +420,44 @@
     </div>
   </section>
 
+  <section class="block" id="assessorias">
+    <p class="section-label">Assessorias e grupos de corrida</p>
+    <h2 class="section-title">Traga sua assessoria para a RUN DAY</h2>
+
+    <div class="ass-benefits">
+      <div class="ass-benefit">
+        <i class="fa-solid fa-percent"></i>
+        <strong>10% de desconto</strong>
+        <span>para todos os atletas que se inscreverem com o código da sua assessoria</span>
+      </div>
+      <div class="ass-benefit">
+        <i class="fa-solid fa-gift"></i>
+        <strong>1 inscrição cortesia</strong>
+        <span>a cada 15 atletas inscritos e pagos com o seu código</span>
+      </div>
+      <div class="ass-benefit">
+        <i class="fa-solid fa-link"></i>
+        <strong>Link exclusivo</strong>
+        <span>um link e um código só da sua assessoria para compartilhar com o grupo</span>
+      </div>
+    </div>
+
+    <ol class="ass-steps">
+      <li>Fale com a organização pelo WhatsApp.</li>
+      <li>Você recebe o link e o código da sua assessoria.</li>
+      <li>Seus atletas se inscrevem pelo link e ganham 10% de desconto.</li>
+      <li>A cada 15 inscritos pagos, enviamos um código de cortesia.</li>
+    </ol>
+
+    <div class="ass-cta">
+      <a class="btn-primary" target="_blank" rel="noopener"
+         href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Sou%20da%20assessoria%20____%20e%20quero%20inscrever%20meu%20grupo%20na%202%C2%AA%20Corrida%20Fome%20de%20Amor%20RUN%20DAY.">
+        <i class="fa-brands fa-whatsapp"></i> Falar com a organização
+      </a>
+      <small>Já tem o código? Informe no campo “Código de desconto” na <a href="#inscricao">inscrição abaixo</a>.</small>
+    </div>
+  </section>
+
   <section class="block" id="inscricao">
     <p class="section-label">Inscrição</p>
     <h2 class="section-title">Garanta sua vaga</h2>
@@ -468,6 +539,16 @@
         <span class="field-error" id="tamanho-error">Selecione o tamanho da camiseta.</span>
       </div>
 
+      <div class="reg-field full" data-field="codigo" style="margin-bottom:1.1rem;">
+        <label for="f-codigo">Código de desconto <span class="opt">(assessoria ou cortesia — opcional)</span></label>
+        <div class="code-row">
+          <input type="text" id="f-codigo" name="codigo" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Ex: CORREJUNTO" />
+          <button type="button" class="code-apply" id="codeApply">Aplicar</button>
+        </div>
+        <span class="code-status" id="codeStatus" role="status"></span>
+        <span class="field-error" id="codeError">Código inválido.</span>
+      </div>
+
       <p class="reg-terms">
         <i class="fa-solid fa-file-lines"></i>
         Ao continuar, você declara que leu e concorda com o
@@ -505,6 +586,82 @@
 
       var submitBtn = form.querySelector('.reg-submit');
       var submitBtnHtml = submitBtn.innerHTML;
+      var SUBMIT_FREE_HTML = '<i class="fa-solid fa-check"></i> Confirmar inscrição cortesia';
+      var BASE_PRICES = { 'sem-camiseta': 69.9, 'com-camiseta': 89.9 }; // display only; the server sets the real price
+      var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+      var codeInput = document.getElementById('f-codigo');
+      var codeField = document.querySelector('[data-field="codigo"]');
+      var codeStatus = document.getElementById('codeStatus');
+      var codeError = document.getElementById('codeError');
+      var appliedCode = null; // { tipo, code, nome, desconto }
+      var codeTimer = null, codeSeq = 0;
+
+      function renderPrices() {
+        Object.keys(BASE_PRICES).forEach(function (plano) {
+          var el = document.querySelector('#plan-' + (plano === 'sem-camiseta' ? 'sem' : 'com') + ' .plan-price');
+          var base = BASE_PRICES[plano];
+          el.textContent = '';
+          if (appliedCode && appliedCode.tipo === 'cortesia') {
+            var s0 = document.createElement('s'); s0.textContent = brl.format(base);
+            el.appendChild(s0); el.appendChild(document.createTextNode('Cortesia'));
+          } else if (appliedCode && appliedCode.tipo === 'assessoria') {
+            var s1 = document.createElement('s'); s1.textContent = brl.format(base);
+            el.appendChild(s1);
+            el.appendChild(document.createTextNode(brl.format(Math.round(base * (100 - appliedCode.desconto)) / 100)));
+          } else {
+            el.textContent = brl.format(base);
+          }
+        });
+        if (!submitting) submitBtn.innerHTML = appliedCode && appliedCode.tipo === 'cortesia' ? SUBMIT_FREE_HTML : submitBtnHtml;
+      }
+
+      function setCode(result, message) {
+        appliedCode = result;
+        codeField.classList.toggle('has-error', !result && Boolean(message));
+        codeError.textContent = message || 'Código inválido.';
+        codeStatus.className = 'code-status' + (result ? ' ok' : '');
+        codeStatus.textContent = !result ? ''
+          : result.tipo === 'cortesia'
+            ? '✓ Código de cortesia' + (result.nome ? ' da ' + result.nome : '') + ': inscrição gratuita.'
+            : '✓ ' + result.desconto + '% de desconto da ' + result.nome + ' aplicado.';
+        if (result && result.nome) {
+          var grupo = document.getElementById('f-grupo');
+          if (!grupo.value.trim()) grupo.value = result.nome;
+        }
+        renderPrices();
+      }
+
+      function checkCode() {
+        var raw = codeInput.value.trim();
+        var seq = ++codeSeq;
+        if (!raw) { setCode(null, ''); return; }
+        codeStatus.className = 'code-status ok'; codeStatus.textContent = 'Verificando…';
+        fetch('/api/runday/codigo?c=' + encodeURIComponent(raw), { cache: 'no-store' })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; }); })
+          .then(function (res) {
+            if (seq !== codeSeq) return; // a newer check is running
+            if (res.status === 200) setCode(res.body, '');
+            else if (res.status === 409) setCode(null, 'Este código de cortesia já foi utilizado.');
+            else if (res.status === 404) setCode(null, 'Código inválido. Confira com a sua assessoria.');
+            else setCode(null, 'Não foi possível verificar o código agora. Ele será conferido ao continuar.');
+          })
+          .catch(function () { if (seq === codeSeq) setCode(null, 'Não foi possível verificar o código agora. Ele será conferido ao continuar.'); });
+      }
+
+      codeInput.addEventListener('input', function () {
+        appliedCode = null; renderPrices();
+        codeField.classList.remove('has-error'); codeStatus.className = 'code-status';
+        clearTimeout(codeTimer); codeTimer = setTimeout(checkCode, 700);
+      });
+      codeInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); clearTimeout(codeTimer); checkCode(); } });
+      document.getElementById('codeApply').addEventListener('click', function () { clearTimeout(codeTimer); checkCode(); });
+
+      // Link from an assessoria: /runday?assessoria=CODE (or ?codigo=CODE) pre-fills and applies the code.
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var fromLink = params.get('assessoria') || params.get('codigo');
+        if (fromLink) { codeInput.value = fromLink.slice(0, 40).toUpperCase(); checkCode(); }
+      })();
       var submitError = document.getElementById('submit-error');
       var submitting = false;
 
@@ -642,7 +799,8 @@
           grupo: document.getElementById('f-grupo').value.trim(),
           percurso: percursoInput.value,
           plano: planoInput.value,
-          tamanho: planoInput.value === 'com-camiseta' && tamanhoChecked ? tamanhoChecked.value : ''
+          tamanho: planoInput.value === 'com-camiseta' && tamanhoChecked ? tamanhoChecked.value : '',
+          codigo: codeInput.value.trim()
         };
 
         setSubmitting(true);
@@ -655,16 +813,19 @@
         })
           .then(function (r) {
             return r.json().catch(function () { return {}; }).then(function (result) {
-              if (!r.ok || !result.init_point) throw result;
+              if (!r.ok || !(result.init_point || result.redirect)) throw result;
               return result;
             });
           })
           .then(function (result) {
-            window.location.href = result.init_point;
+            window.location.href = result.init_point || result.redirect;
           })
           .catch(function (err) {
             setSubmitting(false);
             if (err && err.fields && err.fields.length) {
+              if (err.error === 'code_used') codeError.textContent = 'Este código de cortesia já foi utilizado.';
+              else if (err.error === 'invalid_code') codeError.textContent = 'Código inválido. Confira com a sua assessoria ou apague o código.';
+              if (err.error === 'code_used' || err.error === 'invalid_code') { appliedCode = null; renderPrices(); }
               err.fields.forEach(function (f) {
                 setFieldError(document.querySelector('[data-field="' + f + '"]'), true);
               });
@@ -679,9 +840,10 @@
       function setSubmitting(on) {
         submitting = on;
         submitBtn.disabled = on;
+        var free = appliedCode && appliedCode.tipo === 'cortesia';
         submitBtn.innerHTML = on
-          ? '<i class="fa-solid fa-spinner fa-spin"></i> Redirecionando para o pagamento…'
-          : submitBtnHtml;
+          ? '<i class="fa-solid fa-spinner fa-spin"></i> ' + (free ? 'Confirmando inscrição…' : 'Redirecionando para o pagamento…')
+          : (free ? SUBMIT_FREE_HTML : submitBtnHtml);
       }
     })();
   </script>
