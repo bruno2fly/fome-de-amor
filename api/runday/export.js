@@ -7,6 +7,7 @@ const ExcelJS = require('exceljs');
 const auth = require('../_lib/admin-auth');
 const store = require('../_lib/store');
 const { summarize } = require('../_lib/summary');
+const codes = require('../_lib/codes');
 
 const RACE_DAY = { y: 2027, m: 2, d: 28 };
 const STATUS = { approved: 'Pago', pending: 'Aguardando pagamento', rejected: 'Recusado', refunded: 'Reembolsado' };
@@ -51,7 +52,8 @@ function styleHeader(row) {
   row.height = 20;
 }
 
-async function buildWorkbook(rows, summary, includeUnpaid) {
+async function buildWorkbook(rows, summary, includeUnpaid, assessorias, registrations) {
+  const assessoriaName = Object.fromEntries(assessorias.map((a) => [a.code, a.nome]));
   const wb = new ExcelJS.Workbook();
   wb.creator = 'Fome de Amor RUN DAY';
   wb.created = new Date();
@@ -73,7 +75,11 @@ async function buildWorkbook(rows, summary, includeUnpaid) {
     { header: 'Pago em (Brasília)', key: 'pago_em', width: 17, style: { numFmt: 'dd/mm/yyyy hh:mm' } },
     { header: 'Inscrito em (Brasília)', key: 'criado_em', width: 17, style: { numFmt: 'dd/mm/yyyy hh:mm' } },
     { header: 'Código da inscrição', key: 'codigo', width: 18 },
-    { header: 'ID pagamento Mercado Pago', key: 'pagamento', width: 22 }
+    { header: 'ID pagamento Mercado Pago', key: 'pagamento', width: 22 },
+    { header: 'Assessoria', key: 'assessoria', width: 24 },
+    { header: 'Código assessoria', key: 'assessoria_code', width: 18 },
+    { header: 'Desconto', key: 'desconto', width: 11 },
+    { header: 'Código cortesia', key: 'cortesia', width: 22 }
   ];
   styleHeader(ws.getRow(1));
 
@@ -96,7 +102,11 @@ async function buildWorkbook(rows, summary, includeUnpaid) {
       pago_em: brasiliaDate(r.paid_at),
       criado_em: brasiliaDate(r.created_at),
       codigo: r.order_id,
-      pagamento: r.payment_id || ''
+      pagamento: r.payment_id || '',
+      assessoria: r.assessoria_code ? (assessoriaName[r.assessoria_code] || '') : '',
+      assessoria_code: r.assessoria_code || '',
+      desconto: r.cortesia_code ? 'Cortesia' : Number(r.discount_pct) > 0 ? `${Number(r.discount_pct)}%` : '',
+      cortesia: r.cortesia_code || ''
     });
   }
   if (rows.length) ws.autoFilter = { from: 'A1', to: { row: 1, column: ws.columns.length } };
@@ -119,12 +129,37 @@ async function buildWorkbook(rows, summary, includeUnpaid) {
   add('Inscrições pagas', summary.paidCount);
   add('Aguardando pagamento', summary.pendingCount);
   add('Total arrecadado', summary.totalCollected, '"R$" #,##0.00');
+  add('Inscrições cortesia', summary.cortesiaCount);
   section('Por percurso');
   for (const [k, n] of Object.entries(summary.byPercurso)) add(k, n);
   section('Por kit');
   for (const [k, n] of Object.entries(summary.byPlano)) add(PLANO[k] || k, n);
   section('Camisetas por tamanho');
   for (const [k, n] of Object.entries(summary.byTamanho)) add(k, n);
+
+  // Per-assessoria sheet: paid athletes and courtesies.
+  const as = wb.addWorksheet('Assessorias', { views: [{ state: 'frozen', ySplit: 1 }] });
+  as.columns = [
+    { header: 'Assessoria', key: 'nome', width: 28 },
+    { header: 'Código', key: 'code', width: 18 },
+    { header: 'Responsável', key: 'responsavel', width: 22 },
+    { header: 'WhatsApp', key: 'whatsapp', width: 16 },
+    { header: 'Inscritos pagos', key: 'pagos', width: 15 },
+    { header: 'Cortesias ganhas', key: 'ganhas', width: 16 },
+    { header: 'Cortesias usadas', key: 'usadas', width: 16 },
+    { header: 'Ativa', key: 'ativo', width: 8 }
+  ];
+  styleHeader(as.getRow(1));
+  const paid = codes.paidByAssessoria(registrations);
+  for (const a of assessorias) {
+    as.addRow({
+      nome: a.nome, code: a.code, responsavel: a.responsavel || '', whatsapp: a.whatsapp || '',
+      pagos: paid[a.code] || 0,
+      ganhas: Math.floor((paid[a.code] || 0) / codes.COURTESY_EVERY),
+      usadas: registrations.filter((r) => r.assessoria_code === a.code && r.cortesia_code && r.status === 'approved').length,
+      ativo: a.ativo ? 'Sim' : 'Não'
+    });
+  }
 
   return wb.xlsx.writeBuffer();
 }
@@ -137,9 +172,9 @@ module.exports = async (req, res) => {
   }
   if (!auth.isAuthorized(req)) return res.status(401).json({ error: 'unauthorized' });
 
-  let registrations;
+  let registrations, assessorias;
   try {
-    registrations = await store.listOrders();
+    [registrations, assessorias] = await Promise.all([store.listOrders(), store.listAssessorias()]);
   } catch (err) {
     console.error('runday export: storage read failed -', err && err.message);
     return res.status(502).json({ error: 'storage_unavailable' });
@@ -147,7 +182,7 @@ module.exports = async (req, res) => {
 
   const includeUnpaid = new URL(req.url, 'http://localhost').searchParams.get('todos') === '1';
   const rows = includeUnpaid ? registrations : registrations.filter((r) => r.status === 'approved');
-  const buffer = await buildWorkbook(rows, summarize(registrations), includeUnpaid);
+  const buffer = await buildWorkbook(rows, summarize(registrations), includeUnpaid, assessorias, registrations);
 
   const stamp = brasiliaDate(new Date().toISOString()).toISOString().slice(0, 10);
   res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

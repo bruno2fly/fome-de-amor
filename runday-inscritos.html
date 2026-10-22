@@ -98,6 +98,62 @@
     .badge.pending { background: rgba(245,185,66,.15); color: var(--amber); }
     .badge.rejected, .badge.refunded { background: rgba(255,122,122,.15); color: var(--red); }
     .empty { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; text-align: center; color: var(--muted); }
+    .badge.cortesia { background: rgba(122,170,255,.15); color: #9cc0ff; }
+    td .tag { display: inline-block; font-size: .7rem; font-weight: 700; color: var(--green); margin-left: .35rem; }
+
+    /* Assessorias */
+    .section-gap { margin-top: 2.5rem; }
+    .ass-intro { color: var(--muted); font-size: .85rem; margin: -.4rem 0 1rem; }
+    .ass-form {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.1rem; margin-bottom: 1rem; display: grid; gap: .8rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: end;
+    }
+    .ass-form label { display: grid; gap: .3rem; font-size: .75rem; font-weight: 700; color: var(--muted); letter-spacing: .04em; }
+    .ass-form input {
+      background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 10px;
+      color: #fff; padding: .65rem .8rem; font: inherit; font-size: .9rem; outline: none; width: 100%;
+    }
+    .ass-form input:focus { border-color: var(--green); }
+    .ass-form input.invalid { border-color: var(--red); }
+    .ass-form .actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .ass-form .form-msg { grid-column: 1 / -1; font-size: .85rem; color: var(--red); min-height: 1em; }
+    .btn-small {
+      border: 0; background: var(--green); color: #06200f; font-weight: 800; font-size: .82rem;
+      padding: .6rem 1rem; border-radius: 50px; display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-small:hover { background: var(--green-dark); color: #fff; }
+    .btn-small:disabled { opacity: .6; cursor: wait; }
+    .ass-grid { display: grid; gap: .8rem; }
+    .ass-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem;
+      display: grid; gap: .8rem;
+    }
+    .ass-card.off { opacity: .55; }
+    .ass-top { display: flex; flex-wrap: wrap; gap: .8rem 1.5rem; justify-content: space-between; align-items: flex-start; }
+    .ass-name { font-weight: 700; font-size: 1rem; }
+    .ass-name small { display: block; font-weight: 400; color: var(--muted); font-size: .8rem; }
+    .ass-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; color: var(--green); }
+    .ass-nums { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .ass-nums div { font-size: .75rem; color: var(--muted); }
+    .ass-nums b { display: block; font-size: 1.3rem; color: #fff; font-variant-numeric: tabular-nums; }
+    .ass-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .chip-btn {
+      background: transparent; border: 1px solid rgba(255,255,255,.22); color: #fff; border-radius: 50px;
+      padding: .35rem .8rem; font-size: .78rem; font-weight: 600; display: inline-flex; align-items: center; gap: .35rem;
+      text-decoration: none;
+    }
+    .chip-btn:hover { border-color: var(--green); color: var(--green); }
+    .chip-btn.wa { border-color: rgba(57,217,138,.5); color: var(--green); }
+    .cort-list { display: grid; gap: .4rem; border-top: 1px solid rgba(255,255,255,.07); padding-top: .7rem; }
+    .cort-list .label { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .cort { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .85rem; }
+    .cort .ass-code { color: #9cc0ff; }
+    .cort.used .ass-code { text-decoration: line-through; color: var(--muted); }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #0f2a1c; color: #fff;
+      border: 1px solid var(--green); border-radius: 50px; padding: .55rem 1.1rem; font-size: .85rem; z-index: 50;
+    }
     .error-box { background: rgba(255,122,122,.1); border: 1px solid rgba(255,122,122,.35); color: var(--red); border-radius: 10px; padding: .8rem 1rem; margin-bottom: 1rem; font-size: .88rem; }
   </style>
 </head>
@@ -134,6 +190,26 @@
       <div class="error-box" id="dashError" hidden></div>
 
       <div class="stats" id="stats"></div>
+
+      <div class="bar">
+        <h2>Assessorias</h2>
+        <button class="ghost" id="newAssBtn"><i class="fa-solid fa-plus"></i> Nova assessoria</button>
+      </div>
+      <p class="ass-intro" id="assIntro">Cada assessoria recebe um código de 10% de desconto para os atletas. A cada 15 inscritos pagos com o código, uma cortesia é gerada aqui automaticamente.</p>
+      <form class="ass-form" id="assForm" hidden novalidate>
+        <label>Nome da assessoria<input id="assNome" maxlength="80" placeholder="Ex: Assessoria Corre Junto" required /></label>
+        <label>Responsável<input id="assResp" maxlength="80" placeholder="Nome do treinador" /></label>
+        <label>WhatsApp do responsável<input id="assWhats" inputmode="tel" maxlength="20" placeholder="47 99999-9999" /></label>
+        <label>Código (opcional)<input id="assCode" maxlength="30" placeholder="Gerado pelo nome" /></label>
+        <div class="actions">
+          <button type="submit" class="btn-small" id="assSave"><i class="fa-solid fa-check"></i> Criar</button>
+          <button type="button" class="chip-btn" id="assCancel">Cancelar</button>
+        </div>
+        <div class="form-msg" id="assMsg" role="alert"></div>
+      </form>
+      <div class="ass-grid" id="assList"></div>
+
+      <div class="section-gap"></div>
 
       <div class="bar">
         <h2 id="listTitle">Inscritos</h2>
@@ -238,6 +314,164 @@
       $('refreshBtn').addEventListener('click', function () { load(); });
       $('showUnpaid').addEventListener('change', render);
       $('exportBtn').addEventListener('click', exportExcel);
+      $('newAssBtn').addEventListener('click', function () {
+        $('assForm').hidden = !$('assForm').hidden;
+        if (!$('assForm').hidden) $('assNome').focus();
+      });
+      $('assCancel').addEventListener('click', function () { $('assForm').hidden = true; $('assMsg').textContent = ''; });
+      $('assForm').addEventListener('submit', createAssessoria);
+
+      var assData = null;
+      var assNames = {};
+
+      function api(method, url, body) {
+        return fetch(url, {
+          method: method,
+          headers: Object.assign({ Authorization: 'Bearer ' + getToken() }, body ? { 'Content-Type': 'application/json' } : {}),
+          body: body ? JSON.stringify(body) : undefined,
+          cache: 'no-store'
+        }).then(function (r) {
+          if (r.status === 401) { showLogin('Sua sessão expirou. Entre novamente.'); throw { auth: true }; }
+          return r.json().catch(function () { return {}; }).then(function (b) { return { ok: r.ok, status: r.status, body: b }; });
+        });
+      }
+
+      function toast(text) {
+        var t = el('div', { className: 'toast', text: text, role: 'status' });
+        document.body.appendChild(t);
+        setTimeout(function () { t.remove(); }, 2200);
+      }
+
+      function copy(text, label) {
+        var done = function () { toast((label || 'Copiado') + ' ✓'); };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
+        } else { fallbackCopy(text); done(); }
+      }
+      function fallbackCopy(text) {
+        var ta = el('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        ta.remove();
+      }
+
+      function waLink(phoneDigits, text) {
+        var d = String(phoneDigits || '').replace(/\D/g, '');
+        if (d && d.length <= 11) d = '55' + d;
+        return 'https://wa.me/' + d + '?text=' + encodeURIComponent(text);
+      }
+
+      function linkMessage(a) {
+        return 'Olá' + (a.responsavel ? ' ' + a.responsavel : '') + '! Aqui está o link de inscrição da ' + a.nome +
+          ' para a 2ª Corrida Fome de Amor RUN DAY, com ' + assData.desconto + '% de desconto para seus atletas:\n\n' +
+          a.link + '\n\nCódigo: ' + a.code + '\n\nA cada ' + assData.cortesiaACada +
+          ' inscritos pagos com este código, vocês ganham 1 inscrição cortesia.';
+      }
+      function cortesiaMessage(a, c) {
+        return 'Olá' + (a.responsavel ? ' ' + a.responsavel : '') + '! A ' + a.nome + ' chegou a ' +
+          (c.seq * assData.cortesiaACada) + ' inscritos pagos e ganhou 1 inscrição cortesia na RUN DAY. 🎉\n\n' +
+          'Código (uso único): ' + c.code + '\n\nO atleta faz a inscrição normalmente em https://fomedeamor.com.br/runday e informa este código no campo "Código de desconto".';
+      }
+
+      function loadAssessorias() {
+        return api('GET', '/api/runday/assessorias').then(function (res) {
+          if (!res.ok) throw new Error('http ' + res.status);
+          assData = res.body;
+          assNames = {};
+          assData.assessorias.forEach(function (a) { assNames[a.code] = a.nome; });
+          renderAssessorias();
+        });
+      }
+
+      function renderAssessorias() {
+        var list = $('assList');
+        if (!assData.assessorias.length) {
+          list.replaceChildren(el('div', { className: 'empty', text: 'Nenhuma assessoria cadastrada ainda. Clique em “Nova assessoria” quando uma entrar em contato.' }));
+          return;
+        }
+        list.replaceChildren.apply(list, assData.assessorias.map(function (a) {
+          var actions = [
+            el('button', { className: 'chip-btn', type: 'button', 'data-copy': a.link }, [el('i', { className: 'fa-solid fa-link' }), ' Copiar link']),
+            el('button', { className: 'chip-btn', type: 'button', 'data-copy': a.code }, [el('i', { className: 'fa-regular fa-copy' }), ' Copiar código'])
+          ];
+          if (a.whatsapp) {
+            actions.push(el('a', { className: 'chip-btn wa', href: waLink(a.whatsapp, linkMessage(a)), target: '_blank', rel: 'noopener' },
+              [el('i', { className: 'fa-brands fa-whatsapp' }), ' Enviar link no WhatsApp']));
+          }
+          actions.push(el('button', { className: 'chip-btn', type: 'button', 'data-toggle': a.code, 'data-ativo': a.ativo ? '0' : '1' },
+            [a.ativo ? 'Desativar código' : 'Reativar código']));
+
+          var cortChildren = [el('div', { className: 'label', text: 'Cortesias' })];
+          if (!a.cortesias.length) {
+            cortChildren.push(el('div', { className: 'cort', text: 'Faltam ' + a.faltamParaProxima + ' inscritos pagos para a 1ª cortesia.' }));
+          } else {
+            a.cortesias.forEach(function (c) {
+              var row = [el('span', { className: 'ass-code', text: c.code }),
+                el('span', { className: 'badge ' + (c.usada ? 'approved' : 'cortesia'), text: c.usada ? 'Usada' : 'Disponível' })];
+              if (!c.usada) {
+                row.push(el('button', { className: 'chip-btn', type: 'button', 'data-copy': c.code }, [el('i', { className: 'fa-regular fa-copy' }), ' Copiar']));
+                if (a.whatsapp) row.push(el('a', { className: 'chip-btn wa', href: waLink(a.whatsapp, cortesiaMessage(a, c)), target: '_blank', rel: 'noopener' },
+                  [el('i', { className: 'fa-brands fa-whatsapp' }), ' Enviar']));
+              }
+              cortChildren.push(el('div', { className: 'cort' + (c.usada ? ' used' : '') }, row));
+            });
+            cortChildren.push(el('div', { className: 'cort', text: 'Próxima cortesia em ' + a.faltamParaProxima + ' inscritos pagos.' }));
+          }
+
+          return el('div', { className: 'ass-card' + (a.ativo ? '' : ' off') }, [
+            el('div', { className: 'ass-top' }, [
+              el('div', null, [
+                el('div', { className: 'ass-name' }, [a.nome, el('small', { text: [a.responsavel, a.whatsapp].filter(Boolean).join(' · ') || '—' })]),
+                el('div', { className: 'ass-code', text: a.code + (a.ativo ? '' : ' (desativado)') })
+              ]),
+              el('div', { className: 'ass-nums' }, [
+                el('div', null, [el('b', { text: String(a.pagos) }), 'pagos']),
+                el('div', null, [el('b', { text: String(a.pendentes) }), 'aguardando']),
+                el('div', null, [el('b', { text: a.cortesias.length + ' / ' + a.cortesiasUsadas }), 'cortesias ganhas / usadas'])
+              ])
+            ]),
+            el('div', { className: 'ass-actions' }, actions),
+            el('div', { className: 'cort-list' }, cortChildren)
+          ]);
+        }));
+      }
+
+      $('assList').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-copy],[data-toggle]');
+        if (!b) return;
+        if (b.hasAttribute('data-copy')) { copy(b.getAttribute('data-copy'), b.getAttribute('data-copy').indexOf('http') === 0 ? 'Link copiado' : 'Código copiado'); return; }
+        var code = b.getAttribute('data-toggle'), ativo = b.getAttribute('data-ativo') === '1';
+        if (!ativo && !window.confirm('Desativar o código ' + code + '? Novos atletas não terão mais o desconto.')) return;
+        b.disabled = true;
+        api('PATCH', '/api/runday/assessorias', { codigo: code, ativo: ativo })
+          .then(function (res) { if (!res.ok) throw new Error(); return loadAssessorias(); })
+          .catch(function (err) { if (!err || !err.auth) toast('Não foi possível alterar. Tente novamente.'); b.disabled = false; });
+      });
+
+      function createAssessoria(e) {
+        e.preventDefault();
+        var btn = $('assSave');
+        ['assNome', 'assWhats', 'assCode'].forEach(function (id) { $(id).classList.remove('invalid'); });
+        $('assMsg').textContent = '';
+        btn.disabled = true;
+        api('POST', '/api/runday/assessorias', {
+          nome: $('assNome').value, responsavel: $('assResp').value, whatsapp: $('assWhats').value, codigo: $('assCode').value
+        }).then(function (res) {
+          if (res.ok) {
+            $('assForm').reset(); $('assForm').hidden = true;
+            toast('Assessoria criada: ' + res.body.code);
+            return loadAssessorias();
+          }
+          var f = (res.body && res.body.fields) || [];
+          if (f.indexOf('nome') >= 0) $('assNome').classList.add('invalid');
+          if (f.indexOf('whatsapp') >= 0) $('assWhats').classList.add('invalid');
+          if (f.indexOf('codigo') >= 0) $('assCode').classList.add('invalid');
+          $('assMsg').textContent = res.body.error === 'code_taken' ? 'Esse código já está em uso. Escolha outro.'
+            : f.length ? 'Confira os campos destacados (código: só letras, números e hífen).' : 'Não foi possível criar. Tente novamente.';
+        }).catch(function (err) {
+          if (!err || !err.auth) $('assMsg').textContent = 'Sem conexão. Tente novamente.';
+        }).then(function () { btn.disabled = false; });
+      }
 
       // Downloads exactly what the table shows: paid only, or all with the toggle on.
       function exportExcel() {
@@ -284,6 +518,10 @@
           .then(function (body) {
             if (!body) return;
             data = body;
+            loadAssessorias().catch(function (err) {
+              if (err && err.auth) return;
+              $('assList').replaceChildren(el('div', { className: 'error-box', text: 'Não foi possível carregar as assessorias.' }));
+            }).then(function () { render(); });
             $('updated').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             render();
           })
@@ -315,7 +553,7 @@
         var s = data.summary;
         var stats = $('stats');
         stats.replaceChildren(
-          statCard('Inscrições pagas', String(s.paidCount), s.pendingCount + ' aguardando pagamento'),
+          statCard('Inscrições pagas', String(s.paidCount), s.pendingCount + ' aguardando pagamento' + (s.cortesiaCount ? ' · ' + s.cortesiaCount + ' cortesia(s)' : '')),
           statCard('Total arrecadado', brl.format(s.totalCollected)),
           breakdownCard('Por percurso', s.byPercurso),
           breakdownCard('Por kit', s.byPlano, PLANO),
@@ -336,7 +574,7 @@
           return;
         }
 
-        var head = ['Nome', 'CPF', 'Nascimento', 'E-mail', 'Cidade', 'Grupo', 'Percurso', 'Kit', 'Tam.', 'Status', 'Valor', 'Pago em', 'Código'];
+        var head = ['Nome', 'CPF', 'Nascimento', 'E-mail', 'Cidade', 'Grupo', 'Assessoria', 'Percurso', 'Kit', 'Tam.', 'Status', 'Valor', 'Pago em', 'Código'];
         var tbody = el('tbody', null, rows.map(function (r) {
           return el('tr', null, [
             el('td', { className: 'name', text: r.nome }),
@@ -345,11 +583,15 @@
             el('td', null, [el('a', { href: 'mailto:' + encodeURIComponent(r.email).replace(/%40/g, '@'), text: r.email })]),
             el('td', { text: r.cidade }),
             el('td', { text: r.grupo || '—' }),
+            el('td', { text: r.assessoria_code ? (assNames[r.assessoria_code] || r.assessoria_code) : '—' }),
             el('td', { text: r.percurso }),
             el('td', { text: PLANO[r.plano] || r.plano }),
             el('td', { text: r.tamanho || '—' }),
-            el('td', null, [el('span', { className: 'badge ' + (STATUS[r.status] ? r.status : ''), text: STATUS[r.status] || r.status })]),
-            el('td', { text: brl.format(Number(r.amount_paid != null ? r.amount_paid : r.amount)) }),
+            el('td', null, [r.cortesia_code
+              ? el('span', { className: 'badge cortesia', text: 'Cortesia' })
+              : el('span', { className: 'badge ' + (STATUS[r.status] ? r.status : ''), text: STATUS[r.status] || r.status })]),
+            el('td', null, [brl.format(Number(r.amount_paid != null ? r.amount_paid : r.amount)),
+              Number(r.discount_pct) > 0 && !r.cortesia_code ? el('span', { className: 'tag', text: '-' + Number(r.discount_pct) + '%' }) : null]),
             el('td', { text: formatDateTime(r.paid_at) }),
             el('td', { className: 'mono', text: r.order_id })
           ]);
