@@ -20,7 +20,7 @@ function summarize(registrations) {
     totalCollected: Math.round(total * 100) / 100,
     byPercurso: countBy(paid, (r) => r.percurso, ['4K', '8K', 'KIDS']),
     byPlano: countBy(paid, (r) => r.plano, ['sem-camiseta', 'com-camiseta']),
-    byTamanho: countBy(paid.filter((r) => r.plano === 'com-camiseta'), (r) => r.tamanho, ['P', 'M', 'G', 'GG', 'XG'])
+    byTamanho: countBy(paid.filter((r) => r.plano === 'com-camiseta'), (r) => r.tamanho, ['8', 'PP', 'P', 'M', 'G', 'GG', 'XG'])
   };
 }
 
