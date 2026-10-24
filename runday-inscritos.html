@@ -195,7 +195,7 @@
         <h2>Assessorias</h2>
         <button class="ghost" id="newAssBtn"><i class="fa-solid fa-plus"></i> Nova assessoria</button>
       </div>
-      <p class="ass-intro" id="assIntro">Cada assessoria recebe um código de 10% de desconto para os atletas. A cada 15 inscritos pagos com o código, uma cortesia é gerada aqui automaticamente.</p>
+      <p class="ass-intro" id="assIntro">Cada assessoria recebe um código de 10% de desconto para os atletas e um link privado de painel para acompanhar os inscritos. A cada 15 inscritos pagos com o código, uma cortesia é gerada automaticamente (aparece aqui e no painel da assessoria).</p>
       <form class="ass-form" id="assForm" hidden novalidate>
         <label>Nome da assessoria<input id="assNome" maxlength="80" placeholder="Ex: Assessoria Corre Junto" required /></label>
         <label>Responsável<input id="assResp" maxlength="80" placeholder="Nome do treinador" /></label>
@@ -365,7 +365,8 @@
         return 'Olá' + (a.responsavel ? ' ' + a.responsavel : '') + '! Aqui está o link de inscrição da ' + a.nome +
           ' para a 2ª Corrida Fome de Amor RUN DAY, com ' + assData.desconto + '% de desconto para seus atletas:\n\n' +
           a.link + '\n\nCódigo: ' + a.code + '\n\nA cada ' + assData.cortesiaACada +
-          ' inscritos pagos com este código, vocês ganham 1 inscrição cortesia.';
+          ' inscritos pagos com este código, vocês ganham 1 inscrição cortesia.' +
+          (a.painelLink ? '\n\nAcompanhe quem já se inscreveu (link privado, só para você):\n' + a.painelLink : '');
       }
       function cortesiaMessage(a, c) {
         return 'Olá' + (a.responsavel ? ' ' + a.responsavel : '') + '! A ' + a.nome + ' chegou a ' +
@@ -394,10 +395,17 @@
             el('button', { className: 'chip-btn', type: 'button', 'data-copy': a.link }, [el('i', { className: 'fa-solid fa-link' }), ' Copiar link']),
             el('button', { className: 'chip-btn', type: 'button', 'data-copy': a.code }, [el('i', { className: 'fa-regular fa-copy' }), ' Copiar código'])
           ];
+          if (a.painelLink) {
+            actions.push(el('button', { className: 'chip-btn', type: 'button', 'data-copy': a.painelLink, 'data-label': 'Link do painel copiado' },
+              [el('i', { className: 'fa-solid fa-chart-simple' }), ' Copiar link do painel']));
+            actions.push(el('a', { className: 'chip-btn', href: a.painelLink, target: '_blank', rel: 'noopener noreferrer' },
+              [el('i', { className: 'fa-solid fa-arrow-up-right-from-square' }), ' Ver painel']));
+          }
           if (a.whatsapp) {
             actions.push(el('a', { className: 'chip-btn wa', href: waLink(a.whatsapp, linkMessage(a)), target: '_blank', rel: 'noopener' },
               [el('i', { className: 'fa-brands fa-whatsapp' }), ' Enviar link no WhatsApp']));
           }
+          actions.push(el('button', { className: 'chip-btn', type: 'button', 'data-newpanel': a.code }, ['Gerar novo link do painel']));
           actions.push(el('button', { className: 'chip-btn', type: 'button', 'data-toggle': a.code, 'data-ativo': a.ativo ? '0' : '1' },
             [a.ativo ? 'Desativar código' : 'Reativar código']));
 
@@ -437,9 +445,21 @@
       }
 
       $('assList').addEventListener('click', function (e) {
-        var b = e.target.closest('[data-copy],[data-toggle]');
+        var b = e.target.closest('[data-copy],[data-toggle],[data-newpanel]');
         if (!b) return;
-        if (b.hasAttribute('data-copy')) { copy(b.getAttribute('data-copy'), b.getAttribute('data-copy').indexOf('http') === 0 ? 'Link copiado' : 'Código copiado'); return; }
+        if (b.hasAttribute('data-copy')) {
+          var v = b.getAttribute('data-copy');
+          copy(v, b.getAttribute('data-label') || (v.indexOf('http') === 0 ? 'Link copiado' : 'Código copiado'));
+          return;
+        }
+        if (b.hasAttribute('data-newpanel')) {
+          if (!window.confirm('Gerar um novo link do painel? O link atual para de funcionar e você precisará enviar o novo ao responsável.')) return;
+          b.disabled = true;
+          api('PATCH', '/api/runday/assessorias', { codigo: b.getAttribute('data-newpanel'), novoPainel: true })
+            .then(function (res) { if (!res.ok) throw new Error(); toast('Novo link do painel gerado'); return loadAssessorias(); })
+            .catch(function (err) { if (!err || !err.auth) toast('Não foi possível gerar. Tente novamente.'); b.disabled = false; });
+          return;
+        }
         var code = b.getAttribute('data-toggle'), ativo = b.getAttribute('data-ativo') === '1';
         if (!ativo && !window.confirm('Desativar o código ' + code + '? Novos atletas não terão mais o desconto.')) return;
         b.disabled = true;

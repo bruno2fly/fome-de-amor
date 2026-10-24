@@ -42,6 +42,12 @@ function randomChars(n) {
   return out;
 }
 
+/** Secret key for an assessoria's private progress page (32 hex chars). */
+function newPainelToken() {
+  return crypto.randomBytes(16).toString('hex');
+}
+const PAINEL_TOKEN_RE = /^[a-f0-9]{32}$/;
+
 /** Unguessable single-use courtesy code, e.g. CORTESIA-7K3F9QX2MZ. */
 function newCortesiaCode() {
   return 'CORTESIA-' + randomChars(10);
@@ -82,6 +88,23 @@ function paidByAssessoria(registrations) {
 }
 
 /**
+ * One registration per person (grouped by CPF) for an assessoria: the paid
+ * one if any, otherwise the latest attempt. Refunded ones are left out.
+ */
+function peopleFor(registrations, code) {
+  const rank = (r) => (r.status === 'approved' ? 1 : 0);
+  const byPerson = new Map();
+  for (const r of registrations) {
+    if (r.assessoria_code !== code || r.status === 'refunded') continue;
+    const prev = byPerson.get(r.cpf);
+    if (!prev || rank(r) > rank(prev) || (rank(r) === rank(prev) && r.created_at > prev.created_at)) {
+      byPerson.set(r.cpf, r);
+    }
+  }
+  return [...byPerson.values()];
+}
+
+/**
  * Issues any courtesy codes assessorias have earned but not yet received.
  * Safe to run repeatedly/concurrently (see store.issueCortesia).
  * Returns the full, up-to-date list of courtesy codes.
@@ -105,6 +128,6 @@ async function syncCortesias(registrations, assessorias, cortesias) {
 
 module.exports = {
   DISCOUNT_PCT, COURTESY_EVERY,
-  normalizeCode, discountedPrice, codeFromName, newCortesiaCode,
-  resolveCode, paidByAssessoria, syncCortesias
+  normalizeCode, discountedPrice, codeFromName, newCortesiaCode, newPainelToken, PAINEL_TOKEN_RE,
+  resolveCode, paidByAssessoria, peopleFor, syncCortesias
 };
