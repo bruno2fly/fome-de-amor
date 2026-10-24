@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <!-- The page URL contains a private key: never send it to other sites. -->
+  <meta name="referrer" content="no-referrer" />
+  <title>Painel da assessoria — RUN DAY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #39d98a; --green-dark: #1aa864; --amber: #f5b942; --red: #ff7a7a; --blue: #9cc0ff;
+      --line: rgba(255,255,255,.12); --muted: rgba(255,255,255,.62); --card: rgba(255,255,255,.04);
+      --radius: 14px;
+    }
+    html { background: #050a06; }
+    body {
+      font-family: 'Poppins', sans-serif; color: #fff; min-height: 100vh; line-height: 1.5;
+      background: radial-gradient(ellipse at top, #0e2318 0%, #050a06 60%) no-repeat #050a06;
+    }
+    a { color: var(--green); }
+    button { font: inherit; cursor: pointer; }
+    [hidden] { display: none !important; }
+
+    nav {
+      background: rgba(8,15,10,.9); padding: 0 1.25rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.08); position: sticky; top: 0; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: .9rem; color: #fff; text-decoration: none; }
+    .brand img { width: 30px; }
+    .brand small { display: block; font-weight: 400; font-size: .7rem; color: var(--muted); }
+    .ghost {
+      background: transparent; border: 1px solid rgba(255,255,255,.25); color: #fff; text-decoration: none;
+      border-radius: 50px; padding: .45rem 1rem; font-size: .82rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: .45rem;
+    }
+    .ghost:hover { border-color: var(--green); color: var(--green); }
+    .ghost:disabled { opacity: .6; cursor: wait; }
+    .ghost.wa { border-color: rgba(57,217,138,.55); color: var(--green); }
+    .solid {
+      background: var(--green); border: 0; color: #06200f; text-decoration: none; border-radius: 50px;
+      padding: .55rem 1.1rem; font-size: .85rem; font-weight: 800; display: inline-flex; align-items: center; gap: .45rem;
+    }
+    .solid:hover { background: var(--green-dark); color: #fff; }
+
+    main { max-width: 980px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+    .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1.5rem; }
+    .eyebrow { font-size: .72rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--green); }
+    .head h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); font-weight: 900; line-height: 1.1; margin: .2rem 0 .3rem; }
+    .head p { color: var(--muted); font-size: .85rem; }
+    .code-chip {
+      display: inline-flex; align-items: center; gap: .5rem; margin-top: .5rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .95rem; color: var(--green);
+      background: rgba(57,217,138,.08); border: 1px solid rgba(57,217,138,.3); border-radius: 8px; padding: .3rem .7rem;
+    }
+    .warn { background: rgba(245,185,66,.1); border: 1px solid rgba(245,185,66,.4); color: var(--amber); border-radius: 10px; padding: .8rem 1rem; margin-bottom: 1rem; font-size: .9rem; }
+
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem; }
+    .share { display: grid; gap: .8rem; margin-bottom: 1.25rem; }
+    .share h2, .section-title { font-size: 1rem; font-weight: 700; }
+    .share .link {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .82rem; color: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.05); border: 1px solid var(--line); border-radius: 8px; padding: .55rem .7rem;
+      overflow-wrap: anywhere;
+    }
+    .share .note { font-size: .82rem; color: var(--muted); }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    .stats { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 1.25rem; }
+    .stat .label { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .stat .value { font-size: 2.1rem; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--green); line-height: 1.15; margin-top: .15rem; }
+    .stat .sub { font-size: .82rem; color: var(--muted); }
+    .progress { height: 10px; background: rgba(255,255,255,.08); border-radius: 50px; overflow: hidden; margin: .6rem 0 .35rem; }
+    .progress div { height: 100%; background: var(--green); border-radius: 50px; transition: width .5s ease; }
+
+    .cortesias { margin-bottom: 1.25rem; display: grid; gap: .7rem; }
+    .cortesias .help { font-size: .82rem; color: var(--muted); }
+    .cort { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+    .cort code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .95rem; color: var(--blue); }
+    .cort.used code { color: var(--muted); text-decoration: line-through; }
+
+    .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; margin: 1.75rem 0 .8rem; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+    table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+    th, td { padding: .7rem .85rem; text-align: left; white-space: nowrap; border-bottom: 1px solid rgba(255,255,255,.07); }
+    th { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; background: rgba(255,255,255,.03); }
+    td:first-child { white-space: normal; font-weight: 600; min-width: 160px; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .badge { display: inline-block; border-radius: 50px; padding: .15rem .65rem; font-size: .72rem; font-weight: 700; }
+    .badge.pago { background: rgba(57,217,138,.15); color: var(--green); }
+    .badge.aguardando { background: rgba(245,185,66,.15); color: var(--amber); }
+    .badge.recusado { background: rgba(255,122,122,.15); color: var(--red); }
+    .badge.cortesia { background: rgba(122,170,255,.15); color: var(--blue); }
+    .badge.disp { background: rgba(122,170,255,.15); color: var(--blue); }
+    .empty { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; text-align: center; color: var(--muted); }
+
+    .state { max-width: 460px; margin: 12vh auto 0; text-align: center; }
+    .state i { font-size: 2rem; color: var(--amber); margin-bottom: 1rem; }
+    .state h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: .5rem; }
+    .state p { color: var(--muted); margin-bottom: 1.2rem; }
+
+    footer { text-align: center; padding: 2rem 1rem 3rem; color: rgba(255,255,255,.5); font-size: .85rem; }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #0f2a1c; color: #fff;
+      border: 1px solid var(--green); border-radius: 50px; padding: .55rem 1.1rem; font-size: .85rem; z-index: 50;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/runday" target="_blank" rel="noopener">
+      <img src="/logo.png" alt="" />
+      <span>RUN DAY<small>Painel da assessoria</small></span>
+    </a>
+    <button class="ghost" id="refreshBtn" hidden><i class="fa-solid fa-rotate"></i> Atualizar</button>
+  </nav>
+
+  <main>
+    <div class="state" id="loading"><p>Carregando…</p></div>
+
+    <div class="state" id="invalid" hidden>
+      <i class="fa-solid fa-link-slash"></i>
+      <h1>Link inválido</h1>
+      <p>Este link de painel não existe ou foi substituído. Peça o link atualizado à organização.</p>
+      <a class="solid" href="https://wa.me/5547999955258?text=Ol%C3%A1!%20Preciso%20do%20link%20atualizado%20do%20painel%20da%20minha%20assessoria%20na%20RUN%20DAY." target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Falar com a organização</a>
+    </div>
+
+    <div class="state" id="failed" hidden>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <h1>Não foi possível carregar</h1>
+      <p>Tente novamente em instantes.</p>
+      <button class="solid" id="retryBtn"><i class="fa-solid fa-rotate"></i> Tentar novamente</button>
+    </div>
+
+    <section id="dash" hidden>
+      <div class="head">
+        <div>
+          <div class="eyebrow">2ª Corrida Fome de Amor RUN DAY</div>
+          <h1 id="nome"></h1>
+          <p id="updated"></p>
+          <span class="code-chip"><span>Código:</span> <strong id="code"></strong></span>
+        </div>
+      </div>
+
+      <div class="warn" id="inactive" hidden>Este código está desativado: novas inscrições com ele não recebem desconto. Fale com a organização.</div>
+
+      <div class="card share">
+        <h2>Link de inscrição para seus atletas</h2>
+        <div class="link" id="link"></div>
+        <div class="row">
+          <button class="ghost" id="copyLink"><i class="fa-solid fa-link"></i> Copiar link</button>
+          <a class="ghost wa" id="shareWa" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Compartilhar no WhatsApp</a>
+        </div>
+        <p class="note" id="shareNote"></p>
+      </div>
+
+      <div class="stats">
+        <div class="card stat">
+          <div class="label">Inscritos pagos</div>
+          <div class="value" id="pagos">0</div>
+          <div class="sub" id="pagosSub"></div>
+        </div>
+        <div class="card stat">
+          <div class="label">Aguardando pagamento</div>
+          <div class="value" id="aguardando" style="color:var(--amber)">0</div>
+          <div class="sub">começaram a inscrição e ainda não pagaram</div>
+        </div>
+        <div class="card stat">
+          <div class="label">Próxima cortesia</div>
+          <div class="progress" aria-hidden="true"><div id="progressBar" style="width:0%"></div></div>
+          <div class="sub" id="progressText"></div>
+        </div>
+      </div>
+
+      <div class="card cortesias" id="cortBox" hidden>
+        <div class="section-title">Cortesias</div>
+        <div id="cortList"></div>
+        <p class="help">Cada código de cortesia vale uma inscrição gratuita. O atleta faz a inscrição normalmente e informa o código no campo “Código de desconto”.</p>
+      </div>
+
+      <div class="bar">
+        <div class="section-title" id="listTitle">Atletas</div>
+      </div>
+      <div id="list"></div>
+    </section>
+  </main>
+
+  <footer>
+    Dúvidas? <a href="https://wa.me/5547999955258" target="_blank" rel="noopener">Fale com a organização no WhatsApp</a>
+  </footer>
+
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var STATUS = { pago: 'Pago', aguardando: 'Aguardando pagamento', recusado: 'Pagamento recusado', cortesia: 'Cortesia' };
+      var data = null;
+
+      // Key from /runday/assessoria/<key> (or ?t=<key>).
+      var m = /\/runday\/assessoria\/([a-f0-9]{32})\/?$/.exec(location.pathname);
+      var token = m ? m[1] : (new URLSearchParams(location.search).get('t') || '');
+
+      function el(tag, attrs, children) {
+        var node = document.createElement(tag);
+        if (attrs) Object.keys(attrs).forEach(function (k) {
+          if (k === 'text') node.textContent = attrs[k];
+          else if (k === 'className') node.className = attrs[k];
+          else node.setAttribute(k, attrs[k]);
+        });
+        (children || []).forEach(function (c) { if (c) node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+        return node;
+      }
+      function toast(text) {
+        var t = el('div', { className: 'toast', text: text, role: 'status' });
+        document.body.appendChild(t);
+        setTimeout(function () { t.remove(); }, 2200);
+      }
+      function copy(text, label) {
+        var done = function () { toast(label + ' ✓'); };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done, function () { fallback(); done(); });
+        } else { fallback(); done(); }
+        function fallback() {
+          var ta = el('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          ta.remove();
+        }
+      }
+      function show(id) {
+        ['loading', 'invalid', 'failed', 'dash'].forEach(function (x) { $(x).hidden = x !== id; });
+        $('refreshBtn').hidden = id !== 'dash';
+      }
+
+      function load() {
+        if (!/^[a-f0-9]{32}$/.test(token)) { show('invalid'); return; }
+        $('refreshBtn').disabled = true;
+        fetch('/api/runday/painel?t=' + token, { cache: 'no-store' })
+          .then(function (r) {
+            if (r.status === 404) { show('invalid'); return null; }
+            if (!r.ok) throw new Error('http ' + r.status);
+            return r.json();
+          })
+          .then(function (body) { if (body) { data = body; render(); show('dash'); } })
+          .catch(function () { if (!data) show('failed'); else toast('Não foi possível atualizar agora.'); })
+          .then(function () { $('refreshBtn').disabled = false; });
+      }
+
+      function render() {
+        document.title = data.nome + ' — Painel RUN DAY';
+        $('nome').textContent = data.nome;
+        $('code').textContent = data.code;
+        $('updated').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        $('inactive').hidden = data.ativo;
+
+        $('link').textContent = data.link;
+        var msg = 'Corre com a gente na 2ª Corrida Fome de Amor RUN DAY! 🏃 Inscreva-se pelo link da ' + data.nome +
+          ' e ganhe ' + data.desconto + '% de desconto:\n' + data.link + '\n\nCódigo: ' + data.code;
+        $('shareWa').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+        $('shareNote').textContent = 'Quem se inscrever por este link (ou informar o código ' + data.code + ') ganha ' + data.desconto + '% de desconto e aparece aqui.';
+
+        $('pagos').textContent = String(data.pagos);
+        $('pagosSub').textContent = data.cortesiasUsadas ? '+ ' + data.cortesiasUsadas + ' inscrição(ões) cortesia' : 'com o código da assessoria';
+        $('aguardando').textContent = String(data.aguardando);
+        var done = data.cortesiaACada - data.faltamParaProxima;
+        $('progressBar').style.width = Math.round(done / data.cortesiaACada * 100) + '%';
+        var earned = data.cortesias.length;
+        $('progressText').textContent = done + ' de ' + data.cortesiaACada + ' inscritos pagos — faltam ' + data.faltamParaProxima +
+          (earned ? ' · ' + earned + (earned === 1 ? ' cortesia ganha' : ' cortesias ganhas') + ' até agora' : '');
+
+        $('cortBox').hidden = !data.cortesias.length;
+        $('cortList').replaceChildren.apply($('cortList'), data.cortesias.map(function (c) {
+          var row = [el('code', { text: c.code }), el('span', { className: 'badge ' + (c.usada ? 'pago' : 'disp'), text: c.usada ? 'Usada' : 'Disponível' })];
+          if (!c.usada) row.push(el('button', { className: 'ghost', type: 'button', 'data-copy': c.code }, [el('i', { className: 'fa-regular fa-copy' }), ' Copiar']));
+          return el('div', { className: 'cort' + (c.usada ? ' used' : '') }, row);
+        }));
+
+        $('listTitle').textContent = 'Atletas (' + data.atletas.length + ')';
+        if (!data.atletas.length) {
+          $('list').replaceChildren(el('div', { className: 'empty', text: 'Ninguém se inscreveu com o código ainda. Compartilhe o link acima com o seu grupo!' }));
+          return;
+        }
+        var head = ['Nome', 'Percurso', 'Kit', 'Tam.', 'Status'];
+        var table = el('table', null, [
+          el('thead', null, [el('tr', null, head.map(function (h) { return el('th', { text: h }); }))]),
+          el('tbody', null, data.atletas.map(function (a) {
+            return el('tr', null, [
+              el('td', { text: a.nome }),
+              el('td', { text: a.percurso }),
+              el('td', { text: a.kit }),
+              el('td', { text: a.tamanho || '—' }),
+              el('td', null, [el('span', { className: 'badge ' + a.status, text: STATUS[a.status] || a.status })])
+            ]);
+          }))
+        ]);
+        $('list').replaceChildren(el('div', { className: 'table-wrap' }, [table]));
+      }
+
+      $('copyLink').addEventListener('click', function () { if (data) copy(data.link, 'Link copiado'); });
+      $('cortList').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-copy]');
+        if (b) copy(b.getAttribute('data-copy'), 'Código copiado');
+      });
+      $('refreshBtn').addEventListener('click', load);
+      $('retryBtn').addEventListener('click', function () { show('loading'); load(); });
+
+      load();
+    })();
+  </script>
+</body>
+</html>

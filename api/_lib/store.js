@@ -104,6 +104,17 @@ async function insertAssessoria(row) {
   }
 }
 
+async function getAssessoriaByPainelToken(token) {
+  const rows = await request(ASSESSORIAS, 'GET', 'painel_token=' + eq(token) + '&limit=1');
+  return rows[0] || null;
+}
+
+/** Replaces an assessoria's progress-page key (the old link stops working). */
+async function setPainelToken(code, token) {
+  const rows = await request(ASSESSORIAS, 'PATCH', 'code=' + eq(code), { painel_token: token });
+  return rows[0] || null;
+}
+
 async function setAssessoriaAtivo(code, ativo) {
   const rows = await request(ASSESSORIAS, 'PATCH', 'code=' + eq(code), { ativo: Boolean(ativo) });
   return rows[0] || null;
@@ -154,5 +165,6 @@ async function releaseCortesia(code, orderId) {
 module.exports = {
   insertOrder, getOrder, applyPaymentUpdate, listOrders,
   getAssessoria, listAssessorias, insertAssessoria, setAssessoriaAtivo,
+  getAssessoriaByPainelToken, setPainelToken,
   getCortesia, listCortesias, issueCortesia, claimCortesia, releaseCortesia
 };

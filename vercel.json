@@ -23,6 +23,10 @@
     {
       "source": "/runday/regulamento",
       "destination": "/runday-regulamento.html"
+    },
+    {
+      "source": "/runday/assessoria/:token",
+      "destination": "/runday-assessoria.html"
     }
   ],
   "headers": [
@@ -36,6 +40,23 @@
         {
           "key": "Cache-Control",
           "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/runday/assessoria/:token",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
         }
       ]
     }
