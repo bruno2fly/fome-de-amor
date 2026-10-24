@@ -10,7 +10,7 @@ const PLANS = {
 };
 
 const PERCURSOS = ['4K', '8K', 'KIDS'];
-const TAMANHOS = ['P', 'M', 'G', 'GG', 'XG'];
+const TAMANHOS = ['8', 'PP', 'P', 'M', 'G', 'GG', 'XG'];
 
 function str(v, max) {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
