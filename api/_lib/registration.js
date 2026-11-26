@@ -9,6 +9,14 @@ const PLANS = {
   'com-camiseta': { price: 89.9, label: 'Kit com camiseta' }
 };
 
+// Kids (percurso KIDS) pay less.
+const KIDS_PRICES = { 'sem-camiseta': 29.9, 'com-camiseta': 49.9 };
+
+/** Price in BRL for a kit and distance. The only place prices are decided. */
+function priceFor(plano, percurso) {
+  return percurso === 'KIDS' ? KIDS_PRICES[plano] : PLANS[plano].price;
+}
+
 const PERCURSOS = ['4K', '8K', 'KIDS'];
 const TAMANHOS = ['8', 'PP', 'P', 'M', 'G', 'GG', 'XG'];
 
@@ -81,4 +89,4 @@ function newOrderId() {
   return 'RD27-' + id;
 }
 
-module.exports = { SITE_URL, PLANS, validateRegistration, newOrderId, isValidCPF };
+module.exports = { SITE_URL, PLANS, KIDS_PRICES, priceFor, validateRegistration, newOrderId, isValidCPF };

@@ -593,7 +593,15 @@
       var submitBtn = form.querySelector('.reg-submit');
       var submitBtnHtml = submitBtn.innerHTML;
       var SUBMIT_FREE_HTML = '<i class="fa-solid fa-check"></i> Confirmar inscrição cortesia';
-      var BASE_PRICES = { 'sem-camiseta': 69.9, 'com-camiseta': 89.9 }; // display only; the server sets the real price
+      // Display only; the server sets the real price (api/_lib/registration.js).
+      var PRICES = {
+        adulto: { 'sem-camiseta': 69.9, 'com-camiseta': 89.9 },
+        kids: { 'sem-camiseta': 29.9, 'com-camiseta': 49.9 }
+      };
+      function currentPrices() {
+        var p = document.querySelector('input[name="percurso"]:checked');
+        return p && p.value === 'KIDS' ? PRICES.kids : PRICES.adulto;
+      }
       var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
       var codeInput = document.getElementById('f-codigo');
       var codeField = document.querySelector('[data-field="codigo"]');
@@ -603,9 +611,10 @@
       var codeTimer = null, codeSeq = 0;
 
       function renderPrices() {
-        Object.keys(BASE_PRICES).forEach(function (plano) {
+        var prices = currentPrices();
+        Object.keys(prices).forEach(function (plano) {
           var el = document.querySelector('#plan-' + (plano === 'sem-camiseta' ? 'sem' : 'com') + ' .plan-price');
-          var base = BASE_PRICES[plano];
+          var base = prices[plano];
           el.textContent = '';
           if (appliedCode && appliedCode.tipo === 'cortesia') {
             var s0 = document.createElement('s'); s0.textContent = brl.format(base);
@@ -712,6 +721,7 @@
 
       wireCardGroup('[data-field="percurso"]', function () {
         document.getElementById('percurso-error').style.display = 'none';
+        renderPrices(); // kids prices differ
       });
 
       wireCardGroup('[data-field="plano"]', function (input) {

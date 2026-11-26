@@ -9,7 +9,7 @@
 //                       returns { redirect } to the confirmation page instead.
 
 const { MercadoPagoConfig, Preference } = require('mercadopago');
-const { SITE_URL, PLANS, validateRegistration, newOrderId } = require('./_lib/registration');
+const { SITE_URL, PLANS, priceFor, validateRegistration, newOrderId } = require('./_lib/registration');
 const store = require('./_lib/store');
 const codes = require('./_lib/codes');
 
@@ -52,6 +52,7 @@ module.exports = async (req, res) => {
   }
 
   const plan = PLANS[reg.plano];
+  const listPrice = priceFor(reg.plano, reg.percurso); // kids pay less
   const orderId = newOrderId();
   const baseRow = {
     order_id: orderId,
@@ -64,7 +65,7 @@ module.exports = async (req, res) => {
     percurso: reg.percurso,
     plano: reg.plano,
     tamanho: reg.tamanho,
-    list_price: plan.price
+    list_price: listPrice
   };
 
   if (code && code.tipo === 'cortesia') {
@@ -77,7 +78,7 @@ module.exports = async (req, res) => {
   }
 
   const discountPct = code && code.tipo === 'assessoria' ? code.desconto : 0;
-  const price = discountPct ? codes.discountedPrice(plan.price, discountPct) : plan.price;
+  const price = discountPct ? codes.discountedPrice(listPrice, discountPct) : listPrice;
   const description =
     `Inscrição ${reg.percurso} — ${plan.label}` + (reg.tamanho ? ` (tam. ${reg.tamanho})` : '') +
     (discountPct ? ` — ${discountPct}% assessoria ${code.nome}` : '');
@@ -97,7 +98,7 @@ module.exports = async (req, res) => {
       body: {
         items: [{
           id: `runday-${reg.plano}`,
-          title: `${EVENT_TITLE} — ${plan.label}`,
+          title: `${EVENT_TITLE} — ${plan.label}${reg.percurso === 'KIDS' ? ' (Kids)' : ''}`,
           description,
           category_id: 'tickets',
           quantity: 1,
