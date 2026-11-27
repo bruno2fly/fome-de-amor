@@ -191,6 +191,20 @@
     .cort { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .85rem; }
     .cort .ass-code { color: #9cc0ff; }
     .cort.used .ass-code { text-decoration: line-through; color: var(--muted); }
+    .mail-ok { color: var(--green); font-size: .8rem; font-weight: 600; }
+    .mail-btn {
+      background: transparent; border: 1px solid rgba(255,255,255,.22); color: #fff; border-radius: 50px;
+      padding: .2rem .6rem; font-size: .72rem; font-weight: 600; margin-left: .35rem; cursor: pointer;
+    }
+    .mail-btn:hover { border-color: var(--green); color: var(--green); }
+    .mail-btn:disabled { opacity: .5; cursor: wait; }
+    .mail-banner {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem;
+      background: rgba(57,217,138,.07); border: 1px solid rgba(57,217,138,.3); border-radius: 10px;
+      padding: .75rem 1rem; margin-bottom: 1rem; font-size: .88rem;
+    }
+    .check-line { grid-column: 1 / -1; display: flex !important; align-items: center; gap: .5rem; color: #fff !important; font-size: .88rem !important; font-weight: 600 !important; }
+    .check-line input { width: auto !important; accent-color: var(--green); }
     .toast {
       position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #0f2a1c; color: #fff;
       border: 1px solid var(--green); border-radius: 50px; padding: .55rem 1.1rem; font-size: .85rem; z-index: 50;
@@ -230,6 +244,10 @@
       </div>
 
       <div class="error-box" id="dashError" hidden></div>
+      <div class="mail-banner" id="mailBanner" hidden>
+        <span id="mailBannerText"></span>
+        <button class="btn-small" id="mailAllBtn"><i class="fa-solid fa-envelope"></i> <span>Enviar agora</span></button>
+      </div>
 
       <div class="stats" id="stats"></div>
 
@@ -306,6 +324,7 @@
         <label id="m-valor-wrap" hidden>Valor recebido (R$)<input id="m-valor" inputmode="decimal" maxlength="12" /><span class="hint" id="m-valor-hint"></span></label>
         <label class="full"><span>Observação <span class="hint">(opcional)</span></span><textarea id="m-obs" maxlength="300" placeholder="Ex: pagou em dinheiro no evento de domingo"></textarea></label>
 
+        <label class="check-line"><input type="checkbox" id="m-email-send" checked /> Enviar e-mail de confirmação para o atleta</label>
         <div class="dup" id="m-dup" hidden></div>
         <div class="form-msg" id="m-msg" role="alert"></div>
         <div class="actions">
@@ -470,6 +489,49 @@
           'Código (uso único): ' + c.code + '\n\nO atleta faz a inscrição normalmente em https://fomedeamor.com.br/runday e informa este código no campo "Código de desconto".';
       }
 
+      // ---------- Confirmation e-mails ----------
+      function renderMailBanner() {
+        var missing = data.registrations.filter(function (r) { return r.status === 'approved' && !r.email_confirmacao_at; }).length;
+        $('mailBanner').hidden = missing === 0;
+        $('mailBannerText').textContent = missing === 1
+          ? '1 inscrição confirmada ainda não recebeu o e-mail de confirmação.'
+          : missing + ' inscrições confirmadas ainda não receberam o e-mail de confirmação.';
+      }
+      function mailError(res) {
+        return res.body && res.body.error === 'not_configured'
+          ? 'O envio de e-mails ainda não está configurado (RESEND_API_KEY na Vercel).'
+          : 'Não foi possível enviar o e-mail. Tente novamente.';
+      }
+      $('mailAllBtn').addEventListener('click', function () {
+        var btn = $('mailAllBtn'), label = btn.querySelector('span'), total = 0;
+        if (!window.confirm('Enviar o e-mail de confirmação para todas as inscrições confirmadas que ainda não receberam?')) return;
+        btn.disabled = true;
+        (function round() {
+          label.textContent = 'Enviando… ' + (total ? total + ' enviados' : '');
+          api('POST', '/api/runday/email', { pendentes: true }).then(function (res) {
+            if (!res.ok) { toast(mailError(res)); return done(); }
+            total += res.body.sent;
+            if (res.body.remaining > 0 && res.body.sent > 0) return round();
+            toast(total + ' e-mail(s) enviado(s)' + (res.body.remaining ? ' · ' + res.body.remaining + ' com falha, tente de novo' : ''));
+            done();
+          }).catch(function (err) { if (!err || !err.auth) toast('Sem conexão. Tente novamente.'); done(); });
+        })();
+        function done() { btn.disabled = false; label.textContent = 'Enviar agora'; load(); }
+      });
+      $('list').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-mail]');
+        if (!b) return;
+        var row = data.registrations.find(function (r) { return r.order_id === b.getAttribute('data-mail'); });
+        if (row && row.email_confirmacao_at && !window.confirm('Reenviar o e-mail de confirmação para ' + row.email + '?')) return;
+        b.disabled = true;
+        api('POST', '/api/runday/email', { order_id: b.getAttribute('data-mail') }).then(function (res) {
+          if (!res.ok) { toast(mailError(res)); b.disabled = false; return; }
+          toast('E-mail enviado para ' + (row ? row.email : 'o atleta'));
+          if (row) row.email_confirmacao_at = res.body.email_confirmacao_at;
+          render();
+        }).catch(function (err) { if (!err || !err.auth) toast('Sem conexão. Tente novamente.'); b.disabled = false; });
+      });
+
       // ---------- Manual registration ----------
       var PRICES = { adulto: { 'sem-camiseta': 69.9, 'com-camiseta': 89.9 }, kids: { 'sem-camiseta': 29.9, 'com-camiseta': 49.9 } };
       var valorTouched = false;
@@ -542,7 +604,7 @@
           grupo: mv('grupo'), percurso: mv('percurso'), plano: mv('plano'),
           tamanho: mv('plano') === 'com-camiseta' ? mv('tamanho') : '',
           assessoria: mv('assessoria'), pagamento: pagamento(), forma: mv('forma'), valor: mv('valor'),
-          observacao: $('m-obs').value, confirmarDuplicado: confirmarDuplicado
+          observacao: $('m-obs').value, confirmarDuplicado: confirmarDuplicado, enviarEmail: $('m-email-send').checked
         }).then(function (res) {
           if (res.ok) {
             toast('Inscrição registrada: ' + res.body.nome);
@@ -769,6 +831,7 @@
       }
 
       function render() {
+        renderMailBanner();
         if (!data) return;
         var s = data.summary;
         var stats = $('stats');
@@ -794,7 +857,7 @@
           return;
         }
 
-        var head = ['Nome', 'CPF', 'Nascimento', 'E-mail', 'Cidade', 'Grupo', 'Assessoria', 'Percurso', 'Kit', 'Tam.', 'Status', 'Valor', 'Pago em', 'Código'];
+        var head = ['Nome', 'CPF', 'Nascimento', 'E-mail', 'Cidade', 'Grupo', 'Assessoria', 'Percurso', 'Kit', 'Tam.', 'Status', 'Valor', 'Pago em', 'Confirmação', 'Código'];
         var tbody = el('tbody', null, rows.map(function (r) {
           return el('tr', null, [
             el('td', { className: 'name', text: r.nome }),
@@ -816,6 +879,10 @@
             el('td', null, [brl.format(Number(r.amount_paid != null ? r.amount_paid : r.amount)),
               Number(r.discount_pct) > 0 && Number(r.discount_pct) < 100 && !r.cortesia_code ? el('span', { className: 'tag', text: '-' + Number(r.discount_pct) + '%' }) : null]),
             el('td', { text: formatDateTime(r.paid_at) }),
+            el('td', null, r.status !== 'approved' ? ['—'] : r.email_confirmacao_at
+              ? [el('span', { className: 'mail-ok', text: '✓ ' + new Date(r.email_confirmacao_at).toLocaleDateString('pt-BR') }),
+                 el('button', { className: 'mail-btn', type: 'button', 'data-mail': r.order_id, title: 'Reenviar e-mail de confirmação' }, ['Reenviar'])]
+              : [el('button', { className: 'mail-btn', type: 'button', 'data-mail': r.order_id, title: 'Enviar e-mail de confirmação' }, [el('i', { className: 'fa-solid fa-envelope' }), ' Enviar'])]),
             el('td', { className: 'mono', text: r.order_id })
           ]);
         }));

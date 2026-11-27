@@ -10,6 +10,7 @@ const {
   InvalidWebhookSignatureError
 } = require('mercadopago');
 const store = require('../_lib/store');
+const email = require('../_lib/email');
 
 // MP payment status -> our order status.
 const STATUS_MAP = {
@@ -124,6 +125,8 @@ module.exports = async (req, res) => {
     }
 
     console.log('webhook: order', orderId, '->', status, '(payment', String(payment.id) + ')');
+    // Confirmation e-mail (once per registration), after responding to MP.
+    if (status === 'approved') email.background(email.confirmOnce(orderId));
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('webhook: storage update failed for', orderId, '-', err && err.message);
