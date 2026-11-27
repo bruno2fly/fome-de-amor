@@ -52,6 +52,6 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'invalid_fields' });
   } catch (err) {
     console.error('runday email: failed -', err && err.message);
-    return res.status(502).json({ error: 'send_failed' });
+    return res.status(502).json({ error: 'send_failed', detail: (err && err.resendMessage) || '' });
   }
 };

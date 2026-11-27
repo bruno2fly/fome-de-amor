@@ -500,7 +500,7 @@
       function mailError(res) {
         return res.body && res.body.error === 'not_configured'
           ? 'O envio de e-mails ainda não está configurado (RESEND_API_KEY na Vercel).'
-          : 'Não foi possível enviar o e-mail. Tente novamente.';
+          : 'Não foi possível enviar o e-mail.' + (res.body && res.body.detail ? ' Resend: ' + res.body.detail : ' Tente novamente.');
       }
       $('mailAllBtn').addEventListener('click', function () {
         var btn = $('mailAllBtn'), label = btn.querySelector('span'), total = 0;

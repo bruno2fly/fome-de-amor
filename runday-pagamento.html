@@ -77,12 +77,12 @@
       <div class="state state-sucesso">
         <div class="icon"><i class="fa-solid fa-check"></i></div>
         <h1>Inscrição confirmada!</h1>
-        <p id="successText">Recebemos seu pagamento. Nos vemos no dia 28/02/2027, largada às 06:30h. Obrigado por correr com o Fome de Amor!</p>
+        <p id="successText">Recebemos seu pagamento. Em alguns minutos você vai receber um e-mail de confirmação com todos os detalhes da sua inscrição (confira também a caixa de spam). Nos vemos no dia 28/02/2027, largada às 06:30h. Obrigado por correr com o Fome de Amor!</p>
       </div>
       <div class="state state-pendente">
         <div class="icon"><i class="fa-solid fa-hourglass-half"></i></div>
         <h1>Pagamento em análise</h1>
-        <p>Seu pagamento ainda está sendo processado (por exemplo, boleto ou Pix aguardando compensação). Sua inscrição será confirmada assim que o Mercado Pago aprovar.</p>
+        <p>Seu pagamento ainda está sendo processado (por exemplo, boleto ou Pix aguardando compensação). Sua inscrição será confirmada assim que o Mercado Pago aprovar, e você vai receber um e-mail de confirmação nesse momento.</p>
       </div>
       <div class="state state-falha">
         <div class="icon"><i class="fa-solid fa-xmark"></i></div>
@@ -115,7 +115,7 @@
 
       if (resultado === 'sucesso' && params.get('cortesia') === '1') {
         document.getElementById('successText').textContent =
-          'Sua inscrição cortesia está garantida. Nos vemos no dia 28/02/2027, largada às 06:30h. Obrigado por correr com o Fome de Amor!';
+          'Sua inscrição cortesia está garantida. Em alguns minutos você vai receber um e-mail de confirmação com todos os detalhes (confira também a caixa de spam). Nos vemos no dia 28/02/2027, largada às 06:30h. Obrigado por correr com o Fome de Amor!';
       }
 
       var ref = params.get('external_reference');
