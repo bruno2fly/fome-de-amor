@@ -144,7 +144,14 @@ async function sendConfirmation(r, idempotencyKey) {
     }),
     signal: AbortSignal.timeout(8000)
   });
-  if (!res.ok) throw new Error(`Resend responded HTTP ${res.status}`);
+  if (!res.ok) {
+    // Resend errors look like { name: 'validation_error', message: 'The fomedeamor.com.br domain is not verified…' }.
+    const info = await res.json().catch(() => ({}));
+    const err = new Error(`Resend responded HTTP ${res.status}: ${info.name || ''} ${info.message || ''}`.trim());
+    err.resendStatus = res.status;
+    err.resendMessage = typeof info.message === 'string' ? info.message.slice(0, 200) : '';
+    throw err;
+  }
   return { sent: true };
 }
 
