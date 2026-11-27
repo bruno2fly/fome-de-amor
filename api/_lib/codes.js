@@ -80,7 +80,8 @@ async function resolveCode(raw) {
 function paidByAssessoria(registrations) {
   const counts = {};
   for (const r of registrations) {
-    if (r.status === 'approved' && r.assessoria_code && !r.cortesia_code) {
+    // Free registrations (courtesy codes, or entered as free by an organizer) don't count.
+    if (r.status === 'approved' && r.assessoria_code && !r.cortesia_code && r.forma_pagamento !== 'gratuita') {
       counts[r.assessoria_code] = (counts[r.assessoria_code] || 0) + 1;
     }
   }

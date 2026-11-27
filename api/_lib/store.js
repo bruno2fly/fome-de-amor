@@ -77,9 +77,16 @@ async function listOrders() {
   const columns = [
     'order_id', 'status', 'nome', 'nascimento', 'email', 'cpf', 'cidade', 'grupo',
     'percurso', 'plano', 'tamanho', 'amount', 'amount_paid', 'payment_id', 'paid_at', 'created_at',
-    'assessoria_code', 'discount_pct', 'list_price', 'cortesia_code'
+    'assessoria_code', 'discount_pct', 'list_price', 'cortesia_code',
+    'origem', 'forma_pagamento', 'observacao'
   ].join(',');
   return request(REGISTRATIONS, 'GET', 'select=' + columns + '&order=created_at.desc');
+}
+
+/** Confirmed (approved) registrations for a CPF, to warn about duplicates. */
+async function findApprovedByCpf(cpf) {
+  return request(REGISTRATIONS, 'GET',
+    'select=order_id,nome,percurso,origem,created_at&cpf=' + eq(cpf) + '&status=eq.approved');
 }
 
 // ---------- Assessorias ----------
@@ -163,7 +170,7 @@ async function releaseCortesia(code, orderId) {
 }
 
 module.exports = {
-  insertOrder, getOrder, applyPaymentUpdate, listOrders,
+  insertOrder, getOrder, applyPaymentUpdate, listOrders, findApprovedByCpf,
   getAssessoria, listAssessorias, insertAssessoria, setAssessoriaAtivo,
   getAssessoriaByPainelToken, setPainelToken,
   getCortesia, listCortesias, issueCortesia, claimCortesia, releaseCortesia
