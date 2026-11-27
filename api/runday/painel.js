@@ -18,7 +18,7 @@ function athletesFor(registrations, code) {
       percurso: r.percurso,
       kit: PLANO[r.plano] || r.plano,
       tamanho: r.tamanho || null,
-      status: r.cortesia_code ? 'cortesia' : r.status === 'approved' ? 'pago' : r.status === 'rejected' ? 'recusado' : 'aguardando',
+      status: r.cortesia_code || r.forma_pagamento === 'gratuita' ? 'cortesia' : r.status === 'approved' ? 'pago' : r.status === 'rejected' ? 'recusado' : 'aguardando',
       data: r.paid_at || r.created_at
     }));
 }

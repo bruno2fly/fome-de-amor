@@ -99,6 +99,47 @@
     .badge.rejected, .badge.refunded { background: rgba(255,122,122,.15); color: var(--red); }
     .empty { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; text-align: center; color: var(--muted); }
     .badge.cortesia { background: rgba(122,170,255,.15); color: #9cc0ff; }
+    td .origin { display: inline-block; font-size: .68rem; font-weight: 700; color: var(--muted); margin-left: .35rem; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* Manual registration */
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.72); z-index: 40; overflow-y: auto; padding: 4vh 1rem; }
+    .modal {
+      max-width: 760px; margin: 0 auto; background: #0b130e; border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.4rem 1.3rem 1.2rem;
+    }
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+    .modal-head h2 { font-size: 1.2rem; font-weight: 800; }
+    .modal-head p { color: var(--muted); font-size: .85rem; }
+    .modal-close { background: none; border: 0; color: var(--muted); font-size: 1.3rem; line-height: 1; padding: .2rem .4rem; }
+    .modal-close:hover { color: #fff; }
+    .mform { display: grid; gap: .85rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mform .full { grid-column: 1 / -1; }
+    .mform .group-title { grid-column: 1 / -1; font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-top: .4rem; }
+    .mform label { display: grid; gap: .3rem; font-size: .75rem; font-weight: 700; color: var(--muted); letter-spacing: .03em; }
+    .mform input, .mform select, .mform textarea {
+      background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 10px; color: #fff;
+      padding: .65rem .8rem; font: inherit; font-size: .9rem; outline: none; width: 100%;
+    }
+    .mform select option { background: #0b130e; }
+    .mform textarea { resize: vertical; min-height: 60px; }
+    .mform input:focus, .mform select:focus, .mform textarea:focus { border-color: var(--green); }
+    .mform .invalid { border-color: var(--red) !important; }
+    .pay-choice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+    .pay-choice label {
+      display: flex; align-items: center; gap: .55rem; border: 1px solid var(--line); border-radius: 10px; padding: .7rem .85rem;
+      color: #fff; font-size: .9rem; font-weight: 600; letter-spacing: 0; cursor: pointer;
+    }
+    .pay-choice input { width: auto; accent-color: var(--green); }
+    .pay-choice label:has(input:checked) { border-color: var(--green); background: rgba(57,217,138,.08); }
+    .pay-choice.invalid label { border-color: var(--red); }
+    .mform .hint { font-size: .75rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+    .mform .form-msg { grid-column: 1 / -1; font-size: .88rem; color: var(--red); min-height: 1em; }
+    .mform .dup {
+      grid-column: 1 / -1; background: rgba(245,185,66,.1); border: 1px solid rgba(245,185,66,.4); color: var(--amber);
+      border-radius: 10px; padding: .8rem 1rem; font-size: .88rem; display: grid; gap: .6rem;
+    }
+    .mform .actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .6rem; justify-content: flex-end; margin-top: .3rem; }
+    @media (max-width: 560px) { .mform { grid-template-columns: 1fr; } }
     td .tag { display: inline-block; font-size: .7rem; font-weight: 700; color: var(--green); margin-left: .35rem; }
 
     /* Assessorias */
@@ -182,6 +223,7 @@
           <p id="updated">Carregando…</p>
         </div>
         <div class="head-actions">
+          <button class="ghost" id="manualBtn"><i class="fa-solid fa-user-plus"></i> Nova inscrição</button>
           <button class="ghost excel" id="exportBtn"><i class="fa-solid fa-file-excel"></i> <span>Exportar Excel</span></button>
           <button class="ghost" id="refreshBtn"><i class="fa-solid fa-rotate"></i> Atualizar</button>
         </div>
@@ -221,12 +263,66 @@
     </section>
   </main>
 
+  <div class="modal-bg" id="manualModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="manualTitle">
+      <div class="modal-head">
+        <div>
+          <h2 id="manualTitle">Nova inscrição manual</h2>
+          <p>Para quem se inscreveu com a organização (Pix, dinheiro, cortesia…). Entra direto como confirmada.</p>
+        </div>
+        <button class="modal-close" type="button" id="manualClose" aria-label="Fechar">×</button>
+      </div>
+      <form class="mform" id="manualForm" novalidate>
+        <div class="group-title">Atleta</div>
+        <label class="full">Nome completo<input id="m-nome" maxlength="120" autocomplete="off" /></label>
+        <label>Data de nascimento<input id="m-nascimento" type="date" /></label>
+        <label>CPF<input id="m-cpf" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" autocomplete="off" /></label>
+        <label>E-mail<input id="m-email" type="email" maxlength="160" autocomplete="off" /></label>
+        <label>Cidade<input id="m-cidade" maxlength="120" /></label>
+        <label class="full"><span>Grupo de corrida <span class="hint">(opcional)</span></span><input id="m-grupo" maxlength="120" /></label>
+
+        <div class="group-title">Inscrição</div>
+        <label>Percurso
+          <select id="m-percurso"><option value="">Selecione…</option><option>4K</option><option>8K</option><option>KIDS</option></select>
+        </label>
+        <label>Kit
+          <select id="m-plano"><option value="">Selecione…</option><option value="sem-camiseta">Sem camiseta</option><option value="com-camiseta">Com camiseta</option></select>
+        </label>
+        <label id="m-tamanho-wrap" hidden>Tamanho da camiseta
+          <select id="m-tamanho"><option value="">Selecione…</option><option>8</option><option>PP</option><option>P</option><option>M</option><option>G</option><option>GG</option><option>XG</option></select>
+        </label>
+        <label><span>Assessoria <span class="hint">(opcional)</span></span>
+          <select id="m-assessoria"><option value="">Nenhuma</option></select>
+        </label>
+
+        <div class="group-title">Pagamento</div>
+        <div class="full pay-choice" id="m-pagamento">
+          <label><input type="radio" name="m-pagamento" value="pago" /> Pago</label>
+          <label><input type="radio" name="m-pagamento" value="gratuita" /> Gratuita / cortesia</label>
+        </div>
+        <label id="m-forma-wrap" hidden>Forma de pagamento
+          <select id="m-forma"><option value="">Selecione…</option><option value="pix">Pix</option><option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option><option value="transferencia">Transferência</option><option value="outro">Outro</option></select>
+        </label>
+        <label id="m-valor-wrap" hidden>Valor recebido (R$)<input id="m-valor" inputmode="decimal" maxlength="12" /><span class="hint" id="m-valor-hint"></span></label>
+        <label class="full"><span>Observação <span class="hint">(opcional)</span></span><textarea id="m-obs" maxlength="300" placeholder="Ex: pagou em dinheiro no evento de domingo"></textarea></label>
+
+        <div class="dup" id="m-dup" hidden></div>
+        <div class="form-msg" id="m-msg" role="alert"></div>
+        <div class="actions">
+          <button type="button" class="ghost" id="manualCancel">Cancelar</button>
+          <button type="submit" class="btn-small" id="manualSave"><i class="fa-solid fa-check"></i> Registrar inscrição</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     (function () {
       var TOKEN_KEY = 'runday-inscritos-token';
       var RACE_DAY = new Date(2027, 1, 28); // 28/02/2027, for age on race day
       var brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
       var STATUS = { approved: 'Pago', pending: 'Aguardando pagamento', rejected: 'Recusado', refunded: 'Reembolsado' };
+      var FORMA = { pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão', transferencia: 'Transferência', outro: 'Outro', gratuita: 'Gratuita' };
       var PLANO = { 'sem-camiseta': 'Sem camiseta', 'com-camiseta': 'Com camiseta' };
 
       var $ = function (id) { return document.getElementById(id); };
@@ -372,6 +468,110 @@
         return 'Olá' + (a.responsavel ? ' ' + a.responsavel : '') + '! A ' + a.nome + ' chegou a ' +
           (c.seq * assData.cortesiaACada) + ' inscritos pagos e ganhou 1 inscrição cortesia na RUN DAY. 🎉\n\n' +
           'Código (uso único): ' + c.code + '\n\nO atleta faz a inscrição normalmente em https://fomedeamor.com.br/runday e informa este código no campo "Código de desconto".';
+      }
+
+      // ---------- Manual registration ----------
+      var PRICES = { adulto: { 'sem-camiseta': 69.9, 'com-camiseta': 89.9 }, kids: { 'sem-camiseta': 29.9, 'com-camiseta': 49.9 } };
+      var valorTouched = false;
+      var mFields = ['nome', 'nascimento', 'cpf', 'email', 'cidade', 'percurso', 'plano', 'tamanho', 'assessoria', 'forma', 'valor'];
+      function mv(id) { return $('m-' + id).value.trim(); }
+      function pagamento() { var c = document.querySelector('input[name="m-pagamento"]:checked'); return c ? c.value : ''; }
+
+      function suggestedPrice() {
+        var plano = mv('plano'), percurso = mv('percurso');
+        if (!plano || !percurso) return null;
+        var base = (percurso === 'KIDS' ? PRICES.kids : PRICES.adulto)[plano];
+        return mv('assessoria') ? Math.round(base * 90) / 100 : base;
+      }
+      function syncManualForm() {
+        $('m-tamanho-wrap').hidden = mv('plano') !== 'com-camiseta';
+        var pago = pagamento() === 'pago';
+        $('m-forma-wrap').hidden = !pago;
+        $('m-valor-wrap').hidden = !pago;
+        var sp = suggestedPrice();
+        if (pago && sp !== null && !valorTouched) $('m-valor').value = sp.toFixed(2).replace('.', ',');
+        $('m-valor-hint').textContent = sp === null ? '' : 'Preço da inscrição: ' + brl.format(sp) + (mv('assessoria') ? ' (com 10% da assessoria)' : '');
+      }
+      function openManual() {
+        var sel = $('m-assessoria'), keep = sel.value;
+        sel.replaceChildren(el('option', { value: '', text: 'Nenhuma' }));
+        ((assData && assData.assessorias) || []).forEach(function (a) {
+          sel.appendChild(el('option', { value: a.code, text: a.nome + ' (' + a.code + ')' + (a.ativo ? '' : ' — desativada') }));
+        });
+        sel.value = keep;
+        $('manualModal').hidden = false;
+        document.body.style.overflow = 'hidden';
+        $('m-nome').focus();
+        syncManualForm();
+      }
+      function closeManual() {
+        $('manualModal').hidden = true;
+        document.body.style.overflow = '';
+      }
+      function resetManual() {
+        $('manualForm').reset(); valorTouched = false;
+        $('m-dup').hidden = true; $('m-msg').textContent = '';
+        mFields.forEach(function (f) { $('m-' + f).classList.remove('invalid'); });
+        $('m-pagamento').classList.remove('invalid');
+        syncManualForm();
+      }
+
+      $('manualBtn').addEventListener('click', openManual);
+      $('manualClose').addEventListener('click', closeManual);
+      $('manualCancel').addEventListener('click', function () { resetManual(); closeManual(); });
+      $('manualModal').addEventListener('click', function (e) { if (e.target === $('manualModal')) closeManual(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('manualModal').hidden) closeManual(); });
+      ['m-plano', 'm-percurso', 'm-assessoria'].forEach(function (id) { $(id).addEventListener('change', syncManualForm); });
+      $('m-pagamento').addEventListener('change', syncManualForm);
+      $('m-valor').addEventListener('input', function () { valorTouched = true; });
+      $('m-cpf').addEventListener('input', function () {
+        var d = this.value.replace(/\D/g, '').slice(0, 11);
+        this.value = d.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2');
+      });
+      $('manualForm').addEventListener('submit', function (e) { e.preventDefault(); submitManual(false); });
+
+      function submitManual(confirmarDuplicado) {
+        var btn = $('manualSave');
+        mFields.forEach(function (f) { $('m-' + f).classList.remove('invalid'); });
+        $('m-pagamento').classList.remove('invalid');
+        $('m-msg').textContent = '';
+        if (!confirmarDuplicado) $('m-dup').hidden = true;
+        btn.disabled = true;
+        api('POST', '/api/runday/manual', {
+          nome: mv('nome'), nascimento: mv('nascimento'), cpf: mv('cpf'), email: mv('email'), cidade: mv('cidade'),
+          grupo: mv('grupo'), percurso: mv('percurso'), plano: mv('plano'),
+          tamanho: mv('plano') === 'com-camiseta' ? mv('tamanho') : '',
+          assessoria: mv('assessoria'), pagamento: pagamento(), forma: mv('forma'), valor: mv('valor'),
+          observacao: $('m-obs').value, confirmarDuplicado: confirmarDuplicado
+        }).then(function (res) {
+          if (res.ok) {
+            toast('Inscrição registrada: ' + res.body.nome);
+            resetManual(); closeManual(); load();
+            return;
+          }
+          if (res.status === 409 && res.body.error === 'duplicate') {
+            var ex = res.body.existing[0] || {};
+            var box = $('m-dup');
+            box.replaceChildren(
+              el('div', { text: 'Este CPF já tem ' + (res.body.existing.length > 1 ? res.body.existing.length + ' inscrições confirmadas' : 'uma inscrição confirmada') +
+                ': ' + (ex.nome || '') + ' — ' + (ex.percurso || '') + ' (' + (ex.origem === 'manual' ? 'manual' : 'pelo site') + ', ' +
+                (ex.created_at ? new Date(ex.created_at).toLocaleDateString('pt-BR') : '') + ').' }),
+              el('div', null, [el('button', { type: 'button', className: 'btn-small', id: 'm-dup-ok' }, ['Registrar mesmo assim'])])
+            );
+            box.hidden = false;
+            $('m-dup-ok').addEventListener('click', function () { submitManual(true); });
+            return;
+          }
+          var f = (res.body && res.body.fields) || [];
+          f.forEach(function (name) {
+            if (name === 'pagamento') $('m-pagamento').classList.add('invalid');
+            else if (name === 'codigo') {} else if ($('m-' + name)) $('m-' + name).classList.add('invalid');
+          });
+          $('m-msg').textContent = f.length ? 'Confira os campos destacados' + (f.indexOf('cpf') >= 0 ? ' (CPF inválido?)' : '') + '.'
+            : 'Não foi possível registrar. Tente novamente.';
+        }).catch(function (err) {
+          if (!err || !err.auth) $('m-msg').textContent = 'Sem conexão. Tente novamente.';
+        }).then(function () { btn.disabled = false; });
       }
 
       function loadAssessorias() {
@@ -573,7 +773,7 @@
         var s = data.summary;
         var stats = $('stats');
         stats.replaceChildren(
-          statCard('Inscrições pagas', String(s.paidCount), s.pendingCount + ' aguardando pagamento' + (s.cortesiaCount ? ' · ' + s.cortesiaCount + ' cortesia(s)' : '')),
+          statCard('Inscrições pagas', String(s.paidCount), s.pendingCount + ' aguardando pagamento' + (s.cortesiaCount + (s.gratuitaCount || 0) ? ' · ' + (s.cortesiaCount + (s.gratuitaCount || 0)) + ' gratuita(s)' : '') + (s.manualCount ? ' · ' + s.manualCount + ' manual(is)' : '')),
           statCard('Total arrecadado', brl.format(s.totalCollected)),
           breakdownCard('Por percurso', s.byPercurso),
           breakdownCard('Por kit', s.byPlano, PLANO),
@@ -609,9 +809,12 @@
             el('td', { text: r.tamanho || '—' }),
             el('td', null, [r.cortesia_code
               ? el('span', { className: 'badge cortesia', text: 'Cortesia' })
-              : el('span', { className: 'badge ' + (STATUS[r.status] ? r.status : ''), text: STATUS[r.status] || r.status })]),
+              : r.forma_pagamento === 'gratuita'
+                ? el('span', { className: 'badge cortesia', text: 'Gratuita' })
+                : el('span', { className: 'badge ' + (STATUS[r.status] ? r.status : ''), text: STATUS[r.status] || r.status }),
+              r.origem === 'manual' ? el('span', { className: 'origin', text: 'manual' + (FORMA[r.forma_pagamento] && r.forma_pagamento !== 'gratuita' ? ' · ' + FORMA[r.forma_pagamento] : '') }) : null]),
             el('td', null, [brl.format(Number(r.amount_paid != null ? r.amount_paid : r.amount)),
-              Number(r.discount_pct) > 0 && !r.cortesia_code ? el('span', { className: 'tag', text: '-' + Number(r.discount_pct) + '%' }) : null]),
+              Number(r.discount_pct) > 0 && Number(r.discount_pct) < 100 && !r.cortesia_code ? el('span', { className: 'tag', text: '-' + Number(r.discount_pct) + '%' }) : null]),
             el('td', { text: formatDateTime(r.paid_at) }),
             el('td', { className: 'mono', text: r.order_id })
           ]);

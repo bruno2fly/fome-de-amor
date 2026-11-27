@@ -13,6 +13,7 @@ const RACE_DAY = { y: 2027, m: 2, d: 28 };
 const STATUS = { approved: 'Pago', pending: 'Aguardando pagamento', rejected: 'Recusado', refunded: 'Reembolsado' };
 const PLANO = { 'sem-camiseta': 'Sem camiseta', 'com-camiseta': 'Com camiseta' };
 const GREEN = 'FF1AA864';
+const FORMA = { pix: 'Pix', dinheiro: 'Dinheiro', cartao: 'Cartão', transferencia: 'Transferência', outro: 'Outro', gratuita: 'Gratuita' };
 
 // Excel dates carry no timezone, so store Brasília wall-clock time.
 const spParts = new Intl.DateTimeFormat('en-CA', {
@@ -79,7 +80,10 @@ async function buildWorkbook(rows, summary, includeUnpaid, assessorias, registra
     { header: 'Assessoria', key: 'assessoria', width: 24 },
     { header: 'Código assessoria', key: 'assessoria_code', width: 18 },
     { header: 'Desconto', key: 'desconto', width: 11 },
-    { header: 'Código cortesia', key: 'cortesia', width: 22 }
+    { header: 'Código cortesia', key: 'cortesia', width: 22 },
+    { header: 'Origem', key: 'origem', width: 10 },
+    { header: 'Forma de pagamento', key: 'forma', width: 18 },
+    { header: 'Observação', key: 'observacao', width: 30 }
   ];
   styleHeader(ws.getRow(1));
 
@@ -97,7 +101,7 @@ async function buildWorkbook(rows, summary, includeUnpaid, assessorias, registra
       percurso: r.percurso,
       kit: PLANO[r.plano] || r.plano,
       tamanho: r.tamanho || '',
-      status: STATUS[r.status] || r.status,
+      status: r.cortesia_code ? 'Cortesia' : r.forma_pagamento === 'gratuita' ? 'Gratuita' : (STATUS[r.status] || r.status),
       valor: Number(r.amount_paid != null ? r.amount_paid : r.amount),
       pago_em: brasiliaDate(r.paid_at),
       criado_em: brasiliaDate(r.created_at),
@@ -105,8 +109,12 @@ async function buildWorkbook(rows, summary, includeUnpaid, assessorias, registra
       pagamento: r.payment_id || '',
       assessoria: r.assessoria_code ? (assessoriaName[r.assessoria_code] || '') : '',
       assessoria_code: r.assessoria_code || '',
-      desconto: r.cortesia_code ? 'Cortesia' : Number(r.discount_pct) > 0 ? `${Number(r.discount_pct)}%` : '',
-      cortesia: r.cortesia_code || ''
+      desconto: r.cortesia_code ? 'Cortesia' : r.forma_pagamento === 'gratuita' ? 'Gratuita'
+        : Number(r.discount_pct) > 0 ? `${Number(r.discount_pct)}%` : '',
+      cortesia: r.cortesia_code || '',
+      origem: r.origem === 'manual' ? 'Manual' : 'Site',
+      forma: FORMA[r.forma_pagamento] || (r.origem === 'manual' ? '' : r.cortesia_code ? 'Cortesia' : 'Mercado Pago'),
+      observacao: r.observacao || ''
     });
   }
   if (rows.length) ws.autoFilter = { from: 'A1', to: { row: 1, column: ws.columns.length } };
@@ -130,6 +138,8 @@ async function buildWorkbook(rows, summary, includeUnpaid, assessorias, registra
   add('Aguardando pagamento', summary.pendingCount);
   add('Total arrecadado', summary.totalCollected, '"R$" #,##0.00');
   add('Inscrições cortesia', summary.cortesiaCount);
+  add('Inscrições gratuitas (manuais)', summary.gratuitaCount);
+  add('Inscrições manuais', summary.manualCount);
   section('Por percurso');
   for (const [k, n] of Object.entries(summary.byPercurso)) add(k, n);
   section('Por kit');
