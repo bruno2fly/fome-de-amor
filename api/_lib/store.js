@@ -78,9 +78,33 @@ async function listOrders() {
     'order_id', 'status', 'nome', 'nascimento', 'email', 'cpf', 'cidade', 'grupo',
     'percurso', 'plano', 'tamanho', 'amount', 'amount_paid', 'payment_id', 'paid_at', 'created_at',
     'assessoria_code', 'discount_pct', 'list_price', 'cortesia_code',
-    'origem', 'forma_pagamento', 'observacao'
+    'origem', 'forma_pagamento', 'observacao', 'email_confirmacao_at'
   ].join(',');
   return request(REGISTRATIONS, 'GET', 'select=' + columns + '&order=created_at.desc');
+}
+
+/**
+ * Atomically marks a confirmed registration's e-mail as being sent. Returns
+ * the full row if this call won (so only one sender ever proceeds), or null
+ * if it was already sent / isn't confirmed.
+ */
+async function claimConfirmationEmail(orderId) {
+  const rows = await request(REGISTRATIONS, 'PATCH',
+    'order_id=' + eq(orderId) + '&status=eq.approved&email_confirmacao_at=is.null',
+    { email_confirmacao_at: new Date().toISOString() });
+  return rows[0] || null;
+}
+
+/** Sets (date) or clears (null) the confirmation e-mail timestamp. */
+async function setConfirmationEmail(orderId, when) {
+  await request(REGISTRATIONS, 'PATCH', 'order_id=' + eq(orderId),
+    { email_confirmacao_at: when }, 'return=minimal');
+}
+
+/** Confirmed registrations that haven't been e-mailed yet (oldest first). */
+async function listUnconfirmedEmails(limit) {
+  return request(REGISTRATIONS, 'GET',
+    'select=order_id&status=eq.approved&email_confirmacao_at=is.null&order=created_at.asc&limit=' + (limit || 10));
 }
 
 /** Confirmed (approved) registrations for a CPF, to warn about duplicates. */
@@ -171,6 +195,7 @@ async function releaseCortesia(code, orderId) {
 
 module.exports = {
   insertOrder, getOrder, applyPaymentUpdate, listOrders, findApprovedByCpf,
+  claimConfirmationEmail, setConfirmationEmail, listUnconfirmedEmails,
   getAssessoria, listAssessorias, insertAssessoria, setAssessoriaAtivo,
   getAssessoriaByPainelToken, setPainelToken,
   getCortesia, listCortesias, issueCortesia, claimCortesia, releaseCortesia

@@ -5,11 +5,13 @@
 //   forma:     'pix' | 'dinheiro' | 'cartao' | 'transferencia' | 'outro'   (when pago)
 //   valor:     amount received in R$ (when pago; defaults to the current price)
 //   assessoria (optional code), observacao (optional), confirmarDuplicado (bool)
+//   enviarEmail (bool, default true): send the confirmation e-mail
 // Saved straight away as approved, origem = 'manual'.
 
 const auth = require('../_lib/admin-auth');
 const store = require('../_lib/store');
 const codes = require('../_lib/codes');
+const email = require('../_lib/email');
 const { priceFor, validateRegistration, newOrderId } = require('../_lib/registration');
 
 const FORMAS = ['pix', 'dinheiro', 'cartao', 'transferencia', 'outro'];
@@ -107,6 +109,7 @@ module.exports = async (req, res) => {
     });
 
     console.log('runday manual: registered', orderId, pagamento, forma);
+    if (body.enviarEmail !== false) email.background(email.confirmOnce(orderId));
     return res.status(201).json({ order_id: orderId, nome: reg.nome, amount });
   } catch (err) {
     console.error('runday manual: failed -', err && err.message);

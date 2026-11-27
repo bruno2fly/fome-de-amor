@@ -12,6 +12,7 @@ const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { SITE_URL, PLANS, priceFor, validateRegistration, newOrderId } = require('./_lib/registration');
 const store = require('./_lib/store');
 const codes = require('./_lib/codes');
+const email = require('./_lib/email');
 
 const EVENT_TITLE = '2ª Corrida Fome de Amor RUN DAY';
 
@@ -177,6 +178,7 @@ async function registerCortesia(res, code, baseRow) {
   }
 
   console.log('checkout: courtesy registration', orderId, 'for assessoria', claimed.assessoria_code);
+  email.background(email.confirmOnce(orderId));
   return res.status(200).json({
     redirect: `/runday/pagamento?resultado=sucesso&cortesia=1&external_reference=${orderId}`,
     order_id: orderId
